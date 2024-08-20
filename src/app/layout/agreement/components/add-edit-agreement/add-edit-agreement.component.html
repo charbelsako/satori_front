@@ -1,0 +1,1285 @@
+<ng-template #clientGrp let-r="result" let-t="term">
+    <ngb-highlight [result]="formatClientGroup(r)" [term]="t"></ngb-highlight>
+</ng-template>
+<ng-template #rt let-r="result" let-t="term">
+    <ngb-highlight [result]="format(r)" [term]="t"></ngb-highlight>
+</ng-template>
+<ng-template #matter let-r="result" let-t="term">
+    <ngb-highlight [result]="formatMatter(r)" [term]="t"></ngb-highlight>
+</ng-template>
+<ng-template #sicTemplate let-r="result" let-t="term">
+    <ngb-highlight [result]="formatSIC(r)" [term]="t"></ngb-highlight>
+</ng-template>
+<ng-template #billingAttorneyTemplate let-r="result" let-t="term">
+    <ngb-highlight [result]="formatterEmployee(r)" [term]="t"></ngb-highlight>
+</ng-template>
+<ng-template #responsibleAttorney let-r="result" let-t="term">
+    <ngb-highlight [result]="formatEmployee(r)" [term]="t"></ngb-highlight>
+</ng-template>
+<ng-template #areaOfLawTemplate let-r="result" let-t="term">
+    <ngb-highlight [result]="formatterAreaOfLaw(r)" [term]="t"></ngb-highlight>
+</ng-template>
+<ng-template #practiceGroupTemplate let-r="result" let-t="term">
+    <ngb-highlight [result]="formatterPracticeGroup(r)" [term]="t"></ngb-highlight>
+</ng-template>
+<div [@routerTransition]>
+    <app-page-header *ngIf="!editForm" [heading]="'Create New Record'"></app-page-header>
+    <app-page-header *ngIf="editForm" [previousHeading]="'Agreements'" [previousLink]="viewAgreementLink"
+        [heading]="'Edit Record'"></app-page-header>
+    <div class="container-fluid mt-2" [@routerTransition]>
+
+        <div class="card">
+            <div *ngIf="!editForm" class="card-header">
+                Create New Record
+            </div>
+            <div *ngIf="editForm" class="card-header">
+                Edit Record
+                <div class="col-md-12">
+                    <button class="btn btn-info" style="float: right;" (click)="back()">Back</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <ng-container *ngIf="isLoading">
+                    <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </ng-container>
+                <form *ngIf="!isLoading" [formGroup]="addEditForm" class="form-inline" autocomplete="off">
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">*Client Group</label>
+                                <input type="text" [ngbTypeahead]="searchClientGroup" [editable]="false"
+                                    [resultTemplate]="clientGrp" (focus)="focus2$.next($event.target.value)"
+                                    (click)="click2$.next($event.target.value)" #instance2="ngbTypeahead"
+                                    [inputFormatter]="formatClientGrp" formControlName="clientGroup"
+                                    class="form-control">
+                                <div *ngIf="addEditForm.controls['clientGroup'].errors
+                                    && (submitted ||
+                                    addEditForm.controls['clientGroup'].dirty ||
+                                    addEditForm.controls['clientGroup'].touched)">
+                                    <span class=" text-danger error" *ngIf="addEditForm.controls['clientGroup'].errors?.required
+                                        ||
+                                        addEditForm.controls['clientGroup'].errors?.pattern">
+                                        * clientGroup is required.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">*Client</label>
+                                <input type="text" formControlName="client" [ngbTypeahead]="search" [editable]="false"
+                                    [resultTemplate]="rt" (focus)="focus$.next($event.target.value)"
+                                    (click)="click$.next($event.target.value)" #instance="ngbTypeahead"
+                                    [inputFormatter]="formatter" class="form-control">
+                                <div *ngIf="addEditForm.controls['client'].errors &&
+                                    (submitted ||
+                                    addEditForm.controls['client'].dirty ||
+                                    addEditForm.controls['client'].touched)">
+                                    <span class=" text-danger error" *ngIf="addEditForm.controls['client'].errors?.required
+                                        ||
+                                        addEditForm.controls['client'].errors?.pattern">
+                                        * client is required.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">*Client SIC Category</label>
+                                <input type="text" formControlName="clientSic" [ngbTypeahead]="searchSIC"
+                                    [resultTemplate]="sicTemplate" (focus)="focus1$.next($event.target.value)"
+                                    (click)="click1$.next($event.target.value)" #instance1="ngbTypeahead"
+                                    [inputFormatter]="formatterSIC" class="form-control">
+                                <div *ngIf="addEditForm.controls['clientSic'].errors
+                            && (submitted ||
+                            addEditForm.controls['clientSic'].dirty ||
+                            addEditForm.controls['clientSic'].touched)">
+                                    <span class=" text-danger error" *ngIf="addEditForm.controls['clientSic'].errors?.required
+                                ||
+                                addEditForm.controls['clientSic'].errors?.pattern">
+                                        * Client SIC Category is required.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="form-group" *ngIf="!isMatterRecord">
+                                <label for="name">*Matter</label>
+                                <input type="text" formControlName="matter" [ngbTypeahead]="searchMatterRecords"
+                                    (focus)="focusMatter$.next($event.target.value)"
+                                    (click)="clickMatter$.next($event.target.value)" #instanceMatter="ngbTypeahead"
+                                    [resultTemplate]="matter" [inputFormatter]="formatterMatter" class="form-control">
+                                <div *ngIf="addEditForm.controls['matter'].errors &&
+                            (submitted ||
+                            addEditForm.controls['matter'].dirty ||
+                            addEditForm.controls['matter'].touched)">
+                                    <span class=" text-danger error" *ngIf="addEditForm.controls['matter'].errors?.required
+                                ||
+                                addEditForm.controls['matter'].errors?.pattern">
+                                        * matter is required.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="form-group" *ngIf="isMatterRecord && !editForm">
+                                <label for="name">*Matter ID</label>
+                                <input type="text" formControlName="matterId" class="form-control form-control-lg"
+                                    pattern="[0-9]+">
+                                <div *ngIf="addEditForm.controls['matterId'].errors &&
+                            (submitted ||
+                            addEditForm.controls['matterId'].dirty ||
+                            addEditForm.controls['matterId'].touched)">
+                                    <span class=" text-danger error" *ngIf="addEditForm.controls['matterId'].errors?.required
+                                ||
+                                addEditForm.controls['matterId'].errors?.pattern">
+                                        * matterId is required.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <div class="form-group" *ngIf="isMatterRecord">
+                                <label for="name">*Matter Name</label>
+                                <input type="text" formControlName="matterName" class="form-control">
+                                <div *ngIf="addEditForm.controls['matterName'].errors &&
+                                (submitted ||
+                                addEditForm.controls['matterName'].dirty ||
+                                addEditForm.controls['matterName'].touched)">
+                                    <span class=" text-danger error" *ngIf="addEditForm.controls['matterName'].errors?.required
+                                    ||
+                                    addEditForm.controls['matterName'].errors?.pattern">
+                                        * matterName is required.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">*Responsible Partner</label>
+                                <input type="text" formControlName="responsibleAttorney"
+                                    [ngbTypeahead]="searchEmployeeResAtt"
+                                    (focus)="focusResAtt$.next($event.target.value)"
+                                    (click)="clickResAtt$.next($event.target.value)" #instanceResAtt="ngbTypeahead"
+                                    [resultTemplate]="responsibleAttorney" [inputFormatter]="formatterEmployee"
+                                    class="form-control">
+                                <div *ngIf="addEditForm.controls['responsibleAttorney'].errors
+                                && (submitted ||
+                                addEditForm.controls['responsibleAttorney'].dirty
+                                ||
+                                addEditForm.controls['responsibleAttorney'].touched)">
+                                    <span class=" text-danger error" *ngIf="addEditForm.controls['responsibleAttorney'].errors?.required
+                                    ||
+                                    addEditForm.controls['responsibleAttorney'].errors?.pattern">
+                                        * Responsible Partner is required.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">*Billing Manager</label>
+                                <input type="text" formControlName="billingAttorney" class="form-control"
+                                    [ngbTypeahead]="searchEmployeeBillAtt"
+                                    (focus)="focusBillAtt$.next($event.target.value)"
+                                    (click)="clickBillAtt$.next($event.target.value)" #instanceBillAtt="ngbTypeahead"
+                                    [resultTemplate]="billingAttorneyTemplate" [inputFormatter]="formatterEmployee">
+                                <div *ngIf="addEditForm.controls['billingAttorney'].errors
+                                    && (submitted ||
+                                    addEditForm.controls['billingAttorney'].dirty
+                                    ||
+                                    addEditForm.controls['billingAttorney'].touched)">
+                                    <span class=" text-danger error" *ngIf="addEditForm.controls['billingAttorney'].errors?.required
+                                        ||
+                                        addEditForm.controls['billingAttorney'].errors?.pattern">
+                                        * Billing Manager is
+                                        required.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <div class="row mb-2">
+                        <div class="form-group col-md-6">
+                            <label for="name">*Practice Group</label>
+                            <input type="text" formControlName="practiceGroup" class="form-control"
+                                [ngbTypeahead]="searchPracticeGroup"
+                                (focus)="focusPracticeGroup$.next($event.target.value)"
+                                (click)="clickPracticeGroup$.next($event.target.value)"
+                                #instancePracticeGroup="ngbTypeahead" [resultTemplate]="practiceGroupTemplate"
+                                [inputFormatter]="formatterPracticeGroup">
+                            <div *ngIf="addEditForm.controls['practiceGroup'].errors
+                               && (submitted ||
+                               addEditForm.controls['practiceGroup'].dirty
+                               ||
+                               addEditForm.controls['practiceGroup'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['practiceGroup'].errors?.required
+                                   ||
+                                   addEditForm.controls['practiceGroup'].errors?.pattern">
+                                    * Practice Group is
+                                    required.
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="name">*Area Of Law</label>
+                            <input type="text" formControlName="areaOfLaw" class="form-control"
+                                [ngbTypeahead]="searchAreaOfLaw" (focus)="focusAreaOfLaw$.next($event.target.value)"
+                                (click)="clickAreaOfLaw$.next($event.target.value)" #instanceAreaOfLaw="ngbTypeahead"
+                                [resultTemplate]="areaOfLawTemplate" [inputFormatter]="formatterAreaOfLaw">
+                            <div *ngIf="addEditForm.controls['areaOfLaw'].errors
+                                && (submitted ||
+                                addEditForm.controls['areaOfLaw'].dirty
+                                ||
+                                addEditForm.controls['areaOfLaw'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['areaOfLaw'].errors?.required
+                                    ||
+                                    addEditForm.controls['areaOfLaw'].errors?.pattern">
+                                    * Area of Law is
+                                    required.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="form-group col-md-6">
+                            <label for="name">*Agreement Start Date <span>(DD-MM-YYYY)</span></label>
+                            <input type="date" class="form-control" formControlName="agreementStartDate"
+                                id="floatingInput" max="{{addEditForm.value.expirationDate | date: 'YYY-MM-dd'}}">
+
+                            <div *ngIf="addEditForm.controls['agreementStartDate'].errors
+                                && (submitted ||
+                                addEditForm.controls['agreementStartDate'].dirty
+                                ||
+                                addEditForm.controls['agreementStartDate'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['agreementStartDate'].errors?.required
+                                    ||
+                                    addEditForm.controls['agreementStartDate'].errors?.pattern">
+                                    * agreementStartDate is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="name">*Agreement Expiration Date <span>(DD-MM-YYYY)</span></label>
+                            <input type="date" class="form-control" formControlName="expirationDate" id="floatingInput"
+                                min="{{addEditForm.value.agreementStartDate | date: 'YYY-MM-dd'}}">
+                            <div *ngIf="addEditForm.controls['expirationDate'].errors
+                                && (submitted ||
+                                addEditForm.controls['expirationDate'].dirty ||
+                                addEditForm.controls['expirationDate'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['expirationDate'].errors?.required
+                                    ||
+                                    addEditForm.controls['expirationDate'].errors?.pattern">
+                                    * Expiration Date is required.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="form-group col-sm-6">
+                            <label for="name">*Reminder Timing</label>
+                            <select class="form-select form-control
+                                form-control-lg" formControlName="reminderTimingDay" id="floatingSelect">
+                                <option selected disabled value="">Select Reminder Timing</option>
+                                <option value="30">30 Days</option>
+                                <option value="60">60 Days</option>
+                                <option value="90">90 Days</option>
+                                <option value="120">120 Days</option>
+                            </select>
+                            <div *ngIf="addEditForm.controls['reminderTimingDay'].errors
+                                && (submitted ||
+                                addEditForm.controls['reminderTimingDay'].dirty
+                                ||
+                                addEditForm.controls['reminderTimingDay'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['reminderTimingDay'].errors?.required
+                                    ||
+                                    addEditForm.controls['reminderTimingDay'].errors?.pattern">
+                                    * Fee Arrangement Type is required.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+
+
+
+                    <div class="row mb-2">
+                        <h4>Fee Details</h4>
+                        <div class="form-group col-sm-6">
+                            <label for="name">*Fee Arrangement Type</label>
+                            <select (change)="feeArrangementType($event, '')" class="form-select form-control
+                                form-control-lg" formControlName="feeArrangementType" id="floatingSelect">
+                                <option selected disabled value="">Select Fee
+                                    Arrangement Type</option>
+                                <option value="{{hourlyBilling.name}}" *ngFor="let hourlyBilling of _hourlyBilling;
+                                    index as i">
+                                    {{hourlyBilling.name}}</option>
+                            </select>
+                            <div *ngIf="addEditForm.controls['feeArrangementType'].errors
+                                && (submitted ||
+                                addEditForm.controls['feeArrangementType'].dirty
+                                ||
+                                addEditForm.controls['feeArrangementType'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['feeArrangementType'].errors?.required
+                                    ||
+                                    addEditForm.controls['feeArrangementType'].errors?.pattern">
+                                    * Fee Arrangement Type is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div *ngIf="isFeeArrangmentHourlyBilled ||
+                            isFeeArrangmentFeeCollar ||
+                            isFeeArrangmentCappedFee" class="form-group
+                            col-sm-6">
+                            <label for="name">*Base Rate Type</label>
+                            <select class="form-select form-control
+                                form-control-lg" formControlName="baseRateType" id="floatingSelect">
+                                <option value="" selected disabled>Select Base
+                                    Rate Type</option>
+                                <option value="{{baseRate.name}}" *ngFor="let
+                                    baseRate of _baseRate; index as i">
+                                    {{baseRate.name}}</option>
+                            </select>
+                            <div *ngIf="addEditForm.controls['baseRateType'].errors
+                                && (submitted ||
+                                addEditForm.controls['baseRateType'].dirty
+                                ||
+                                addEditForm.controls['baseRateType'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['baseRateType'].errors?.required
+                                    ||
+                                    addEditForm.controls['baseRateType'].errors?.pattern">
+                                    * Base Rate Type is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div *ngIf="isFeeArrangmentFeeCollar" class="form-group
+                            col-sm-6">
+                            <label for="name">*Target Fee</label>
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">$</span>
+                                </div>
+                                <input type="text"
+                                    onkeypress="return ((event.charCode >= 48 && event.charCode <= 57) || event.charCode==46 || event.charCode == 8 || event.charCode == 0)"
+                                    maxlength="7" min="0" formControlName="targetFee"
+                                    class="form-control form-control-lg">
+                            </div>
+                            <div *ngIf="addEditForm.controls['targetFee'].errors
+                                && (submitted ||
+                                addEditForm.controls['targetFee'].dirty
+                                ||
+                                addEditForm.controls['targetFee'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['targetFee'].errors?.required
+                                    ||
+                                    addEditForm.controls['targetFee'].errors?.pattern">
+                                    * Target Fee is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div *ngIf="isFeeArrangmentFeeCollar" class="form-group
+                            col-sm-6">
+                            <label for="name">*Collar percentage (in %)</label>
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                                <input type="text"
+                                    onkeypress="return ((event.charCode >= 48 && event.charCode <= 57) || event.charCode==46 || event.charCode == 8 || event.charCode == 0)"
+                                    maxlength="3" min="0" max="100" formControlName="collarPercentage"
+                                    class="form-control form-control-lg">
+                            </div>
+                            <div *ngIf="addEditForm.controls['collarPercentage'].errors
+                                && (submitted ||
+                                addEditForm.controls['collarPercentage'].dirty
+                                ||
+                                addEditForm.controls['collarPercentage'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['collarPercentage'].errors?.required
+                                    ||
+                                    addEditForm.controls['collarPercentage'].errors?.pattern">
+                                    * Collar Percentage is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div *ngIf="isFeeArrangmentCappedFee" class="form-group
+                            col-sm-6">
+                            <label for="name"> *Fee Cap Amount</label>
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">$</span>
+                                </div>
+                                <input type="text"
+                                    onkeypress="return ((event.charCode >= 48 && event.charCode <= 57) || event.charCode==46 || event.charCode == 8 || event.charCode == 0)"
+                                    maxlength="7" formControlName="feeCapAmount" class="form-control form-control-lg">
+                            </div>
+                            <div *ngIf="addEditForm.controls['feeCapAmount'].errors
+                                && (submitted ||
+                                addEditForm.controls['feeCapAmount'].dirty
+                                ||
+                                addEditForm.controls['feeCapAmount'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['feeCapAmount'].errors?.required
+                                    ||
+                                    addEditForm.controls['feeCapAmount'].errors?.pattern">
+                                    * Fee Cap Amount is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div *ngIf="isFeeArrangmentHourlyBilled ||
+                            isFeeArrangmentFeeCollar ||
+                            isFeeArrangmentCappedFee" class="form-group
+                            col-sm-6">
+                            <label for="name">*Discount (in %)</label>
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                                <input type="text"
+                                    onkeypress="return ((event.charCode >= 48 && event.charCode <= 57) || event.charCode==46 || event.charCode == 8 || event.charCode == 0)"
+                                    maxlength="3" min="0" max="100" formControlName="discount"
+                                    class="form-control form-control-lg">
+                            </div>
+                            <div *ngIf="addEditForm.controls['discount'].errors
+                                && (submitted ||
+                                addEditForm.controls['discount'].dirty
+                                ||
+                                addEditForm.controls['discount'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['discount'].errors?.required
+                                    ||
+                                    addEditForm.controls['discount'].errors?.pattern">
+                                    * Discount is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div *ngIf="isFeeArrangmentHourlyBilled ||
+                            isFeeArrangmentFeeCollar ||
+                            isFeeArrangmentCappedFee" class="form-group
+                            col-sm-6">
+                            <label for="name" class="mb-2">*Other Discount Detail</label><br />
+                            <div class="form-check form-check-inline">
+                                <input (change)="discountType($event)" class="form-check-input" type="radio"
+                                    value="Discount built into rates" formControlName="discountType" id="discountType1"
+                                    checked>
+                                <label class="form-check-label" for="discountType1">
+                                    Discount built into rates
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input (change)="discountType($event)" class="form-check-input" type="radio"
+                                    value="Time of billing discount" formControlName="discountType" id="discountType2">
+                                <label class="form-check-label" for="discountType2">
+                                    Time of billing discount
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input (change)="discountType($event, '')" class="form-check-input" type="radio"
+                                    value="Other" formControlName="discountType" id="discountType3">
+                                <label class="form-check-label" for="discountType3">
+                                    Other
+                                </label>
+                            </div>
+                            <div *ngIf="addEditForm.controls['discountType'].errors
+                                && (submitted ||
+                                addEditForm.controls['discountType'].dirty
+                                ||
+                                addEditForm.controls['discountType'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['discountType'].errors?.required
+                                    ||
+                                    addEditForm.controls['discountType'].errors?.pattern">
+                                    * Discount Type is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div *ngIf="(isFeeArrangmentHourlyBilled ||
+                            isFeeArrangmentFeeCollar ||
+                            isFeeArrangmentCappedFee) && discountTypeOther" class="form-group col-sm-6">
+                            <label for="name">Other Discount Detail Description</label>
+                            <input type="text" placeholder="" formControlName="otherDiscount" class="form-control">
+                            <div *ngIf="addEditForm.controls['otherDiscount'].errors
+                                && (submitted ||
+                                addEditForm.controls['otherDiscount'].dirty
+                                ||
+                                addEditForm.controls['otherDiscount'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['otherDiscount'].errors?.required
+                                    ||
+                                    addEditForm.controls['otherDiscount'].errors?.pattern">
+                                    * Discount Detail is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div *ngIf="isFeeArrangmentHourlyBilled" class="form-group col-sm-6">
+                            <label for="name">Rate Card Detail</label>
+                            <input type="text" class="form-control
+                                form-control-lg" formControlName="rateCardDetails">
+                            <div *ngIf="addEditForm.controls['rateCardDetails'].errors
+                                && (submitted ||
+                                addEditForm.controls['rateCardDetails'].dirty
+                                ||
+                                addEditForm.controls['rateCardDetails'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['rateCardDetails'].errors?.required
+                                    ||
+                                    addEditForm.controls['rateCardDetails'].errors?.pattern">
+                                    * Rate Card Detail is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div *ngIf="isFeeArrangmentHourlyBilled" class="form-group col-sm-6">
+                            <label for="name">Capped Rate Detail</label>
+                            <input type="text" formControlName="cappedRateDetail" class="form-control
+                                form-control-lg">
+                            <div *ngIf="addEditForm.controls['cappedRateDetail'].errors
+                                && (submitted ||
+                                addEditForm.controls['cappedRateDetail'].dirty
+                                ||
+                                addEditForm.controls['cappedRateDetail'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['cappedRateDetail'].errors?.required
+                                    ||
+                                    addEditForm.controls['cappedRateDetail'].errors?.pattern">
+                                    * Capped Rate Detail is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div *ngIf="isFeeArrangmentFixedFee" class="form-group col-sm-6">
+                            <label for="name">*Fixed Fee Type</label>
+                            <select class="form-select form-control
+                                form-control-lg" formControlName="fixedFeeType" id="floatingSelect">
+                                <option selected disabled value="">Select Fee Type</option>
+                                <option value="Matter">Matter</option>
+                                <option value="Annual">Annual</option>
+                                <option value="Monthly">Monthly</option>
+                                <option value="Portfolio">Portfolio</option>
+                                <option value="Phase/Milestone">Phase/Milestone</option>
+                            </select>
+                            <div *ngIf="addEditForm.controls['fixedFeeType'].errors
+                                && (submitted ||
+                                addEditForm.controls['fixedFeeType'].dirty
+                                ||
+                                addEditForm.controls['fixedFeeType'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['fixedFeeType'].errors?.required
+                                    ||
+                                    addEditForm.controls['fixedFeeType'].errors?.pattern">
+                                    * Fee Type is required.
+                                </span>
+                            </div>
+                        </div>
+                      
+                        <div *ngIf="isFeeArrangmentFixedFee" class="form-group col-sm-6">
+                            <label for="name">Fixed Fee Detail</label>
+                            <input type="text" formControlName="fixedFeeDetails" class="form-control form-control-lg">
+                            <div *ngIf="addEditForm.controls['fixedFeeDetails'].errors
+                                && (submitted ||
+                                addEditForm.controls['fixedFeeDetails'].dirty
+                                ||
+                                addEditForm.controls['fixedFeeDetails'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['fixedFeeDetails'].errors?.required
+                                    ||
+                                    addEditForm.controls['fixedFeeDetails'].errors?.pattern">
+                                    * Fixed Fee Details is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div *ngIf="isFeeArrangmentFixedFee" class="form-group col-sm-6">
+                            <label for="name">*Fee Type Value</label>
+                            <div class="input-group">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">$</span>
+                                </div>
+                                <input type="text"
+                                    onkeypress="return ((event.charCode >= 48 && event.charCode <= 57) || event.charCode==46 || event.charCode == 8 || event.charCode == 0)"
+                                    maxlength="7" min="0" max="100" formControlName="fixedFeeValue"
+                                    class="form-control">
+                            </div>
+                            <div *ngIf="addEditForm.controls['fixedFeeValue'].errors
+                            && (submitted ||
+                            addEditForm.controls['fixedFeeValue'].dirty
+                            ||
+                            addEditForm.controls['fixedFeeValue'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['fixedFeeValue'].errors?.required
+                                ||
+                                addEditForm.controls['fixedFeeValue'].errors?.pattern">
+                                    * Fee Type Value is required.
+                                </span>
+                            </div>
+                        </div>
+                        <!-- <div *ngIf="isFeeArrangmentCappedFee" class="form-group
+                            col-sm-6">
+                    <label for="name">*Capped Fee Detail</label>
+                    <input type="text" formControlName="cappedFeeDetails" class="form-control form-control-lg">
+                    <div *ngIf="addEditForm.controls['cappedFeeDetails'].errors
+                                && (submitted ||
+                                addEditForm.controls['cappedFeeDetails'].dirty
+                                ||
+                                addEditForm.controls['cappedFeeDetails'].touched)">
+                        <span class=" text-danger error" *ngIf="addEditForm.controls['cappedFeeDetails'].errors?.required
+                                    ||
+                                    addEditForm.controls['cappedFeeDetails'].errors?.pattern">
+                            * Capped Fee Details is required.
+                        </span>
+                    </div>
+                </div> -->
+                        <div *ngIf="isFeeArrangmentFeeCollar" class="form-group
+                            col-sm-6">
+                            <label for="name">Fee Collar Detail</label>
+                            <input type="text" formControlName="feeCollarDetail" class="form-control form-control-lg">
+                            <div *ngIf="addEditForm.controls['feeCollarDetail'].errors
+                                && (submitted ||
+                                addEditForm.controls['feeCollarDetail'].dirty
+                                ||
+                                addEditForm.controls['feeCollarDetail'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['feeCollarDetail'].errors?.required
+                                    ||
+                                    addEditForm.controls['feeCollarDetail'].errors?.pattern">
+                                    * Capped Fee Details is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div *ngIf="isFeeArrangmentFullContingency" class="form-group col-sm-6">
+                            <label for="name">*Full Contingency Detail </label>
+                            <input type="text" formControlName="fullContingencyDetail"
+                                class="form-control form-control-lg">
+                            <div *ngIf="addEditForm.controls['fullContingencyDetail'].errors
+                                && (submitted ||
+                                addEditForm.controls['fullContingencyDetail'].dirty
+                                ||
+                                addEditForm.controls['fullContingencyDetail'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['fullContingencyDetail'].errors?.required
+                                    ||
+                                    addEditForm.controls['fullContingencyDetail'].errors?.pattern">
+                                    * Full Contingency Detail is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div *ngIf="isFeeArrangmentPartialContingency" class="form-group col-sm-6">
+                            <label for="name">*Partial Contingency Detail
+                            </label>
+                            <input type="text" formControlName="partialContingencyDetail" class="form-control
+                                form-control-lg">
+                            <div *ngIf="addEditForm.controls['partialContingencyDetail'].errors
+                                && (submitted ||
+                                addEditForm.controls['partialContingencyDetail'].dirty
+                                ||
+                                addEditForm.controls['partialContingencyDetail'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['partialContingencyDetail'].errors?.required
+                                    ||
+                                    addEditForm.controls['partialContingencyDetail'].errors?.pattern">
+                                    * Partial Contingency Detail is required.
+                                </span>
+                            </div>
+                        </div>
+                        <hr>
+                        <!-- <div *ngIf="isFeeArrangmentHourlyBilled ||
+                            isFeeArrangmentCappedFee ||
+                            isFeeArrangmentFeeCollar" class="form-group"> -->
+                        <div class="form-group">
+                            <label for="name" class="mb-2">*Rate Adjustment
+                                During Term</label><br />
+
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" value="Yes"
+                                    (change)="rateAdjustmentDuringTerm($event, '')" type="radio"
+                                    formControlName="rateAdjustmentDuringTerm" id="flexRadioDefault1">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" value="No"
+                                    (change)="rateAdjustmentDuringTerm($event, '')" type="radio"
+                                    formControlName="rateAdjustmentDuringTerm" id="flexRadioDefault2" checked>
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                    No
+                                </label>
+                            </div>
+                            <div *ngIf="addEditForm.controls['rateAdjustmentDuringTerm'].errors
+                                && (submitted ||
+                                addEditForm.controls['rateAdjustmentDuringTerm'].dirty
+                                ||
+                                addEditForm.controls['rateAdjustmentDuringTerm'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['rateAdjustmentDuringTerm'].errors?.required
+                                    ||
+                                    addEditForm.controls['rateAdjustmentDuringTerm'].errors?.pattern">
+                                    * Rate Reminder During Term is required.
+                                </span>
+                            </div>
+                        </div>
+                        <!-- Adjustment-->
+                        <div>
+                            <div *ngIf="isRateAdjustmentDuringTerm" formArrayName="adjustmentArray">
+                                <div *ngFor="let adjustment of getAdjustmentArray().controls; let i=index"
+                                    [formGroupName]="i">
+                                    <div class="form-group col-sm-6">
+                                        <label for="name">*Adjustment Date (DD-MM-YYYY)
+                                        </label>
+                                        <input type="date" formControlName="adjustmentDate" class="form-control
+                                form-control-lg" />
+                                        <div *ngIf="getValidity(i, 'adjustmentDate')?.errors
+                                && (submitted ||
+                                getValidity(i, 'adjustmentDate')?.dirty
+                                ||
+                                getValidity(i, 'adjustmentDate')?.touched)">
+                                            <span class=" text-danger error" *ngIf="getValidity(i, 'adjustmentDate')?.errors?.required
+                                    ||
+                                    getValidity(i, 'adjustmentDate')?.errors?.pattern">
+                                                * Adjustment Dates is required.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="name">*Adjustment Details
+                                        </label>
+                                        <input type="text" formControlName="adjustmentDetails" class="form-control
+                                    form-control-lg" />
+                                        <div *ngIf="getValidity(i, 'adjustmentDetails')?.errors
+                                    && (submitted ||
+                                    getValidity(i, 'adjustmentDetails')?.dirty
+                                    ||
+                                    getValidity(i, 'adjustmentDetails')?.touched)">
+                                            <span class=" text-danger error" *ngIf="getValidity(i, 'adjustmentDetails')?.errors?.required
+                                        ||
+                                        getValidity(i, 'adjustmentDetails')?.errors?.pattern">
+                                                * Adjustment Dates is required.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="name" class="mb-2">*Adjustment Reminder</label><br />
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" value="Yes"
+                                                formControlName="adjustmentReminder" id="adjustmentReminder1"
+                                                (change)="rateAdjustmentDuringTermReminder($event)"
+                                                min="{{addEditForm.value.agreementStartDate | date: 'YYY-MM-dd'}}"
+                                                max="{{addEditForm.value.expirationDate | date: 'YYY-MM-dd'}}">
+                                            <label class="form-check-label" for="adjustmentReminder1">
+                                                Yes
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <!-- (change)="rateAdjustmentDuringTermReminder($event)" -->
+                                            <input class="form-check-input" type="radio" value="No"
+                                                formControlName="adjustmentReminder" id="adjustmentReminder2" checked>
+                                            <label class="form-check-label" for="adjustmentReminder2">
+                                                No
+                                            </label>
+                                        </div>
+                                        <div *ngIf="getValidity(i, 'adjustmentReminder')?.errors
+                                    && (submitted ||
+                                    getValidity(i, 'adjustmentReminder')?.dirty
+                                    ||
+                                    getValidity(i, 'adjustmentReminder')?.touched)">
+                                            <span class=" text-danger error" *ngIf="getValidity(i, 'adjustmentReminder')?.errors?.required
+                                        ||
+                                        getValidity(i, 'adjustmentReminder')?.errors?.pattern">
+                                                * Adjustment Reminder is required.
+                                            </span>
+                                        </div>
+                                        <div *ngIf="getValidity(i, 'adjustmentReminderDate')?.errors
+                                        ">
+                                            <span class=" text-danger error" *ngIf="getValidity(i, 'adjustmentReminderDate')?.errors?.required
+                                            ||
+                                            getValidity(i, 'adjustmentReminderDate')?.errors?.pattern">
+                                                * Reminder Date is required.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- *ngIf="getValidity(i, 'adjustmentReminder')?.value === 'Yes'" -->
+                                    <div class="row mt-2" *ngIf="getValidity(i, 'adjustmentReminder')?.value === 'Yes'">
+                                        <h4>*Rate Adjustment Reminder </h4>
+                                        <div class="form-group col-md-6">
+                                            <label for="name">Reminder Date</label>
+                                            <input type="date" class="form-control"
+                                                formControlName="adjustmentReminderDate" id="floatingInput">
+
+                                            <div *ngIf="getValidity(i, 'adjustmentReminderDate')?.errors
+                                        && (submitted ||
+                                        getValidity(i, 'adjustmentReminderDate')?.dirty
+                                        ||
+                                        getValidity(i, 'adjustmentReminderDate')?.touched)">
+                                                <span class=" text-danger error" *ngIf="getValidity(i, 'adjustmentReminderDate')?.errors?.required
+                                            ||
+                                            getValidity(i, 'adjustmentReminderDate')?.errors?.pattern">
+                                                    * Reminder Date is required.
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="name">Expiration Reminder</label>
+                                            <input type="date" class="form-control"
+                                                min="{{getValidity(i, 'adjustmentReminderDate')?.value | date: 'YYY-MM-dd'}}"
+                                                formControlName="expirationReminderDate" id="floatingInput">
+                                            <div *ngIf="getValidity(i, 'expirationReminderDate')?.errors
+                                        && (submitted ||
+                                        getValidity(i, 'expirationReminderDate')?.dirty
+                                        ||
+                                        getValidity(i, 'expirationReminderDate')?.touched)">
+                                                <span class=" text-danger error" *ngIf="getValidity(i, 'expirationReminderDate')?.errors?.required
+                                            ||
+                                            getValidity(i, 'expirationReminderDate')?.errors?.pattern">
+                                                    * Expiration Reminder is required.
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="name">Reminder Email Recipients</label>
+                                            <input type="text" formControlName="adjustmentReminderEmailRecipient"
+                                                class="form-control form-control-lg">
+                                            <div *ngIf="getValidity(i, 'adjustmentReminderEmailRecipient')?.errors
+                                        && (submitted ||
+                                        getValidity(i, 'adjustmentReminderEmailRecipient')?.dirty
+                                        ||
+                                        getValidity(i, 'adjustmentReminderEmailRecipient')?.touched)">
+                                                <span class=" text-danger error" *ngIf="getValidity(i, 'adjustmentReminderEmailRecipients')?.errors?.required
+                                            ||
+                                            getValidity(i, 'adjustmentReminderEmailRecipient')?.errors?.pattern">
+                                                    * Email Recipients field is required.
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="name">*Reminder Email Content</label>
+                                            <textarea class="form-control rounded-2"
+                                                formControlName="adjustmentReminderEmailContent"
+                                                id="exampleFormControlTextarea1" rows="4"></textarea>
+                                            <div *ngIf="getValidity(i, 'adjustmentReminderEmailContent')?.errors
+                                        && (submitted ||
+                                        getValidity(i, 'adjustmentReminderEmailContent')?.dirty
+                                        ||
+                                        getValidity(i, 'adjustmentReminderEmailContent')?.touched)">
+                                                <span class=" text-danger error" *ngIf="getValidity(i, 'adjustmentReminderEmailContent')?.errors?.required
+                                            ||
+                                            getValidity(i, 'adjustmentReminderEmailContent')?.errors?.pattern">
+                                                    * Rate Adjustment Reminder
+                                                    Email Content is required.
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button *ngIf="getAdjustmentArray().controls.length > 1"
+                                        (click)="removeAdjustmentRow(index)"> Remove Adjustment </button>
+                                </div>
+                                <button (click)="addAdjustmentRow()"> Add Adjustment </button>
+                            </div>
+                        </div>
+                        <!-- Adjustment-->
+                        <hr>
+                    </div>
+
+                    <div class="row mb-2">
+                        <h4>Billing Details</h4>
+                        <div class="form-group col-md-6">
+                            <label for="name">*Billing Frequency</label>
+                            <select (click)="billingFrequency($event, '')"
+                                class="form-select form-control form-control-lg" formControlName="billingFrequency"
+                                id="floatingSelect">
+                                <option value="" selected disabled>Select
+                                    Billing Frequency</option>
+                                <option value="{{billingFrequency.name}}" *ngFor="let billingFrequency of
+                                    _billingFrequencies; index as i">
+                                    {{billingFrequency.name}}</option>
+                            </select>
+                        </div>
+                        <div *ngIf="isBillingFreOther" class="form-group col-md-6">
+                            <label for="name">*Billing Frequency Other</label>
+                            <input class="form-control" type="text" placeholder="Billing Frequency Detail"
+                                formControlName="billingFrequencyOther" ([ngModel])="billingFrequencyOther"
+                                id="flexRadioDefault67">
+                            <div *ngIf="addEditForm.controls['billingFrequency'].errors
+                                && (submitted ||
+                                addEditForm.controls['billingFrequency'].dirty
+                                ||
+                                addEditForm.controls['billingFrequency'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['billingFrequency'].errors?.required
+                                    ||
+                                    addEditForm.controls['billingFrequency'].errors?.pattern">
+                                    * Billing Frequency is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="name" class="mb-2">*Billing Method</label><br />
+                            <select class="form-select form-control
+                                form-control-lg" formControlName="billingMethod" id="floatingSelect"
+                                (change)="billingMethod($event, '')">
+                                <option selected disabled value="">Select
+                                    Billing Method</option>
+                                <option value="{{billingMethod.name}}" *ngFor="let billingMethod of
+                                    _billingMethods; index as i">
+                                    {{billingMethod.name}}</option>
+                            </select>
+                            <input class="form-control mt-2" type="text" placeholder="Other Billing Method"
+                                *ngIf="isBillingMethodOther" ([ngModel])="billingMethodOther" id="flexRadioDefault1">
+                            <div *ngIf="addEditForm.controls['billingMethod'].errors
+                                && (submitted ||
+                                addEditForm.controls['billingMethod'].dirty
+                                ||
+                                addEditForm.controls['billingMethod'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['billingMethod'].errors?.required
+                                    ||
+                                    addEditForm.controls['billingMethod'].errors?.pattern">
+                                    * Billing Method is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="name">*Billing Currency</label>
+                            <select class="form-select form-control
+                                form-control-lg" formControlName="billingCurrency" id="floatingSelect">
+                                <option value="" selected disabled> Select
+                                    Billing Currency</option>
+                                <option value="{{billingCurrency.name}}" *ngFor="let billingCurrency of
+                                    _billingCurrency; index as i">
+                                    {{billingCurrency.name}}</option>
+                                <!-- <option value="USD">USD</option>
+                                <option value="EUR">EUR</option>
+                                <option value="GBP">GBP</option>
+                                <option value="RMB">RMB</option>
+                                <option value="AUS">AUS</option>
+                                <option value="JPY">JPY</option> -->
+                            </select>
+                            <div *ngIf="addEditForm.controls['billingCurrency'].errors
+                                && (submitted ||
+                                addEditForm.controls['billingCurrency'].dirty
+                                ||
+                                addEditForm.controls['billingCurrency'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['billingCurrency'].errors?.required
+                                    ||
+                                    addEditForm.controls['billingCurrency'].errors?.pattern">
+                                    * Billing Currency is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="name" class="mb-2">*Payor Type</label><br />
+                            <select class="form-select form-control
+                                form-control-lg" formControlName="payorType" id="floatingSelect"
+                                (change)="payorType($event)">
+                                <option selected disabled value="">Select Payor
+                                    Type</option>
+                                <option value="{{payorType.name}}" *ngFor="let
+                                    payorType of _payorType; index as i">
+                                    {{payorType.name}}</option>
+                                <!-- <option value="Client">Client</option>
+                                <option value="3rd Party">3rd Party</option>
+                                <option value="Multiple">Multiple</option>
+                                <option value="Multiple">Multiple</option>
+                                <option value="Other">Other</option> -->
+                            </select>
+                            <div *ngIf="addEditForm.controls['payorType'].errors
+                                && (submitted ||
+                                addEditForm.controls['payorType'].dirty ||
+                                addEditForm.controls['payorType'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['payorType'].errors?.required
+                                    ||
+                                    addEditForm.controls['payorType'].errors?.pattern">
+                                    * Payor Type is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div *ngIf="isPayorTypeOther" class="form-group">
+                            <label for="name">*Payor Detail</label>
+                            <input type="text" formControlName="payorDetail" class="form-control form-control-lg">
+                            <div *ngIf="addEditForm.controls['payorDetail'].errors
+                                && (submitted ||
+                                addEditForm.controls['payorDetail'].dirty ||
+                                addEditForm.controls['payorDetail'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['payorDetail'].errors?.required
+                                    ||
+                                    addEditForm.controls['payorDetail'].errors?.pattern">
+                                    * payorDetail is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="mb-2">*Is Firm a
+                                Preferred Provider?</label><br />
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" value="Yes"
+                                    formControlName="preferredProvider" id="flexRadioDefault1" checked>
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" value="No"
+                                    formControlName="preferredProvider" id="flexRadioDefault2">
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                    No
+                                </label>
+                            </div>
+                            <div *ngIf="addEditForm.controls['preferredProvider'].errors
+                                && (submitted ||
+                                addEditForm.controls['preferredProvider'].dirty
+                                ||
+                                addEditForm.controls['preferredProvider'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['preferredProvider'].errors?.required
+                                    ||
+                                    addEditForm.controls['preferredProvider'].errors?.pattern">
+                                    * Preferred Provider is required.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <h4>Attachments</h4>
+                    <ng-container *ngIf="isLoadingAttachment">
+                        <div class="text-center">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <div class="row mb-2" *ngIf="!isLoadingAttachment">
+                        <div class="form-group col-md-4">
+                            <label for="name">Attachment Type</label>
+                            <select class="form-select form-control
+                                form-control-lg" formControlName="attachmentType" id="floatingSelect">
+                                <ng-container *ngFor="let option of _attachmentType">
+                                    <option [selected]="option.label == 'Engagement Letter'" [value]="option.value">
+                                        {{option.label}}</option>
+                                </ng-container>
+                            </select>
+                        </div>
+                        <div *ngIf="addEditForm.value.attachmentType == 'Other'" class="form-group col-md-2">
+                            <label for="name">Other</label>
+                            <input type="text" formControlName="attachmentTypeOther"
+                                class="form-control form-control-lg">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="name">Attachment</label>
+                            <input type="file" (change)="getAttachment($event)" name="attachmentFile"
+                                class="form-control form-control-lg"
+                                accept="image/png, image/jpeg,application/pdf,application/vnd.ms-excel, application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                #file ngModel [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div *ngIf="attachmentArray.length > 0" class="flex-container">
+                        <div *ngFor="let item of attachmentArray;let i=index">
+                            <div (click)="removeAttachment(i)" class="cross-icon"><img class="text-center"
+                                    src="assets/images/cross-icon.png"></div>
+                            <a (click)="accessFileURL(item.name)">
+                                <img class="text-center" src="assets/images/document-icon.png">
+                            </a>
+                            <p>{{item?.name}}</p>
+                            <p>{{item?.type}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group mb-2 py-2 text-right">
+                        <button type="button" (click)="open(content)" class="btn
+                            btn-primary">Review</button>
+                        <button type="button" routerLink="/dashboard/search" class="btn
+                            btn-secondary">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Review Client</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+        <h4>Client Details</h4>
+        <div class="form-group review-item">
+            <label>Client Group:</label> {{this.addEditForm.value.clientGroup?.name ||
+            this.addEditForm.value.clientGroup}}
+        </div>
+        <div *ngIf="this.addEditForm.value?.client?.name" class="form-group review-item">
+            <label>Client Name:</label> {{this.addEditForm.value.client?.name || this.addEditForm.value.client}}
+        </div>
+        <div *ngIf="this.addEditForm.value.matterId || this.addEditForm.value.matter?.matterId"
+            class="form-group review-item">
+            <label>Matter ID:</label> {{this.addEditForm.value.matterId || this.addEditForm.value.matter?.matterId}}
+        </div>
+        <div *ngIf="this.addEditForm.value.matterName || this.addEditForm.value.matter?.name"
+            class="form-group review-item">
+            <label>Matter Name:</label> {{this.addEditForm.value.matterName || this.addEditForm.value.matter?.name}}
+        </div>
+        <div *ngIf="this.addEditForm.value.clientSic?.description||this.addEditForm.value.clientSic"
+            class="form-group review-item">
+            <label>Client SIC Category:</label> {{this.addEditForm.value.clientSic?.description ||
+            this.addEditForm.value.clientSic}}
+        </div>
+        <div *ngIf="this.addEditForm.value.responsibleAttorney" class="form-group review-item">
+            <label>Responsible Partner:</label> {{this.addEditForm.value.responsibleAttorney?.name ||
+            this.addEditForm.value.responsibleAttorney}}
+        </div>
+        <div *ngIf="this.addEditForm.value.billingAttorney" class="form-group review-item">
+            <label>Billing Manager:</label> {{this.addEditForm.value.billingAttorney?.name ||
+            this.addEditForm.value.billingAttorney}}
+        </div>
+        <div *ngIf="this.addEditForm.value.areaOfLaw" class="form-group review-item">
+            <label>Area Of Law:</label> {{this.addEditForm.value.areaOfLaw?.name || this.addEditForm.value.areaOfLaw}}
+        </div>
+        <div *ngIf="this.addEditForm.value.practiceGroup" class="form-group review-item">
+            <label>Practice Group:</label> {{this.addEditForm.value.practiceGroup?.name ||
+            this.addEditForm.value.practiceGroup}}
+        </div>
+        <div *ngIf="this.addEditForm.value.agreementStartDate" class="form-group review-item">
+            <label>Agreement Start Date (MM/DD/YYYY):</label> {{this.addEditForm.value.agreementStartDate |
+            date:'MM/dd/YYYY'}}
+        </div>
+        <div *ngIf="this.addEditForm.value.expirationDate" class="form-group review-item">
+            <label>Agreement Expiration Date (MM/DD/YYYY):</label> {{this.addEditForm.value.expirationDate |
+            date:'MM/dd/YYYY'}}
+        </div>
+        <div *ngIf="this.addEditForm.value.reminderTimingDay" class="form-group review-item">
+            <label>Reminder Timing:</label> {{this.addEditForm.value.reminderTimingDay}}&nbsp;days
+        </div>
+        <hr>
+        <h4>Fee Details</h4>
+        <div *ngIf="this.addEditForm.value.feeArrangementType" class="form-group review-item">
+            <label>Fee Arrangement Type:</label> {{this.addEditForm.value.feeArrangementType}}
+        </div>
+        <div *ngIf="this.addEditForm.value.baseRateType" class="form-group review-item">
+            <label>Base Rate Type:</label> {{this.addEditForm.value.baseRateType}}
+        </div>
+        <div *ngIf="this.addEditForm.value.discount" class="form-group review-item">
+            <label>Discount(%):</label> {{this.addEditForm.value.discount}}
+        </div>
+        <div *ngIf="this.addEditForm.value.discountType" class="form-group review-item">
+            <label>Discount Type:</label> {{this.addEditForm.value.discountType}}
+        </div>
+        <div *ngIf="this.addEditForm.value.otherDiscount" class="form-group review-item">
+            <label>Other Discount:</label> {{this.addEditForm.value.otherDiscount}}
+        </div>
+        <div *ngIf="this.addEditForm.value.feeArrangementDetail" class="form-group review-item">
+            <label>Fee Arrangement Detail:</label> {{this.addEditForm.value.feeArrangementDetail}}
+        </div>
+        <div *ngIf="this.addEditForm.value.rateCardDetails" class="form-group review-item">
+            <label>Rate Card Detail:</label> {{this.addEditForm.value.rateCardDetails}}
+        </div>
+        <div *ngIf="this.addEditForm.value.cappedRateDetail" class="form-group review-item">
+            <label>Capped Rate Detail:</label> {{this.addEditForm.value.cappedRateDetail}}
+        </div>
+        <div *ngIf="this.addEditForm.value.feeCapAmount" class="form-group review-item">
+            <label>Fee Cap Amount($):</label> {{this.addEditForm.value.feeCapAmount}}
+        </div>
+        <div *ngIf="this.addEditForm.value.targetFee" class="form-group review-item">
+            <label>Target Fee($):</label> {{this.addEditForm.value.targetFee}}
+        </div>
+        <div *ngIf="this.addEditForm.value.collarPercentage" class="form-group review-item">
+            <label>Collar Percentage(%):</label> {{this.addEditForm.value.collarPercentage}}
+        </div>
+        <div *ngIf="this.addEditForm.value.rateAdjustmentDuringTerm" class="form-group review-item">
+            <label>Rate Reminder During Term:</label> {{this.addEditForm.value.rateAdjustmentDuringTerm}}
+        </div>
+        <!----->
+        <div
+            *ngIf="this.addEditForm.value.rateAdjustmentDuringTerm =='Yes' || this.addEditForm.value.rateAdjustmentDuringTerm == true">
+            <div *ngFor="let adjustment of getAdjustmentArray().controls; let i=index">
+                <div *ngIf="getValidity(i, 'adjustmentDate')?.value" class="form-group review-item">
+                    <label>Adjustment Date (MM/DD/YYYY):</label> {{getValidity(i, 'adjustmentDate')?.value |
+                    date:'MM/dd/YYYY'}}
+                </div>
+                <div *ngIf="getValidity(i, 'adjustmentDetails')?.value " class="form-group review-item">
+                    <label>Adjustment Details:</label> {{getValidity(i, 'adjustmentDetails')?.value}}
+                </div>
+                <div *ngIf="getValidity(i, 'adjustmentReminder')?.value " class="form-group review-item">
+                    <label>Adjustment Reminder:</label> {{getValidity(i, 'adjustmentReminder')?.value}}
+                </div>
+                <div *ngIf="getValidity(i, 'adjustmentReminderDate')?.value " class="form-group review-item">
+                    <label>Adjustment Reminder Date (MM/DD/YYYY):</label>
+                    {{getValidity(i, 'adjustmentReminderDate')?.value |
+                    date:'MM/dd/YYY'}}
+                </div>
+                <div *ngIf="getValidity(i, 'expirationReminderDate')?.value " class="form-group review-item">
+                    <label>Adjustment Reminder Date (MM/DD/YYYY):</label>
+                    {{getValidity(i, 'expirationReminderDate')?.value |
+                    date:'MM/dd/YYY'}}
+                </div>
+
+                <div *ngIf="getValidity(i, 'adjustmentReminderEmailRecipients')?.value" class="form-group review-item">
+                    <label>Adjustment Reminder Email Recipients:</label>
+                    {{getValidity(i, 'adjustmentReminderEmailRecipients')?.value}}
+                </div>
+                <div *ngIf="getValidity(i, 'adjustmentReminderEmailContent')?.value" class="form-group review-item">
+                    <label>Adjustment Reminder Email Content:</label>
+                    {{getValidity(i, 'adjustmentReminderEmailContent')?.value}}
+                </div>
+            </div>
+        </div>
+        <!---->
+        <div *ngIf="this.addEditForm.value.fullContingencyDetail" class="form-group review-item">
+            <label>Full Contingency Detail:</label> {{this.addEditForm.value.fullContingencyDetail}}
+        </div>
+        <div *ngIf="this.addEditForm.value.partialContingencyDetail" class="form-group review-item">
+            <label>Partial Contingency Detail:</label> {{this.addEditForm.value.partialContingencyDetail}}
+        </div>
+        <div *ngIf="this.addEditForm.value.fixedFeeType" class="form-group review-item">
+            <label>Fixed Fee Type:</label> {{this.addEditForm.value.fixedFeeType}}
+        </div>
+        <div *ngIf="this.addEditForm.value.fixedFeeValue" class="form-group review-item">
+            <label>Fixed Fee Value($):</label> {{this.addEditForm.value.fixedFeeValue}}
+        </div>
+        <div *ngIf="this.addEditForm.value.fixedFeeDetails" class="form-group review-item">
+            <label>Fixed Fee Detail:</label> {{this.addEditForm.value.fixedFeeDetails}}
+        </div>
+
+        <hr>
+        <h4>Billing Details</h4>
+        <div *ngIf="this.addEditForm.value.billingFrequency" class="form-group review-item">
+            <label>Billing Frequency:</label> {{this.addEditForm.value.billingFrequency}}
+        </div>
+        <div *ngIf="this.addEditForm.value.billingFrequencyOther" class="form-group review-item">
+            <label>Billing Frequency Other:</label> {{this.addEditForm.value.billingFrequencyOther}}
+        </div>
+        <div *ngIf="this.addEditForm.value.billingCurrency" class="form-group review-item">
+            <label>Billing Currency:</label> {{this.addEditForm.value.billingCurrency}}
+        </div>
+        <div *ngIf="this.addEditForm.value.billingMethod" class="form-group review-item">
+            <label>Billing Method:</label> {{this.addEditForm.value.billingMethod}}
+        </div>
+        <div *ngIf="this.addEditForm.value.payorType" class="form-group review-item">
+            <label>Payor Type:</label> {{this.addEditForm.value.payorType}}
+        </div>
+        <div *ngIf="this.addEditForm.value.payorDetail" class="form-group review-item">
+            <label>Payor Details:</label> {{this.addEditForm.value.payorDetail}}
+        </div>
+        <div *ngIf="this.addEditForm.value.preferredProvider" class="form-group review-item">
+            <label>Preferred Provider:</label> {{this.addEditForm.value.preferredProvider}}
+        </div>
+        <hr>
+        <h4>Attachments</h4>
+        <div class="flex-container">
+            <div *ngFor="let item of attachmentArray;let i=index;">
+                <div (click)="removeAttachment(i)" class="cross-icon"><img class="text-center"
+                        src="assets/images/cross-icon.png"></div>
+                <a (click)="accessFileURL(item.name)">
+                    <img class="text-center" src="assets/images/document-icon.png">
+                </a>
+                <p>{{item?.name}}</p>
+                <p>{{item?.type}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" *ngIf="editForm && isLoadingbtn == false" (click)="submitUpdateForm()" class="btn
+                            btn-info">Update
+            Client</button>
+        <button type="submit" *ngIf="!editForm && isLoadingbtn == false" (click)="submitForm()" class="btn btn-info">Add
+            Client</button>
+        <div class="text-center" *ngIf="isLoadingbtn == true">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Cancel</button>
+    </div>
+</ng-template>

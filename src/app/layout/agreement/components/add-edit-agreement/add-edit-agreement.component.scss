@@ -1,0 +1,91 @@
+.form-group {
+  margin-bottom: 8px;
+}
+
+label {
+  margin: 2px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+h4 {
+  font-weight: 500;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: rgb(83, 82, 82);
+  opacity: 1;
+  /* Firefox */
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: rgb(83, 82, 82);
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: rgb(83, 82, 82);
+}
+
+span.input-group-text {
+  padding: 0.7rem 1rem;
+}
+
+.display-flex {
+  display: flex;
+}
+
+.display-flex .btn {
+  height: 3rem;
+  position: relative;
+  top: 20px;
+}
+
+.review-item {
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 8px !important;
+
+  label {
+    font-weight: 500 !important;
+  }
+}
+
+.modal-body {
+  height: 400px;
+  overflow: auto;
+}
+
+.flex-container {
+  display: flex;
+}
+
+.flex-container>div {
+  background-color: #f1f1f1;
+  margin: 10px;
+  padding: 10px;
+  font-size: 12px;
+}
+
+.cross-icon {
+  text-align: right;
+  cursor: pointer;
+}
+
+a {
+  cursor: pointer;
+}
+
+// .form-control {
+//   font-size: 14px;
+// }
+
+.form-group {
+  margin-bottom: 10px !important;
+}

@@ -1,0 +1,360 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Agreement Details'" *ngIf="!searchType" [previousLink]="'agreements'"
+        [previousHeading]="'Agreements'"></app-page-header>
+    <app-page-header [heading]="'Search Detail'"></app-page-header>
+
+    <div class="container-fluid mt-2" [@routerTransition]>
+        <div class="card">
+            <div class="card-header py-2 d-flex flex-wrap justify-content-between align-items-center">
+                <span>Agreement Details</span>
+                <div class="buttons">
+                    <div class="trow">
+                        <div class="m5">
+                            <button *ngIf="isEditAccess" (click)="editAgreement()"
+                                class="btn btn-info btn-block">Edit</button>
+                        </div>
+                        <div class="">
+                            <button class="btn btn-secondary btn-block nowrap" (click)="viewHistory()">History</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div>
+                    <div *ngIf="isLoading">
+                        <div class="text-center">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="!isLoading">
+                        <div class="header">
+                            <p class="heading">Client Details</p>
+                            <div class="buttons">
+                                <div class="trow">
+                                    <button class="btn btn-secondary btn-block nowrap" (click)="goBack()">Back</button>
+                                </div>
+                            </div>
+                        </div>
+                        <ng-container>
+
+                            <div class="form-group col-md-6 col-sm-12" *ngIf="agreementData.clientGroupName">
+                                <label class="field_name">Client Group Name:</label>
+                                <div class="field-data"><label>{{agreementData?.clientGroupName}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label class="field_name">Client Name:</label>
+                                <div class="field-data"><label>{{agreementData?.clientName}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12" *ngIf="agreementData.matterId">
+                                <label class="field_name">Matter Name:</label>
+                                <div class="field-data"><label>{{agreementData?.matterName}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label class="field_name">Client SIC Name:</label>
+                                <div class="field-data"><label>{{agreementData?.clientSicName}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12" *ngIf="agreementData.principalAttorneyName">
+                                <label class="field_name">Responsible Partner:</label>
+                                <div class="field-data"><label>{{agreementData?.principalAttorneyName}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.responsibleBillingManagerName">
+                                <label class="field_name">Billing Manager:</label>
+                                <div class="field-data"><label>{{agreementData?.responsibleBillingManagerName}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12" *ngIf="agreementData.areaOfLawName">
+                                <label class="field_name">Area Of Law:</label>
+                                <div class="field-data"><label>{{agreementData?.areaOfLawName}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12" *ngIf="agreementData.practiceGroupName">
+                                <label class="field_name">Practice Group:</label>
+                                <div class="field-data"><label>{{agreementData?.practiceGroupName}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12" *ngIf="agreementData.startDate">
+                                <label class="field_name">Agreement Start Date (MM/DD/YYYY):</label>
+                                <div class="field-data"><label>{{agreementData?.startDate | date
+                                        :'MM/dd/YYYY'}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12" *ngIf="agreementData.expirationDate">
+                                <label class="field_name">Agreement Expiration Date (MM/DD/YYYY):</label>
+                                <div class="field-data"><label>{{agreementData?.expirationDate |
+                                        date
+                                        :'MM/dd/YYYY'}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.feeArrangementDetails_reminderTimingDay">
+                                <label class="field_name">Reminder Timing:</label>
+                                <div class="field-data">
+                                    <label>{{agreementData.feeArrangementDetails_reminderTimingDay}}&nbsp;days</label>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <hr />
+                        <ng-container>
+                            <div class="header">
+                                <p class="heading">Fee Details</p>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12" *ngIf="agreementData.feeArrangementType">
+                                <label class="field_name">Fee Arrangement Type:</label>
+                                <div class="field-data"><label>{{agreementData?.feeArrangementType}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12" *ngIf="agreementData.feeArrangementDetails_baseRateType && (isFeeArrangmentHourlyBilled ||
+                                isFeeArrangmentFeeCollar ||
+                                isFeeArrangmentCappedFee)">
+                                <label class="field_name">Base Rate Type:</label>
+                                <div class="field-data">
+                                    <label>{{agreementData?.feeArrangementDetails_baseRateType}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12" *ngIf="agreementData.feeArrangementDetails_discount && (isFeeArrangmentHourlyBilled ||
+                                isFeeArrangmentFeeCollar ||
+                                isFeeArrangmentCappedFee)">
+                                <label class="field_name">Discount (%):</label>
+                                <div class="field-data"><label>{{agreementData?.feeArrangementDetails_discount}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12" *ngIf="agreementData.feeArrangementDetails_discountDetail && (isFeeArrangmentHourlyBilled ||
+                                isFeeArrangmentFeeCollar ||
+                                isFeeArrangmentCappedFee)">
+                                <label class="field_name">Discount Type:</label>
+                                <div class="field-data">
+                                    <label>{{agreementData?.feeArrangementDetails_discountDetail}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12" *ngIf="agreementData.feeArrangementDetails_discountDetailDescription && (isFeeArrangmentHourlyBilled ||
+                                isFeeArrangmentFeeCollar ||
+                                isFeeArrangmentCappedFee)">
+                                <label class="field_name"> Other Discount:</label>
+                                <div class="field-data">
+                                    <label>{{agreementData?.feeArrangementDetails_discountDetailDescription}}</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.feeArrangementDetails_rateCardDetail && isFeeArrangmentHourlyBilled">
+                                <label class="field_name">Rate Card Detail:</label>
+                                <div class="field-data">
+                                    <label>{{agreementData?.feeArrangementDetails_rateCardDetail}}</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.feeArrangementDetails_cappedRateDetail && isFeeArrangmentHourlyBilled">
+                                <label class="field_name">Capped Rate Detail:</label>
+                                <div class="field-data">
+                                    <label>{{agreementData?.feeArrangementDetails_cappedRateDetail}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.feeArrangementDetails_feeCapAmount && isFeeArrangmentCappedFee">
+                                <label class="field_name">Fee Cap Amount($):</label>
+                                <div class="field-data"><label>{{agreementData?.feeArrangementDetails_feeCapAmount|
+                                        currency : symbol :
+                                        fractionsize}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.feeArrangementDetails_targetFee && isFeeArrangmentFeeCollar">
+                                <label class="field_name">Target Fee:</label>
+                                <div class="field-data"><label>{{agreementData?.feeArrangementDetails_targetFee|
+                                        currency : symbol :
+                                        fractionsize}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.feeArrangementDetails_collarPercentage && isFeeArrangmentFeeCollar">
+                                <label class="field_name">Collar Percentage (in
+                                    %):</label>
+                                <div class="field-data">
+                                    <label>{{agreementData?.feeArrangementDetails_collarPercentage}}</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="isFeeArrangmentHourlyBilled || isFeeArrangmentCappedFee || isFeeArrangmentFeeCollar">
+                                <label class="field_name">Rate Adjustment During Term:</label>
+                                <div class="field-data">
+                                    <label>{{agreementData?.feeArrangementDetails_rateAdjustmentDuringTerm?"Yes":"No"}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.feeArrangementDetails_adjustmentDate && agreementData.feeArrangementDetails_rateAdjustmentDuringTerm">
+                                <label class="field_name">Adjustment Date (MM/DD/YYYY):</label>
+                                <div class="field-data"><label>{{agreementData?.feeArrangementDetails_adjustmentDate |
+                                        date:'MM/dd/YYYY'}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.feeArrangementDetails_adjustmentDetails && agreementData.feeArrangementDetails_rateAdjustmentDuringTerm">
+                                <label class="field_name">Adjustment Details:</label>
+                                <div class="field-data">
+                                    <label>{{agreementData?.feeArrangementDetails_adjustmentDetails}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.feeArrangementDetails_rateAdjustmentDuringTerm">
+                                <label class="field_name">Adjustment Reminder:</label>
+                                <div class="field-data">
+                                    <label>{{agreementData?.feeArrangementDetails_reminder?"Yes":"No"}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.feeArrangementDetails_reminderDate && agreementData.feeArrangementDetails_rateAdjustmentDuringTerm && agreementData.feeArrangementDetails_reminder">
+                                <label class="field_name">Adjustment Reminder Date:</label>
+                                <div class="field-data"><label>{{agreementData?.feeArrangementDetails_reminderDate|
+                                        date :'MM/dd/YYYY'}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.feeArrangementDetails_reminderEmailRecipients && agreementData.feeArrangementDetails_rateAdjustmentDuringTerm && agreementData.feeArrangementDetails_reminder">
+                                <label class="field_name">Adjustment Reminder Email Recipients:</label>
+                                <div class="field-data">
+                                    <label>{{agreementData?.feeArrangementDetails_reminderEmailRecipients}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.feeArrangementDetails_reminderEmailContent && agreementData.feeArrangementDetails_rateAdjustmentDuringTerm && agreementData.feeArrangementDetails_reminder">
+                                <label class="field_name">Adjustment Reminder Email Content:</label>
+                                <div class="field-data">
+                                    <label>{{agreementData?.feeArrangementDetails_reminderEmailContent}}</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.feeArrangementDetails_fullContingencyDetail && isFeeArrangmentFullContingency">
+                                <label class="field_name">Full Contingency
+                                    Detail:</label>
+                                <div class="field-data">
+                                    <label>{{agreementData?.feeArrangementDetails_fullContingencyDetail}}</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.feeArrangementDetails_matterFixedFee && isFeeArrangmentFixedFee">
+                                <label class="field_name">Matter Fixed Fee:</label>
+                                <div class="field-data"><label>{{agreementData?.feeArrangementDetails_matterFixedFee|
+                                        currency : symbol :
+                                        fractionsize}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.feeArrangementDetails_annualFixedFee && isFeeArrangmentFixedFee">
+                                <label class="field_name">Annual Fixed Fee:</label>
+                                <div class="field-data"><label>{{agreementData?.feeArrangementDetails_annualFixedFee|
+                                        currency : symbol :
+                                        fractionsize}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.feeArrangementDetails_monthlyFixedFee && isFeeArrangmentFixedFee">
+                                <label class="field_name">Monthly Fixed Fee:</label>
+                                <div class="field-data"><label>{{agreementData?.feeArrangementDetails_monthlyFixedFee|
+                                        currency : symbol :
+                                        fractionsize}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.feeArrangementDetails_portfolioFixedFee && isFeeArrangmentFixedFee">
+                                <label class="field_name">Portfolio Fixed Fee:</label>
+                                <div class="field-data"><label>{{agreementData?.feeArrangementDetails_portfolioFixedFee|
+                                        currency : symbol :
+                                        fractionsize}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.feeArrangementDetails_milestoneFixedFee && isFeeArrangmentFixedFee">
+                                <label class="field_name">Phase/Milestone Fixed
+                                    Fee:</label>
+                                <div class="field-data"><label>{{agreementData?.feeArrangementDetails_milestoneFixedFee
+                                        | currency : symbol :
+                                        fractionsize}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.feeArrangementDetails_fixedFeeType && isFeeArrangmentFixedFee">
+                                <label class="field_name">Fixed Fee Type:</label>
+                                <div class="field-data">
+                                    <label>{{agreementData?.feeArrangementDetails_fixedFeeType}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.feeArrangementDetails_fixedFeeValue && isFeeArrangmentFixedFee">
+                                <label class="field_name">Fixed Fee Value:</label>
+                                <div class="field-data">
+                                    <label>{{agreementData?.feeArrangementDetails_fixedFeeValue}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.feeArrangementDetails_fixedFeeDetail && isFeeArrangmentFixedFee">
+                                <label class="field_name">Fixed Fee Detail:</label>
+                                <div class="field-data">
+                                    <label>{{agreementData?.feeArrangementDetails_fixedFeeDetail}}</label>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <hr>
+                        <ng-container>
+                            <div class="header">
+                                <p class="heading">Billing Details</p>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12" *ngIf="agreementData.billingFrequency">
+                                <label class="field_name">Billing Frequency:</label>
+                                <div class="field-data"><label>{{agreementData?.billingFrequency}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12" *ngIf="agreementData.billingFrequencyDetails">
+                                <label class="field_name">Billing Frequency
+                                    Other:</label>
+                                <div class="field-data"><label>{{agreementData?.billingFrequencyDetails}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12" *ngIf="agreementData.billingCurrency">
+                                <label class="field_name">Billing Currency:</label>
+                                <div class="field-data"><label>{{agreementData?.billingCurrency}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12"
+                                *ngIf="agreementData.feeArrangementDetails_partialContingencyDetail && isFeeArrangmentPartialContingency">
+                                <label class="field_name">Partial Contingency Detail:</label>
+                                <div class="field-data">
+                                    <label>{{agreementData?.feeArrangementDetails_partialContingencyDetail}}</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12" *ngIf="agreementData.billingMethod">
+                                <label class="field_name">Billing Method:</label>
+                                <div class="field-data"><label>{{agreementData?.billingMethod}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12" *ngIf="agreementData.billingMethodDetails">
+                                <label class="field_name">Billing Method
+                                    Details:</label>
+                                <div class="field-data"><label>{{agreementData?.billingMethodDetails}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12" *ngIf="agreementData.payorType">
+                                <label class="field_name">Payor Type:</label>
+                                <div class="field-data"><label>{{agreementData?.payorType}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12" *ngIf="agreementData.payorDetail">
+                                <label class="field_name">Payor Detail:</label>
+                                <div class="field-data"><label>{{agreementData?.payorDetail}}</label></div>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12">
+                                <label class="field_name">Preferred Provider:</label>
+                                <div class="field-data"><label>{{agreementData?.preferredProvider?"Yes":"No"}}</label>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <hr>
+                        <ng-container>
+                            <div class="header">
+                                <p class="heading">Attachments</p>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-12">
+                                <div class="flex-container">
+                                    <div *ngFor="let item of
+                                        agreementData.attachments;let i=index;">
+                                        <a (click)="accessFileURL(item.name)" class="cursor">
+                                            <img class="text-center" src="assets/images/document-icon.png">
+                                        <p>{{item?.type}}</p>
+                                    </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

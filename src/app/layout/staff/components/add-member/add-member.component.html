@@ -1,0 +1,96 @@
+<div [@routerTransition]>
+    <app-page-header [previousHeading]="'Employees'" [previousLink]="'employees'" [heading]="'Add | Edit Employee'"></app-page-header>
+    <div class="container-fluid mt-2" [@routerTransition]>
+        <div class="card">
+            <div class="card-header">
+                 Employee Details
+            </div>
+            <div class="card-body">
+                <ng-container *ngIf="isLoading">
+                    <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </ng-container>
+                <form *ngIf="!isLoading" [formGroup]="addEditForm" autocomplete="off">
+                    <div class="row mb-2">
+                        <div class="form-group col-md-6">
+                            <label for="name">Name</label>
+                            <input type="text" formControlName="name" class="form-control form-control-lg">
+                            <div *ngIf="addEditForm.controls['name'].errors && (submitted || addEditForm.controls['name'].dirty || addEditForm.controls['name'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['name'].errors?.required || addEditForm.controls['name'].errors?.pattern">
+                                    * Name is required and need to be a valid string.
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="email">Email</label>
+                            <input type="email" autocomplete="off" formControlName="email" class="form-control form-control-lg">
+                            <div
+                                *ngIf="addEditForm.controls['email'].errors && (submitted || addEditForm.controls['email'].dirty || addEditForm.controls['email'].touched) || addEditForm.controls['email'].hasError('email')">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['email'].errors?.required || addEditForm.controls['email'].errors?.email">
+                                    * Email is required and need to valid email.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="form-group col-md-6">
+                            <label for="role">Role</label>
+                            <select class="form-control form-control-lg" formControlName="role">
+                                <option value=""  disabled>Select Role</option>
+                                <option *ngFor="let role of roles" value="{{role.id}}">{{role?.name}}</option>
+                            </select>
+                            <div
+                                *ngIf="addEditForm.controls['role'].errors && (submitted || addEditForm.controls['role'].dirty || addEditForm.controls['role'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['role'].errors?.required">
+                                    * Role is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="role">Profile</label>
+                            <select class="form-control form-control-lg" formControlName="profile">
+                                <option value="" selected disabled>Select Profile</option>
+                                <option value="rateMiner">Rate Miner</option>
+                                <option value="dealMapper">Deal Mapper</option>
+                            </select>
+                            <div
+                                *ngIf="addEditForm.controls['role'].errors && (submitted || addEditForm.controls['role'].dirty || addEditForm.controls['role'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['role'].errors?.required">
+                                    * Role is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control form-control-lg" formControlName="password"
+                                placeholder="Password" autocomplete="off">
+                            <div
+                                *ngIf="addEditForm.controls['password'].errors && (submitted || addEditForm.controls['password'].dirty || addEditForm.controls['password'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['password'].errors?.mainValidation || addEditForm.controls['password'].errors?.required">
+                                    <span *ngIf="addEditForm.controls['password'].errors?.required">• The passowrd is required<br/></span>
+                                    <span *ngIf="addEditForm.controls['password'].errors?.minlength || addEditForm.controls['password'].errors?.maxlength">• The passowrd must contain (8 - 14 characters)<br/></span>
+                                    <span *ngIf="addEditForm.controls['password'].errors?.capitalAlpha">• Uppercase characters (A-Z)<br/></span>
+                                    <span *ngIf="addEditForm.controls['password'].errors?.smallAlpha">• Lowercase characters (a-z)<br/></span>
+                                    <span *ngIf="addEditForm.controls['password'].errors?.numberValidation">• Digits (0-9)<br/></span>
+                                    <span *ngIf="addEditForm.controls['password'].errors?.specialChar">• Special characters (@ $ ! % * # ~ ^ - + =)</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-5 py-2 text-right">
+                        <button type="submit" *ngIf="editForm" (click)="submitUpdateForm()" class="btn btn-info">Update
+                            Employee</button>
+                        <button type="submit" *ngIf="!editForm" (click)="submitForm()" class="btn btn-info">Add
+                            Employee</button>
+                        <button type="button" routerLink="/employees" class="btn btn-secondary">Cancel</button>
+                    </div>
+        
+                </form>
+            </div>
+        </div>
+    </div>  
+</div>
+  

@@ -1,0 +1,41 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Data Management'"></app-page-header>
+    <div class="container-fluid mt-2" [@routerTransition]>
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-2">
+                  <div class="col-md-10 text-left">
+                    
+                  </div>
+                  <!-- <div class="col-md-2 text-center">
+                    <button type="button" routerLink="/hourly-billings/add-hourly-billing" class="btn btn-primary">Add HourlyBilling</button>
+                  </div> -->
+                </div>
+               
+                  <div>
+                    <table  class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th scope="col"> <a class="link" routerLink="/billingcurrencies" role="link" tabindex="0">Billing Currencies</a></th>
+                        </tr>
+                        <tr>
+                          <th scope="col"> <a class="link" routerLink="/hourly-billings" role="link" tabindex="0">Fee Agreement Type</a></th>
+                        </tr>
+                        <tr>
+                          <th scope="col"> <a class="link" routerLink="/billing-frequencies" role="link" tabindex="0">Billing Frequencies</a></th>
+                        </tr>
+                        <tr>
+                          <th scope="col"> <a class="link" routerLink="/base-rates" role="link" tabindex="0">Base Rate Type</a></th>
+                        </tr>
+                      </thead>
+                    
+                    </table>
+                    <div class="d-flex justify-content-between p-2">
+                      
+                    </div>
+                  </div>  
+              </div>
+        </div>
+    </div>  
+</div>
+  

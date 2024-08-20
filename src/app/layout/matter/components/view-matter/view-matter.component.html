@@ -1,0 +1,91 @@
+<h4>View Matter</h4>
+<ng-container *ngIf="isLoading">
+    <div class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</ng-container>
+<ng-container *ngIf="!isLoading">
+    <div class="d-flex justify-content-between p-2">
+        <div class="container" *ngFor="let matterDetail of matters; index as i">
+            <button type="button" class="btn-close" *ngIf="matters.length !== 1" aria-label="Close" (click)="closeMatter(matterDetail.id)"></button>
+            <div class="form-group">
+                <label class="col-md-4">Client Group:</label>
+                <label class="col-md-4">{{matterDetail?.client?.clientGroup}}</label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4">Group name:</label>
+                <label class="col-md-4">{{matterDetail?.client.clientGroupDetails?.name || matterDetail?.client.name
+                    }}</label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4">Client Code:</label>
+                <label class="col-md-4">{{matterDetail?.client?.clientNumber}}</label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4">Client Name:</label>
+                <label class="col-md-4">{{matterDetail?.client?.name}}</label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4">Matter Number:</label>
+                <label class="col-md-4">{{matterDetail?.matterNumber}}</label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4">Matter Name:</label>
+                <label class="col-md-4">{{matterDetail?.name}}</label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4">Status:</label>
+                <label class="col-md-4">{{matterDetail?.status}}</label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4">Open Date:</label>
+                <label class="col-md-4">{{matterDetail?.openDate | date: 'mediumDate'}}</label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4">Close Date:</label>
+                <label class="col-md-4">{{matterDetail?.closeDate | date: 'mediumDate'}}</label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4">Last Bill Date:</label>
+                <label class="col-md-4">{{matterDetail?.lastInvoiceDate | date: 'mediumDate'}}</label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4">Billing Attorney:</label>
+                <label class="col-md-4">{{matterDetail?.billTkprName}}</label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4">Responsible Attorney:</label>
+                <label class="col-md-4">{{matterDetail?.rspTkprName}}</label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4">Billing Frequency:</label>
+                <label class="col-md-4">{{matterDetail?.billingFrequency}}</label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4">Client Rate Set:</label>
+                <label class="col-md-4"><a [routerLink]="['/clients/roster', matterDetail.matterNumber]"
+                        target="_blank">See
+                        Rates</a></label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4">Matter Rate Set:</label>
+                <label class="col-md-4"><a [routerLink]="['roster', matterDetail.rspTkprName]" target="_blank">See
+                        Rates</a></label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4">Client Level Rates:</label>
+                <label class="col-md-4"><a>See Rates</a></label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4">Matter Level Rates:</label>
+                <label class="col-md-4"><a>See Rates</a></label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-4">Area of Law:</label>
+                <label class="col-md-4"></label>
+            </div>
+        </div>
+    </div>
+</ng-container>

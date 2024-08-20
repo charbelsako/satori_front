@@ -1,0 +1,245 @@
+<div class="green-bg pb-3">
+    <div class="container-fluid mt-2" [@routerTransition]>
+        <div class="row dashboard-cols" *ngIf="!isLoading">
+            <!-- Number of Groups -->
+            <div class="col-6 dashboard-stripe mb-2" role="button" (click)="clientLink()">
+                <div class="i-container">
+                    <div class="icon-i">
+                        <img class="icon-image " src="assets/images/up.svg">
+                    </div>
+                    <div class="text">
+                        <p> Number of Groups</p>
+                        <div>{{clientGroupCount}}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 dashboard-stripe mb-2" role="button" (click)="clientLink()">
+                <div class="i-container">
+                    <div class="icon-i">
+                        <img class="icon-image " src="assets/images/up.svg">
+                    </div>
+                    <div class="text">
+                        <p> Number of Clients</p>
+                        <div>{{clientCount | number}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 dashboard-stripe mb-2" role="button" (click)="matterLink()">
+                <div class="i-container">
+                    <div class="icon-i">
+                        <img class="icon-image " src="assets/images/up.svg">
+                    </div>
+
+                    <div class="text">
+                        <p>Number of Matters</p>
+                        <div>{{matterCount | number}}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 dashboard-stripe mb-2" role="button" (click)="aggregationLink('expire-weekly')">
+                <div class="i-container negative">
+                    <div class="icon-i">
+                        <img class="icon-image " src="assets/images/down.svg">
+                    </div>
+                    <div class="text">
+                        <p>Clients expiring this week</p>
+                        <div>{{expireWeeklyCount | number}}</div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="col-6 dashboard-stripe mb-2" role="button" (click)="aggregationLink('expire-monthly')">
+                <div class="i-container negative">
+                    <div class="icon-i">
+                        <img class="icon-image " src="assets/images/down.svg">
+                    </div>
+                    <div class="text">
+                        <p>Clients expiring this month</p>
+                        <div>{{expireMonthlyCount | number}}</div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+            <!-- <div class="col-xl-3 col-lg-6">
+                <app-stat [bgClass]="'primary'" [count]="26" [icon]="'fa-comments'"
+                    [label]="'New Comments!'"></app-stat>
+            </div>
+            <div class="col-xl-3 col-lg-6">
+                <app-stat [bgClass]="'warning'" [count]="12" [icon]="'fa-tasks'"
+                    [label]="'New task!'"></app-stat>
+            </div>
+            <div class="col-xl-3 col-lg-6">
+                <app-stat
+                    [bgClass]="'success'"
+                    [count]="124"
+                    [icon]="'fa-shopping-cart'"
+                    [label]="'New Orders!'"></app-stat>
+            </div>
+            <div class="col-xl-3 col-lg-6">
+                <app-stat [bgClass]="'danger'" [count]="13" [icon]="'fa-support'"
+                    [label]="'New Tickets!'"></app-stat>
+            </div> -->
+        </div>
+        <ng-container *ngIf="isLoading">
+            <div class="text-center div-loader-height">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-sm-6">
+                <div class="card mb-2">
+                    <div class="card-header">
+                        Expire/Adjustment Agreement
+                    </div>
+                    <div class="card-body">
+                        <ng-container *ngIf="isChartLoading">
+                            <div class="text-center ">
+                                <div class="spinner-border" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <canvas id="expire-chart">{{ chart }}</canvas>
+                        <!-- <canvas (chartClick)="chartClicked($event)" (chartHover)="chartHovered($event)"
+                            [type]="radarChartType" [datasets]="radarChartData" [labels]="radarChartLabels" baseChart
+                            height="150px">
+                        </canvas> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col col-sm-6">
+                <div class="card mb-2">
+                    <div class="card-header">
+                        Client/Matter/Agreement
+                    </div>
+                    <div class="card-body">
+                        <ng-container *ngIf="isLoading">
+                            <div class="text-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <canvas id="cl-ma-ag--chart">{{ pieChart }}</canvas>
+                        <!-- <canvas (chartClick)="chartClicked($event)" (chartHover)="chartHovered($event)"
+                            [type]="pieChartType" [data]="pieChartData" baseChart height="150px">
+                        </canvas> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-sm-6">
+                <div class="card mb-2">
+                    <div class="card-header">
+                        Agreement Pricing Model
+                    </div>
+                    <div class="card-body">
+                        <ng-container *ngIf="isAggregationBillingLoading">
+                            <div class="text-center ">
+                                <div class="spinner-border" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <div class="text-center"
+                            *ngIf="!isAggregationBillingLoading && aggregationBilling.length === 0">
+                            <span>No Agreement Found</span>
+                        </div>
+
+                        <canvas id="chartAggregationBilling">{{ chartAggregationBilling}}</canvas>
+                        <!-- <canvas (chartClick)="chartClicked($event)" (chartHover)="chartHovered($event)"
+                            [type]="radarChartType" [datasets]="radarChartData" [labels]="radarChartLabels" baseChart
+                            height="150px">
+                        </canvas> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 col-sm-6">
+                <div class="card mb-2">
+                    <div class="card-header">
+                        Payor Type
+                    </div>
+                    <div class="card-body">
+                        <ng-container *ngIf="isAggregationBillingLoading">
+                            <div class="text-center ">
+                                <div class="spinner-border" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <div class="text-center"
+                            *ngIf="!isAggregationBillingLoading && payorTypeAggrements.length === 0">
+                            <span>No Payor Type Found</span>
+                        </div>
+
+                        <canvas id="chartpayorTypeAggrements">{{ chartpayorTypeAggrementschart }}</canvas>
+                        <!-- <canvas (chartClick)="chartClicked($event)" (chartHover)="chartHovered($event)"
+                            [type]="radarChartType" [datasets]="radarChartData" [labels]="radarChartLabels" baseChart
+                            height="150px">
+                        </canvas> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col col-sm-6">
+                <div class="card mb-2">
+                    <div class="card-header">
+                        Number of Records Created and Modified by Team Member
+                    </div>
+                    <div class="card-body">
+                        <select class="form-select form-control
+                        form-control-lg" id="floatingSelect" (change)="teamMemberFilterChange()"
+                            [(ngModel)]="teamMemberFilter">
+                            <option selected disabled value="">Select Filter Timing</option>
+                            <option value="15">15 Days</option>
+                            <option value="1M">Monthly</option>
+                            <option value="3M">3 Months</option>
+                            <option value="6M">6 Months</option>
+                            <option value="9M">9 Months</option>
+                            <option value="12M">12 Months</option>
+                        </select>
+                        <ng-container *ngIf="teamMemberFilterLoading">
+                            <div class="text-center ">
+                                <div class="spinner-border" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <div class="text-center"
+                            *ngIf="!isAggregationBillingLoading && aggregationBilling.length === 0">
+                            <span>No Agreement Found</span>
+                        </div>
+                        <canvas id="chartTeamMemberFilter">{{ chartAggregationTeamActivity}}</canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-sm-6">
+               
+            </div>
+        </div>
+    </div>
+</div>

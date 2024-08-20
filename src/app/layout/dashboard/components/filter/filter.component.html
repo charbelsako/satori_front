@@ -1,0 +1,361 @@
+<!--Right Slide-->
+<ng-template #responsibleAttorney let-r="result" let-t="term">
+    <ngb-highlight [result]="formatEmployee(r)" [term]="t"></ngb-highlight>
+</ng-template>
+<div class="parent-slide" [ngClass]="openClass">
+    <form [formGroup]="filterForm" class="form-inline" autocomplete="off">
+        <div id="slider" class="slide-out">
+            <div class="position-relative">
+                <div class="menu-close">
+                    <div class="flex position-relative">
+                        <div class="filter-buttons">
+                            <button (click)="resetEvent()" class="btn btn-outline-secondary">Reset</button>
+                            <button (click)="closeMenu()" class="btn btn-outline-secondary">Close Filter</button>
+                        </div>
+                    </div>
+                    <!--Frequency-->
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Responsible Attorney</div>
+                        <div class="slide_body">
+                            <input type="text" [ngbTypeahead]="searchEmployee" (selectItem)="selectedItem($event)"
+                                (focus)="focus3$.next($event.target.value)" (click)="click3$.next($event.target.value)"
+                                #instance3="ngbTypeahead" [resultTemplate]="responsibleAttorney"
+                                [inputFormatter]="formatterEmployee" class="form-control form-control-lg"
+                                formControlName="responsibleAttorney" />
+                            <button type="button" (click)="resetResponsibleAttorney()"
+                                class="btn btn-outline-secondary"><img src="assets/images/close-icon.svg"
+                                    alt=""></button>
+                        </div>
+                    </div>
+                    <!--billingCurrency-->
+                    <!-- <div class="slide_main_menu">
+                        <div class="slide_header">Practice Group</div>
+                        <div class="slide_body">
+                            <ul>
+                                <li><input type="checkbox" value="all" [checked]="calllbackFn('billingCurrency')"
+                                        (change)="toggleAllSelection($event.target.checked, 'billingCurrency')" />
+                                    All</li>
+                                <li *ngFor="let data of collectionOptions.billingCurrency; let i=index">
+                                    <label>
+                                        <input type="checkbox" [value]="data._id"
+                                            [checked]="filterForm.controls['billingCurrency'].value.includes(data._id)"
+                                            (change)="onCheckboxChange($event, 'billingCurrency')" />
+                                        {{data._id}} ( {{data.count}})
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div> -->
+                    <!--Practice Group-->
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Practice Group</div>
+                        <div class="slide_body">
+                            <ul>
+                                <li><input type="checkbox" value="all" [checked]="calllbackFn('practiceGroup')"
+                                        (change)="toggleAllSelectionName($event.target.checked, 'practiceGroup', true, 'practiceGroupId')" />
+                                    All</li>
+                                <li
+                                    *ngFor="let data of collectionOptions?.practiceGroup?.slice(0, countRecords); let i=index">
+                                    <label>
+                                        <input type="checkbox" [value]="data._id.practiceGroupId"
+                                            [checked]="filterForm.controls['practiceGroup'].value.includes(data._id.practiceGroupId)"
+                                            (change)="onCheckboxChange($event, 'practiceGroup')" />
+                                        {{data._id.practiceGroupName}}
+                                    </label>
+                                </li>
+                            </ul>
+                            <ul *ngIf="expandedPracticeGroup">
+                                <li
+                                    *ngFor="let data of collectionOptions?.practiceGroup?.slice(countRecords, countRecords.length); let i=index">
+                                    <label>
+                                        <input type="checkbox" [value]="data._id.practiceGroupId"
+                                            [checked]="filterForm.controls['practiceGroup'].value.includes(data._id.practiceGroupId)"
+                                            (change)="onCheckboxChange($event, 'practiceGroup')" />
+                                        {{data._id.practiceGroupName}}
+                                    </label>
+                                </li>
+                            </ul>
+                            <div class="expand-main">
+                                <a type="link" class="expand" (click)="expandPracticeGroupClick(true)"
+                                    *ngIf="!expandedPracticeGroup && collectionOptions?.practiceGroup?.length > countRecords">Show
+                                    More
+                                    >></a>
+                                <a type="link" class="expand" (click)="expandPracticeGroupClick(false)"
+                                    *ngIf="expandedPracticeGroup">Show Less << </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Practice Group-->
+                    <!-- <div class="slide_main_menu">
+                        <div class="slide_header">Practice Group</div>
+                        <div class="slide_body">
+                            <ul>
+                                <li><input type="checkbox" value="all" [checked]="calllbackFn('matterId')"
+                                        (change)="toggleAllSelectionMatter($event.target.checked, 'matterId')" />
+                                    All</li>
+                                <li *ngFor="let data of collectionOptions.matterId; let i=index">
+                                    <label>
+                                        <input type="checkbox" [value]="data._id.matterName"
+                                            [checked]="filterForm.controls['matterId'].value.includes(data._id.matterName)"
+                                            (change)="onCheckboxChange($event, 'matterId')" />
+                                        {{data._id.matterName}}
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div> -->
+                    <!--Area of Law-->
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Area of Law</div>
+                        <div class="slide_body">
+                            <ul>
+                                <li><input type="checkbox" value="all" [checked]="calllbackFn('areaOfLaw')"
+                                        (change)="toggleAllSelectionName($event.target.checked, 'areaOfLaw', true, 'areaOfLawId')" />
+                                    All</li>
+                                <li
+                                    *ngFor="let data of collectionOptions?.areaOfLaw?.slice(0,countRecords); let i=index">
+                                    <label>
+                                        <input type="checkbox" [value]="data._id.areaOfLawId"
+                                            [checked]="filterForm.controls['areaOfLaw'].value.includes(data._id.areaOfLawId)"
+                                            (change)="onCheckboxChange($event, 'areaOfLaw')" />
+                                        {{data._id.areaOfLawName}}
+                                    </label>
+                                </li>
+                            </ul>
+                            <ul *ngIf="expandedAreaOfLow">
+                                <li
+                                    *ngFor="let data of collectionOptions?.areaOfLaw?.slice(countRecords, countRecords.length); let i=index">
+                                    <label>
+                                        <input type="checkbox" [value]="data._id.areaOfLawId"
+                                            [checked]="filterForm.controls['areaOfLaw'].value.includes(data._id.areaOfLawId)"
+                                            (change)="onCheckboxChange($event, 'areaOfLaw')" />
+                                        {{data._id.areaOfLawName}}
+                                    </label>
+                                </li>
+                            </ul>
+                            <div class="expand-main">
+                                <a type="link" class="expand" (click)="expandAreaOfLowClick(true)"
+                                    *ngIf="!expandedAreaOfLow && collectionOptions?.areaOfLaw?.length > countRecords">Show
+                                    More
+                                    >></a>
+                                <a type="link" class="expand" (click)="expandAreaOfLowClick(false)"
+                                    *ngIf="expandedAreaOfLow">Show Less << </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Expiration Date-->
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Expiration Date</div>
+                        <div class="slide_body">
+                            <div class="slide_body">
+                                <div>
+                                    <label>From</label>
+                                    <input type="date" class="form-control" formControlName="expirationStartDate"
+                                        id="floatingInput" (change)="toggleAllSelectionResponsibleAttorney();"
+                                        min="{{ collectionOptions.expirationDate?.[0]?.minExpirationDate  | date: 'yyyy-MM-dd'}}"
+                                        max="{{filterForm.value.expirationEndDate | date: 'yyyy-MM-dd'}}" />
+                                </div>
+                                <div>
+                                    <label>To</label>
+                                    <input type="date" class="form-control" formControlName="expirationEndDate"
+                                        id="floatingInput" (change)="toggleAllSelectionResponsibleAttorney();"
+                                        min="{{filterForm.value.expirationStartDate | date: 'yyyy-MM-dd'}}"
+                                        max="{{ collectionOptions.expirationDate?.[0]?.maxExpirationDate  | date: 'yyyy-MM-dd'}}" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Base Rate-->
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Base Rate</div>
+                        <div class="slide_body">
+                            <ul>
+                                <li><input type="checkbox" value="all" [checked]="calllbackFn('baseRate')"
+                                        (change)="toggleAllSelection($event.target.checked, 'baseRate')" />
+                                    All</li>
+                                <li *ngFor="let data of collectionOptions.baseRate; let i=index">
+                                    <label>
+                                        <input type="checkbox" [value]="data._id || -1"
+                                            [checked]="filterForm.controls['baseRate'].value.includes(data._id || -1)"
+                                            (change)="onCheckboxChange($event, 'baseRate')" />
+                                        {{data._id || "Other"}}
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--feeArrangementType-->
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Fee Arrangement Type</div>
+                        <div class="slide_body">
+                            <ul>
+                                <li><input type="checkbox" value="all" [checked]="calllbackFn('feeArrangementType')"
+                                        (change)="toggleAllSelection($event.target.checked, 'feeArrangementType')" />
+                                    All</li>
+                                <li *ngFor="let data of collectionOptions.feeArrangementType; let i=index">
+                                    <label>
+                                        <input type="checkbox" [value]="data._id"
+                                            [checked]="filterForm.controls['feeArrangementType'].value.includes(data._id)"
+                                            (change)="onCheckboxChange($event, 'feeArrangementType')" />
+                                        {{data._id}}
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--Payor Type-->
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Payor Type</div>
+                        <div class="slide_body">
+                            <ul>
+                                <li><input type="checkbox" value="all" [checked]="calllbackFn('payorType')"
+                                        (change)="toggleAllSelection($event.target.checked, 'payorType')" />
+                                    All</li>
+                                <li *ngFor="let data of collectionOptions.payorType; let i=index">
+                                    <label>
+                                        <input type="checkbox" [value]="data._id"
+                                            [checked]="filterForm.controls['payorType'].value.includes(data._id)"
+                                            (change)="onCheckboxChange($event, 'payorType')" />
+                                        {{data._id}}
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--billingMethode-->
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Billing Method</div>
+                        <div class="slide_body">
+                            <ul>
+                                <li><input type="checkbox" value="all" [checked]="calllbackFn('billingMethod')"
+                                        (change)="toggleAllSelection($event.target.checked, 'billingMethod')" />
+                                    All</li>
+                                <li *ngFor="let data of collectionOptions.billingMethod; let i=index">
+                                    <label>
+                                        <input type="checkbox" [value]="data._id"
+                                            [checked]="filterForm.controls['billingMethod'].value.includes(data._id)"
+                                            (change)="onCheckboxChange($event, 'billingMethod')" />
+                                        {{data._id}}
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--Sic code-->
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Industry SIC Code</div>
+                        <div class="slide_body">
+                            <ul>
+                                <li><input type="checkbox" value="all" [checked]="calllbackFn('sicCode')"
+                                        (change)="toggleAllSelectionName($event.target.checked, 'sicCode', true, 'clientSicId')" />
+                                    All</li>
+                                <li
+                                    *ngFor="let data of collectionOptions?.sicCode?.slice(0, countRecords); let i=index">
+                                    <label>
+                                        <input type="checkbox" [value]="data._id.clientSicId"
+                                            [checked]="filterForm.controls['sicCode'].value.includes(data._id.clientSicId)"
+                                            (change)="onCheckboxChange($event, 'sicCode')" />
+                                        {{data._id.clientSicName}}
+                                    </label>
+                                </li>
+                            </ul>
+                            <ul *ngIf="expanded">
+                                <li
+                                    *ngFor="let data of collectionOptions?.sicCode?.slice(countRecords, countRecords.length); let i=index">
+                                    <label>
+                                        <input type="checkbox" [value]="data._id.clientSicId"
+                                            [checked]="filterForm.controls['sicCode'].value.includes(data._id.clientSicId)"
+                                            (change)="onCheckboxChange($event, 'sicCode')" />
+                                        {{data._id.clientSicName}}
+                                    </label>
+                                </li>
+                            </ul>
+                            <div class="expand-main">
+                                <a type="link" class="expand" (click)="expandClick(true)"
+                                    *ngIf="!expanded && collectionOptions?.sicCode?.length > countRecords">Show More
+                                    >></a>
+                                <a type="link" class="expand" (click)="expandClick(false)" *ngIf="expanded">Show Less <<
+                                        </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Adjustment Date-->
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Adjustment Date</div>
+                        <div class="slide_body">
+                            <div>
+                                <label>From</label>
+                                <input type="date" class="form-control" formControlName="adjustmentStartDate"
+                                    id="floatingInput" (change)="toggleAllSelectionResponsibleAttorney();"
+                                    min="{{ collectionOptions.adjustmentDate?.[0]?.minAdjustmentDate | date: 'yyyy-MM-dd'}}"
+                                    max="{{filterForm.value.adjustmentEndDate | date: 'yyyy-MM-dd' }}" />
+                            </div>
+                            <div>
+                                <label>To</label>
+                                <input type="date" class="form-control" formControlName="adjustmentEndDate"
+                                    id="floatingInput" (change)="toggleAllSelectionResponsibleAttorney();"
+                                    min="{{filterForm.value.adjustmentStartDate | date: 'yyyy-MM-dd'}}"
+                                    max="{{ collectionOptions.adjustmentDate?.[0]?.maxAdjustmentDate | date: 'yyyy-MM-dd'}}" />
+                            </div>
+                        </div>
+                    </div>
+                    <!--Duration-->
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Agreement Duration (In Days)</div>
+                        <div class="slide_body">
+                            <div>
+                                <label>From</label>
+                                <input type="number" class="form-control" formControlName="durationFrom"
+                                    id="floatingInput" (change)="toggleDurationMin($event);"
+                                    max="{{ filterForm.value.durationTo || 1000 }}" />
+                            </div>
+                            <div>
+                                <label>To</label>
+                                <input type="number" class="form-control" formControlName="durationTo"
+                                    id="floatingInput" (change)="toggleDurationMax($event);"
+                                    min="{{  filterForm.value.durationFrom || 0 }}" />
+                            </div>
+                            <!-- <div class="align-right">
+                                <button (click)="clearDuration()" class="btn btn-primary">clear</button>
+                            </div> -->
+                        </div>
+                    </div>
+                    <!--Billing Frequency-->
+                    <div class="slide_main_menu">
+                        <div class="slide_header">BILLING FREQUENCY</div>
+                        <div class="slide_body">
+                            <ul>
+                                <li><input type="checkbox" value="all" [checked]="calllbackFn('billingFrequency')"
+                                        (change)="toggleAllSelection($event.target.checked, 'billingFrequency')" />
+                                    All</li>
+                                <li *ngFor="let data of collectionOptions.billingFrequency; let i=index">
+                                    <label>
+                                        <input type="checkbox" [value]="data._id"
+                                            [checked]="filterForm.controls['billingFrequency'].value.includes(data._id)"
+                                            (change)="onCheckboxChange($event, 'billingFrequency')" />
+                                        {{data._id}}
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="position-absolute loader-overlay" *ngIf="loader">
+                    <div class="loader">
+                        <div class="position-relative">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+<div class="action-button1" *ngIf="!open && !this.loader && collectionOptions?.sicCode?.length!==0">
+    <div class="menu-open">
+        <button (click)="openMenu()" class="btn btn-primary">Filter</button>
+    </div>
+</div>

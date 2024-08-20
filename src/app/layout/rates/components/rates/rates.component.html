@@ -1,0 +1,106 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Rates'"></app-page-header>
+    <div class="container-fluid mt-2" [@routerTransition]>
+        <div class="card">
+            <div class="card-body">
+                <form>
+                    <div class="row mb-2 search-header">
+                        <div class="col-md-10 text-left mb-1 mb-sm-0">
+                            <div class="form-group mb-1">
+                                <input type="text" type="text" name="searchTerm" [(ngModel)]="_state.searchTerm"
+                                    (ngModelChange)="this.searchTermUpdate.next($event)" id="timeKeeperstaffs" class="form-control"
+                                    placeholder="Search here...">
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-2 text-center">
+                            <button type="button" routerLink="/timeKeepers/add-time-keeper" class="btn btn-primary">Add TimeKeeper</button>
+                        </div> -->
+                        <div class="col-md-2 text-center" *ngIf="!isLoading && _state.totalResults > 0">
+                            <button type="button" (click)="downloadFileExcel()" class="btn btn-primary btn-block">Download</button>
+                        </div>
+                    </div>
+                    <ng-container *ngIf="isLoading">
+                        <div class="text-center">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <div *ngIf="!isRates;else table">
+                        <p class="text-center">No rates found</p>
+                    </div>
+                    <ng-template #table>
+                        <div *ngIf="!isLoading">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <!-- <th>#</th> -->
+                                            <!-- <th>rownum</th> -->
+                                            <!-- <th>rateID</th> -->
+                                            <th scope="col" [oldColumn] = "_state.sortColumn" sortable="code" (sort)="onSort($event)">Code<span></span></th>
+                                            <th scope="col" [oldColumn] = "_state.sortColumn" sortable="description" (sort)="onSort($event)">Description<span></span></th>
+                                            <th scope="col" [oldColumn] = "_state.sortColumn" sortable="formula" (sort)="onSort($event)">Formula<span></span></th>
+                                            <th scope="col" [oldColumn] = "_state.sortColumn" sortable="rateTypeOne" (sort)="onSort($event)">Rate Type One<span></span></th>
+                                            <th scope="col" [oldColumn] = "_state.sortColumn" sortable="isApplyCurrencyRounding" (sort)="onSort($event)">Currency Rounding<span></span></th>
+                                            <th scope="col" [oldColumn] = "_state.sortColumn" sortable="createdAt" (sort)="onSort($event)">Created At<span></span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let data of rates; index as i">
+                                            <!-- <th>{{((_state.page-1) * _state.limit) + i+1}}</th> -->
+                                            <!-- <td>{{ data.rownum }}</td> -->
+                                            <!-- <td>{{ data.rateID }}</td> -->
+                                            <td>{{ data.code }}</td>
+                                            <td>{{ data.description }}</td>
+                                            <td>{{ data.formula }}</td>
+                                            <td>{{ data.rateTypeOne }}</td>
+                                            <td>{{ data.isApplyCurrencyRounding }}</td>
+                                            <td>{{ data.createdAt | date: 'medium'}}</td>
+                                            <!-- <td>
+                                                <label class="switch" *ngIf="timeKeeper.isActive">
+                                                    <input type="checkbox" (click)="updateStatus(timeKeeper.id, timeKeeper.isActive)" checked>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                                <label class="switch" *ngIf="!timeKeeper.isActive">
+                                                    <input type="checkbox" (click)="updateStatus(timeKeeper.id, timeKeeper.isActive)">
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <div class="action-buttons"><button
+                                                    (click)="editUser(timeKeeper.id)"><img
+                                                        src="assets/images/pencil.svg"
+                                                        alt=""></button></div>
+                                            </td>
+                                            <td>
+                                                <div class="action-buttons">
+                                                    <button (click)="deleteUser(timeKeeper.id)"><img
+                                                            src="assets/images/icons8-trash-can.svg"
+                                                            alt=""></button></div>
+                                            </td> -->
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="d-flex justify-content-between p-2">
+                                    <ngb-pagination [collectionSize]="_state.totalResults" [(page)]="_state.page" [pageSize]="_state.limit" [rotate]="true" [maxSize]="5" [boundaryLinks]="true"
+                                        (pageChange)="refreshTimeKeepers()">
+                                    </ngb-pagination>
+                            
+                                    <select class="custom-select" style="width: auto" [(ngModel)]="_state.limit" (ngModelChange)="refreshRates()" [ngModelOptions]="{standalone: true}">
+                                        <option [ngValue]="10">10 items per page</option>
+                                        <option [ngValue]="20">20 items per page</option>
+                                        <option [ngValue]="30">30 items per page</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </form>
+            </div>
+        </div>
+                
+      
+    </div>  
+</div>
+  

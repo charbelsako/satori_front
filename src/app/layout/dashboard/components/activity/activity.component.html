@@ -1,0 +1,66 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Activity Logs'"></app-page-header>
+    <div class="container-fluid mt-2" [@routerTransition]>
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-2 search-header">
+                  <div class="col-md-12 text-left">
+                    <div class="form-group mb-1">
+                      <input type="text" type="text" name="searchTerm" [(ngModel)]="_state.searchTerm"
+                        (ngModelChange)="this.searchTermUpdate.next($event)" id="logs" class="form-control"
+                        placeholder="Search here...">
+                    </div>
+                  </div>
+                </div>
+                <ng-container *ngIf="isLoading">
+                  <div class="text-center">
+                    <div class="spinner-border" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                </ng-container>
+                <div *ngIf="!isActivity;else table">
+                  <p class="text-center">No logs found</p>
+                </div>
+                <ng-template #table>
+                  <div *ngIf="!isLoading">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Time</th>
+                          <th scope="col"><span>Activity</span></th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let request of promotions; let i = index">
+                          <td>{{request?.createdAt |  date:'short'}}</td>
+                          <td>{{request?.text}}</td>
+                          <td>
+                            <button (click)="view(request)" class="btn btn-info view-activity btn-block">View</button>
+                            <!-- <span *ngIf="request.type === 'link'">
+                              
+                            </span> -->
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="d-flex justify-content-between p-2">
+                      <ngb-pagination [collectionSize]="_state.totalResults" [(page)]="_state.page" [pageSize]="_state.limit" [rotate]="true" [maxSize]="5" [boundaryLinks]="true"
+                        (pageChange)="refreshPromotions()">
+                      </ngb-pagination>
+          
+                      <select class="custom-select" style="width: auto" [(ngModel)]="_state.limit"
+                        (ngModelChange)="refreshPromotions()">
+                        <option [ngValue]="5">5 items per page</option>
+                        <option [ngValue]="10">10 items per page</option>
+                        <option [ngValue]="20">20 items per page</option>
+                      </select>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+        </div>
+    </div>  
+</div>
+  

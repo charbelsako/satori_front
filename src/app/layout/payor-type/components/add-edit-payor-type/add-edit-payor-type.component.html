@@ -1,0 +1,85 @@
+<div [@routerTransition] *ngIf="editForm">
+    <app-page-header [heading]="'Add | Edit Payor Type'"></app-page-header>
+    <div class="container-fluid mt-2" [@routerTransition]>
+        <div class="card">
+            <div class="card-header">
+                 Payor Type
+            </div>
+            <div class="card-body">
+                <ng-container *ngIf="isLoading">
+                    <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </ng-container>
+                <form *ngIf="!isLoading" [formGroup]="addEditForm" novalidate>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group mb-2">
+                                <label class="bmd-label-floating">Payor Type *</label>
+                                <input formControlName="name" type="text" class="form-control">
+                                <div
+                                    *ngIf="addEditForm.controls['name'].errors && (addEditForm.controls['name'].dirty || addEditForm.controls['name'].touched)">
+                                    <span class=" text-danger error" *ngIf="addEditForm.controls['name'].errors?.required">
+                                        * Payor Type is required.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                      
+                      
+                    </div>
+                    <div class="form-group mb-2 py-2">
+                        <button type="button" *ngIf="editForm" (click)="onUpdate()" class="btn btn-info">Update
+                            Payor Type</button>
+                        <button type="button" *ngIf="!editForm" (click)="onSubmit()" class="btn btn-info">Add
+                            Payor Type</button>
+                        <button type="button" routerLink="/data-mangement/billing-frequencies" class="btn btn-secondary">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>  
+</div>
+<div class="card" *ngIf="!editForm">
+    <div class="card-header">
+         Payor Type
+    </div>
+    <div class="card-body">
+        <ng-container *ngIf="isLoading">
+            <div class="text-center">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </ng-container>
+        <form *ngIf="!isLoading" [formGroup]="addEditForm" novalidate>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group mb-2">
+                        <label class="bmd-label-floating mb-2">Payor Type *</label>
+                        <input formControlName="name" type="text" class="form-control">
+                        <div
+                            *ngIf="addEditForm.controls['name'].errors && (addEditForm.controls['name'].dirty || addEditForm.controls['name'].touched)">
+                            <span class=" text-danger error" *ngIf="addEditForm.controls['name'].errors?.required">
+                                * Payor Type is required.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    
+                </div>
+              
+            </div>
+            <div class="form-group mb-2 py-2">
+               
+                <button type="button"  (click)="onSubmit()" class="btn btn-info">Add
+                    Payor Type</button>
+                <button type="button" (click)="cancelEvent()" class="btn btn-outline-secondary">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+  

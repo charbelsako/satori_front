@@ -1,0 +1,106 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Timecards'"></app-page-header>
+    <div class="container-fluid mt-2" [@routerTransition]>
+        <div class="card">
+            <div class="card-body">
+                <form>
+                    <div class="row mb-2 search-header">
+                        <div class="col-md-10 text-left mb-1 mb-sm-0">
+                            <div class="form-group mb-1">
+                                <input type="text" type="text" name="searchTerm" [(ngModel)]="_state.searchTerm"
+                                    (ngModelChange)="this.searchTermUpdate.next($event)" id="timeKeeperstaffs" class="form-control"
+                                    placeholder="Search here...">
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-2 text-center">
+                            <button type="button" routerLink="/timeKeepers/add-time-keeper" class="btn btn-primary">Add TimeKeeper</button>
+                        </div> -->
+                        <div class="col-md-2 text-center" *ngIf="!isLoading && _state.totalResults > 0">
+                            <button type="button" *ngIf="downloading" class="btn btn-primary btn-block opacity-25">Downloading...</button>
+                            <button type="button" *ngIf="!downloading" (click)="downloadFileExcel()" class="btn btn-primary btn-block ">Download</button>
+                        </div>
+                    </div>
+                    <ng-container *ngIf="isLoading">
+                        <div class="text-center">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <div *ngIf="!isTimeCards;else table">
+                        <p class="text-center">No timecards found</p>
+                    </div>
+                    <ng-template #table>
+                        <div *ngIf="!isLoading">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th  scope="col" [oldColumn] = "_state.sortColumn" sortable="timekeeperNumber" (sort)="onSort($event)" >Timekeeper </th>
+                                            <th  scope="col" [oldColumn] = "_state.sortColumn" sortable="displayName" (sort)="onSort($event)" >Name </th>
+                                            <th  scope="col" [oldColumn] = "_state.sortColumn" sortable="matter" (sort)="onSort($event)" >Matter </th>
+                                            <!-- <th  scope="col" [oldColumn] = "_state.sortColumn" sortable="clientGroup" (sort)="onSort($event)" >Description </th> -->
+                                            <th  scope="col" [oldColumn] = "_state.sortColumn" sortable="workRate" (sort)="onSort($event)" >Worked Rate </th>
+                                            <th  scope="col" [oldColumn] = "_state.sortColumn" sortable="origHrs" (sort)="onSort($event)" >Time </th>
+                                            <th  scope="col" [oldColumn] = "_state.sortColumn" sortable="workAmt" (sort)="onSort($event)" >Amount @ Worked </th>
+                                            <th  scope="col" [oldColumn] = "_state.sortColumn" sortable="stdCurrency" (sort)="onSort($event)" >Currency  </th>
+                                            <th  scope="col" [oldColumn] = "_state.sortColumn" sortable="stdRate" (sort)="onSort($event)" >Standard Rate  </th>
+                                            <th  scope="col" [oldColumn] = "_state.sortColumn" sortable="stdAmt" (sort)="onSort($event)" >Amount @ Standard </th>
+                                            <th  scope="col" [oldColumn] = "_state.sortColumn" sortable="workDate" (sort)="onSort($event)" >Worked Date  </th>
+                                            <th  scope="col" [oldColumn] = "_state.sortColumn" sortable="postDate" (sort)="onSort($event)" >Posted Date  </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="isPaginationLoading">
+                                        <tr>
+                                            <td colspan="16">
+                                                <div class="text-center">
+                                                    <div class="spinner-border" role="status">
+                                                        <span class="sr-only">Loading...</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="!isPaginationLoading">
+                                        <tr *ngFor="let data of timeCards; index as i">
+                                            <td>
+                                                <a [routerLink]="['view',data.id]">
+                                                    {{ timeKeeperData[''+data?.timekeeper]?.timekeeperNumber }}
+                                                </a>
+                                            </td>
+                                            <td>{{timeKeeperData[''+data?.timekeeper]?.name}}</td>
+                                            <td>{{ data.matter }}</td>
+                                            <!-- <td>{{data.matterDetails}}</td> -->
+                                            <td>{{ data.workRate }}</td>    
+                                            <td>{{ data.origHrs }}</td>
+                                            <td>{{ data.workAmt }}</td>
+                                            <td>{{ data.stdCurrency }}</td>
+                                            <td>{{ data.stdRate }}</td>
+                                            <td>{{ data.stdAmt }}</td>
+                                            <td>{{ data.workDate | date:'mediumDate' }}</td>
+                                            <td>{{ data.postDate | date:'mediumDate' }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="d-flex justify-content-between p-2">
+                                    <ngb-pagination [collectionSize]="_state.totalResults" [(page)]="_state.page" [pageSize]="_state.limit" [rotate]="true" [maxSize]="5" [boundaryLinks]="true"
+                                        (pageChange)="refreshTimeCards()">
+                                    </ngb-pagination>
+                            
+                                    <select class="custom-select" style="width: auto" [(ngModel)]="_state.limit" (ngModelChange)="refreshTimeCards()" [ngModelOptions]="{standalone: true}">
+                                        <option [ngValue]="10">10 items per page</option>
+                                        <option [ngValue]="20">20 items per page</option>
+                                        <option [ngValue]="30">30 items per page</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </form>
+            </div>
+        </div>
+                
+      
+    </div>  
+</div>
+  

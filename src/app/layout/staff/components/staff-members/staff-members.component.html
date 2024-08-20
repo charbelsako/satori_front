@@ -1,0 +1,102 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Employees'"></app-page-header>
+    <div class="container-fluid mt-2" [@routerTransition]>
+        <div class="card">
+            <div class="card-body">
+                <form>
+                    <div class="row mb-2 search-header">
+                        <div class="col-md-10 text-left mb-1 mb-sm-0">
+                            <div class="form-group mb-1">
+                                <input type="text" type="text" name="searchTerm" [(ngModel)]="_state.searchTerm"
+                                    (ngModelChange)="this.searchTermUpdate.next($event)" id="userstaffs" class="form-control"
+                                    placeholder="Search here...">
+                            </div>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <button *ngIf="isEditAccess" type="button" routerLink="/employees/add-employee" class="btn btn-primary btn-block">Add Employee</button>
+                        </div>
+                    </div>
+                    <ng-container *ngIf="isLoading">
+                        <div class="text-center">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <div *ngIf="!isUsers;else table">
+                        <p class="text-center">No users found</p>
+                    </div>
+                    <ng-template #table>
+                        <div *ngIf="!isLoading">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <!-- <th scope="col">#</th> -->
+                                            <th scope="col" [oldColumn] = "_state.sortColumn" sortable="name" (sort)="onSort($event)">Name</th>
+                                            <th scope="col" [oldColumn] = "_state.sortColumn" sortable="email" (sort)="onSort($event)">Email</th>
+                                            <th scope="col"  [oldColumn] = "_state.sortColumn" sortable="role" (sort)="onSort($event)">Role</th>
+                                            <th scope="col" *ngIf="isEditAccess">Active</th>
+                                            <th scope="col" *ngIf="isEditAccess">Edit</th>
+                                            <th scope="col" *ngIf="isEditAccess">Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let user of users; index as i">
+                                            <!-- <th scope="row">{{ i + 1 }}</th> -->
+                                            <td>
+                                                <a [routerLink]="['view-employee',user.id]">
+                                                    {{user?.name}}
+                                                </a>
+                                            </td>
+                                            <td>{{user?.email}}</td>
+                                            <td>{{user?.role?.name}}</td>
+                                            <td *ngIf="isEditAccess">
+                                                <label class="switch" *ngIf="user.isActive">
+                                                    <input type="checkbox" (click)="updateStatus(user.id, user.isActive)" checked>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                                <label class="switch" *ngIf="!user.isActive">
+                                                    <input type="checkbox" (click)="updateStatus(user.id, user.isActive)">
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </td>
+                                            <td *ngIf="isEditAccess">
+                                                <div class="action-buttons"><button
+                                                    (click)="editUser(user.id)"><img
+                                                        src="assets/images/pencil.svg"
+                                                        alt=""></button></div>
+                                            </td>
+                                            <td *ngIf="isEditAccess">
+                                                <div class="action-buttons">
+                                                    <button
+                                                        (click)="deleteUser(user.id)"><img
+                                                            src="assets/images/icons8-trash-can.svg"
+                                                            alt=""></button></div>
+                                            </td>
+                                    
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="d-flex justify-content-between p-2">
+                                    <ngb-pagination [collectionSize]="_state.totalResults" [(page)]="_state.page" [pageSize]="_state.limit" [rotate]="true" [maxSize]="5" [boundaryLinks]="true"
+                                        (pageChange)="refreshStaff()">
+                                    </ngb-pagination>
+                            
+                                    <select class="custom-select" style="width: auto" [(ngModel)]="_state.limit" (ngModelChange)="refreshStaff()" [ngModelOptions]="{standalone: true}">
+                                        <option [ngValue]="10">10 items per page</option>
+                                        <option [ngValue]="20">20 items per page</option>
+                                        <option [ngValue]="30">30 items per page</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </form>
+            </div>
+        </div>
+                
+      
+    </div>  
+</div>
+  

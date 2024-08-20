@@ -1,0 +1,72 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Add User'"></app-page-header>
+    <div class="container-fluid mt-2" [@routerTransition]>
+        <div class="card">
+            <div class="card-header">
+                 User Details
+            </div>
+            <div class="card-body">
+                <ng-container *ngIf="isLoading">
+                    <div class="text-center">
+                      <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                    </div>
+                  </ng-container>
+                <form *ngIf="!isLoading" [formGroup]="addEditForm" autocomplete="off">
+                    <div class="row mb-2">
+                        <div class="form-group col-md-6">
+                            <label for="name">Name</label>
+                            <input type="text" formControlName="name" class="form-control form-control-lg" placeholder="Name">
+                            <div
+                                *ngIf="addEditForm.controls['name'].errors && (submitted || addEditForm.controls['name'].dirty || addEditForm.controls['name'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['name'].errors?.required || addEditForm.controls['name'].errors?.pattern">
+                                    * Name is required.
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="email">Email</label>
+                            <input type="email" formControlName="email" class="form-control form-control-lg"
+                                placeholder="Email">
+                            <div
+                                *ngIf="addEditForm.controls['email'].errors && (submitted || addEditForm.controls['email'].dirty || addEditForm.controls['email'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['email'].errors?.required">
+                                    * Email is required.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="form-group col-md-6">
+                            <label for="phone">Contact No.</label>
+                            <input type="tel" formControlName="phone" placeholder="+0 (000) 000-0000" mask='+0 (000) 000-0000'
+                                class="form-control form-control-lg" autocomplete="off">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control form-control-lg" formControlName="password"
+                                placeholder="Password" autocomplete="off">
+                            <div
+                                *ngIf="addEditForm.controls['password'].errors && (submitted || addEditForm.controls['password'].dirty || addEditForm.controls['password'].touched)">
+                                <span class=" text-danger error" *ngIf="addEditForm.controls['password'].errors?.required">
+                                    * Password is required.
+                                </span>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="form-group mb-2 py-2 text-right">
+                        <button type="submit" *ngIf="editForm" (click)="submitUpdateForm()" class="btn btn-info">Update
+                            User</button>
+                        <button type="submit" *ngIf="!editForm" (click)="submitForm()" class="btn btn-info">Add
+                            User</button>
+                        <button type="button" routerLink="/users" class="btn btn-secondary">Cancel</button>
+                    </div>
+    
+                </form>
+            </div>
+        </div>
+    </div>  
+</div>
+  

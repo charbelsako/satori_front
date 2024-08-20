@@ -1,0 +1,114 @@
+<div [@routerTransition]>
+    <app-page-header [previousHeading]="'Agreements'" [previousLink]="'agreements'" [heading]="'Agreements'" ></app-page-header>
+    <div class="container-fluid mt-2" [@routerTransition]>
+        <div class="card">
+            <div class="card-body">
+                <form>
+                    <div class="row mb-2">
+                        <div class="col-md-9 text-left">
+                            <div class="form-group mb-1">
+                                <input type="text" type="text" name="searchTerm" [(ngModel)]="_state.searchTerm"
+                                    (ngModelChange)="this.searchTermUpdate.next($event)" id="agreementstaffs"
+                                    class="form-control" placeholder="Search here...">
+                            </div>
+                        </div>
+                        <div class="col-md-3 text-center" *ngIf="!isLoading && _state.totalResults > 0">
+                            <button type="button" (click)="downloadFileExcel()" class="btn btn-primary">Download</button>
+                        </div>
+                        <!-- <div class="col-md-2 text-center">
+                            <button type="button" routerLink="/agreements/add-agreement" class="btn btn-primary">Add Matter</button>
+                        </div> -->
+                    </div>
+                    <ng-container *ngIf="isLoading">
+                        <div class="text-center">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <div *ngIf="!isAgreements;else table">
+                        <p class="text-center">No agreements found</p>
+                    </div>
+                    <ng-template #table>
+                        <div *ngIf="!isLoading">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <!-- <th scope="col">#</th> -->
+                                            <th scope="col" sortable="clientName" (sort)="onSort($event)">Client Name
+                                            </th>
+                                            <th scope="col" sortable="clientSicName" (sort)="onSort($event)">Client SIC
+                                                Name</th>
+                                            <th scope="col" sortable="matterName" (sort)="onSort($event)">Matter Name
+                                            </th>
+                                            <th scope="col" sortable="feeArrangementType" (sort)="onSort($event)">Fee
+                                                Arrangement Type</th>
+                                            <th scope="col" sortable="principalAttorneyName" (sort)="onSort($event)">
+                                                Responsible Partner</th>
+                                            <th scope="col" sortable="responsibleBillingManagerName"
+                                                (sort)="onSort($event)">Billing Manager</th>
+                                            <th>View</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let agreement of agreements; index as i">
+                                            <!-- <th scope="row">{{ ((_state.page-1) * _state.limit) + i +1 }}</th> -->
+                                            <td>{{agreement?.clientName}}</td>
+                                            <td>{{agreement?.clientSicName}}</td>
+                                            <td>{{agreement?.matterName}}</td>
+                                            <td>{{agreement?.feeArrangementType}}</td>
+                                            <td>{{agreement?.principalAttorneyName}}</td>
+                                            <td>{{agreement?.responsibleBillingManagerName}}</td>
+                                            <td>
+                                                <div class="action-buttons"><button
+                                                        (click)="viewAgrement(agreement.id)"><img
+                                                            src="assets/images/search.svg" alt=""></button></div>
+                                            </td>
+                                            <!-- <td>
+                                                <label class="switch" *ngIf="agreement.isActive">
+                                                    <input type="checkbox" (click)="updateStatus(agreement.id, agreement.isActive)" checked>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                                <label class="switch" *ngIf="!agreement.isActive">
+                                                    <input type="checkbox" (click)="updateStatus(agreement.id, agreement.isActive)">
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <div class="action-buttons"><button
+                                                    (click)="editUser(agreement.id)"><img
+                                                        src="assets/images/pencil.svg"
+                                                        alt=""></button></div>
+                                            </td>
+                                            <td>
+                                                <div class="action-buttons">
+                                                    <button (click)="deleteUser(agreement.id)"><img
+                                                            src="assets/images/icons8-trash-can.svg"
+                                                            alt=""></button></div>
+                                            </td> -->
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="d-flex justify-content-between p-2">
+                                    <ngb-pagination [collectionSize]="_state.totalResults" [(page)]="_state.page"
+                                        [pageSize]="_state.limit" [rotate]="true" [maxSize]="5" [boundaryLinks]="true"
+                                        (pageChange)="refreshAgreements()">
+                                    </ngb-pagination>
+
+                                    <select class="custom-select" style="width: auto" [(ngModel)]="_state.limit"
+                                        (ngModelChange)="refreshAgreements()" [ngModelOptions]="{standalone: true}">
+                                        <option [ngValue]="10">10 items per page</option>
+                                        <option [ngValue]="20">20 items per page</option>
+                                        <option [ngValue]="30">30 items per page</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </form>
+            </div>
+        </div>
+      <app-agreements-filter (found)="handleResults($event)" *ngIf="_state.totalResults > 0"></app-agreements-filter>
+    </div> 
+</div>

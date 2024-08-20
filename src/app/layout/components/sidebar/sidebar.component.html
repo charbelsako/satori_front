@@ -1,0 +1,122 @@
+<nav [ngClass]="{ sidebarPushRight: isActive, collapsed: collapsed }" class="sidebar mt-2">
+ 
+    <div class="list-group">
+        <a href="#" class="list-item-group user-side">
+            <div class="sidebar-user">
+                <div class="image"><img class="img-profile " src="assets/images/gffd.jpg"></div>
+                <span>{{user?.name}}</span>&nbsp;<span *ngIf="userProfile">|&nbsp;
+                {{userProfile}}</span>
+            </div>
+        </a>
+        <!-- <ng-container *ngFor="let item of sideNavitems">
+            <a [routerLinkActive]="['router-link-active']" class="list-group-item" routerLink="{{item.link}}">
+                <img src="assets/images/{{item.icon}}" class="side-icon" alt="icon"/>&nbsp;
+                <span>{{item.name}}</span>
+            </a>
+        </ng-container> -->
+        <ng-container *ngIf="isLoading">
+            <div class="text-center">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </ng-container>
+        <div *ngIf="!isLoading">
+            <ng-container *ngFor="let item of sideNavitems">
+                <ng-container *ngIf="item.key !== 'data-mangement'">
+                    <a *ngIf="checkAccess(item.key)" [routerLinkActive]="['router-link-active']" class="list-group-item"
+                        [ngClass]="{'active': ((router.url === item.link) || (!['/dashboard', '/clients'].includes(item.link) && router.url.includes(item.link)))}"
+                        routerLink="{{item.link}}">
+                        <!-- <i class="fa fa-{{item.icon}}"></i>  -->
+                        <img src="assets/images/{{item.icon}}" class="side-icon" alt="icon" />&nbsp;
+                        <span>{{checkProfileNavName(item)}}</span>
+                    </a>
+                </ng-container>
+                <section class="accordion" *ngIf="item.key === 'data-mangement' && checkAccess(item.key)">
+                    <input type="checkbox" name="collapse" id="handle1"
+                        [checked]="router.url.startsWith('/data-mangement')">
+                    <h2 class="handle" [ngClass]="{'active': router.url.startsWith('/data-mangement')}">
+                        <label for="handle1" [ngClass]="{'active': router.url === '/data-mangement'}"> <img
+                                src="assets/images/data-management.svg" class="side-icon" alt="icon" />&nbsp; Data Management</label>
+                    </h2>
+                    <div class="content">
+                        <div class="collapse-links">
+                            <a routerLink="/data-mangement/billingcurrencies" role="link">Billing Currency</a>
+                            <a routerLink="/data-mangement/area-of-laws" role="link">Area Of Law</a>
+                            <a routerLink="/data-mangement/practice-groups" role="link">Practice Group</a>
+                            <a routerLink="/data-mangement/hourly-billings" role="link">Fee Agreement Type</a>
+                            <a routerLink="/data-mangement/billing-frequencies" role="link">Billing Frequencies</a>
+                            <a routerLink="/data-mangement/base-rates" role="link">Base Rate Type</a>
+                            <a routerLink="/data-mangement/billing-methods" role="link">Billing Methods</a>
+                            <a routerLink="/data-mangement/payor-types" role="link">Payor Types</a>
+                            <a routerLink="/data-mangement/attachment-types" role="link">Attachment Types</a> 
+                            <a routerLink="/data-mangement/sic-codes" role="link">SIC Code</a>       
+                        </div>
+    
+                    </div>
+                </section>
+            </ng-container>
+        </div>
+  
+        <div class="header-fields">
+            <a (click)="rltAndLtr()" class="list-group-item">
+                <span><i class="fa fa-arrows-h"></i>&nbsp; RTL/LTR</span>
+            </a>
+            <div class="nested-menu">
+                <a (click)="addExpandClass('languages')" class="list-group-item">
+                    <span><i class="fa fa-language"></i>&nbsp; {{ 'Language' |
+                        translate }} <b class="caret"></b></span>
+                </a>
+                <li [class.expand]="showMenu === 'languages'" class="nested">
+                    <ul class="submenu">
+                        <li>
+                            <a (click)="changeLang('en')" href="javascript:void(0)">
+                                {{ 'English' | translate }}
+                            </a>
+                        </li>
+                        <li>
+                            <a (click)="changeLang('fr')" href="javascript:void(0)">
+                                {{ 'French' | translate }}
+                            </a>
+                        </li>
+                        <li>
+                            <a (click)="changeLang('ur')" href="javascript:void(0)">
+                                {{ 'Urdu' | translate }}
+                            </a>
+                        </li>
+                        <li>
+                            <a (click)="changeLang('es')" href="javascript:void(0)">
+                                {{ 'Spanish' | translate }}
+                            </a>
+                        </li>
+                        <li>
+                            <a (click)="changeLang('it')" href="javascript:void(0)">
+                                {{ 'Italian' | translate }}
+                            </a>
+                        </li>
+                        <li>
+                            <a (click)="changeLang('fa')" href="javascript:void(0)">
+                                {{ 'Farsi' | translate }}
+                            </a>
+                        </li>
+                        <li>
+                            <a (click)="changeLang('de')" href="javascript:void(0)">
+                                {{ 'German' | translate }}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </div>
+        </div>
+    </div>
+    <div class="px-2 pe-3 mt-5 signout-con">
+        <a class="btn btn-light btn-block radius-10 font-medium py-2" (click)="onLoggedout()"><i class="fa fa-sign-out"
+                aria-hidden="true"></i> <span>Log Out</span></a>
+    </div>
+
+    <div (click)="toggleCollapsed()" [ngClass]="{ collapsed: collapsed }" class="toggle-button" id="toggle-button">
+        <!-- <i class="fa fa-fw fa-angle-double-{{ collapsed ? 'right' : 'left' }}"></i>&nbsp;
+        <span>{{ 'Collapse Sidebar' | translate }}</span> -->
+        <span class="hamburger"></span>
+    </div>
+</nav>

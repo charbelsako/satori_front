@@ -1,0 +1,98 @@
+<!--Right Slide-->
+<ng-template #responsibleAttorney let-r="result" let-t="term">
+    <ngb-highlight [result]="formatEmployee(r)" [term]="t"></ngb-highlight>
+</ng-template>
+<div class="parent-slide" [ngClass]="openClass">
+    <form [formGroup]="filterForm" class="form-inline" autocomplete="off">
+        <div id="slider" class="slide-out">
+            <div class="position-relative">
+                <div class="menu-close">
+                    <div class="flex position-relative">
+                        <div class="filter-buttons">
+                            <button (click)="resetEvent()" class="btn btn-outline-secondary">Reset</button>
+                            <button (click)="closeMenu()" class="btn btn-outline-secondary">Close Filter</button>
+                        </div>
+                    </div>
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Billing Attorney</div>
+                        <div class="slide_body">
+                            <input type="text" class="form-control" formControlName="billTkprName" (change)="emitValues()"
+                            [ngbTypeahead]="searchEmployeeBillAtt" (selectItem)="selectedBillAtt($event)"
+                            (focus)="focusBillAtt$.next($event.target.value)"
+                            (click)="clickBillAtt$.next($event.target.value)" #instanceBillAtt="ngbTypeahead"
+                            [resultTemplate]="billingAttorneyTemplate" [inputFormatter]="formatEmployee"
+                            />
+                        </div>
+                    </div>
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Responsible Attorney</div>
+                        <div class="slide_body">
+                            <input type="text" class="form-control" formControlName="rspTkprName" (change)="emitValues()"
+                            [ngbTypeahead]="searchEmployeeResAtt" (selectItem)="selectedResAtt($event)"
+                                    (focus)="focusResAtt$.next($event.target.value)"
+                                    (click)="clickResAtt$.next($event.target.value)" #instanceResAtt="ngbTypeahead"
+                                    [resultTemplate]="responsibleAttorney" [inputFormatter]="formatEmployee"
+                            />
+                        </div>
+                    </div>
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Status</div>
+                        <div class="slide_body">
+                            <select class="form-select" class="form-control" formControlName="status" (change)="emitValues()">
+                                <option value="Open" [selected]="true">Open</option>
+                                <option value="OT">OT</option>
+                                <option value="OD">OD</option>
+                                <option value="D">D</option>
+                              </select>
+                        </div>
+                    </div>
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Open Date</div>
+                        <div class="slide_body">
+                            <input type="date" class="form-control" formControlName="openDate" (change)="emitValues()"/>
+                        </div>
+                    </div>
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Close Date</div>
+                        <div class="slide_body">
+                            <input type="date" class="form-control" formControlName="closeDate" (change)="emitValues()"/>
+                        </div>
+                    </div>
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Last Bill Date</div>
+                        <div class="slide_body">
+                            <input type="date" class="form-control" formControlName="lastInvoiceDate" (change)="emitValues()"/>
+                        </div>
+                    </div>
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Last Time Entry</div>
+                        <div class="slide_body">
+                            <input type="date" class="form-control" formControlName="postDate" (change)="emitValues()"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="position-absolute loader-overlay" *ngIf="loader">
+                <div class="loader">
+                    <div class="position-relative">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="action-button1" *ngIf="!open && !this.loader">
+    <div class="menu-open">
+        <button (click)="openMenu()" class="btn btn-primary">Filter</button>
+    </div>
+</div>
+
+<ng-template #billingAttorneyTemplate let-r="result" let-t="term">
+    <ngb-highlight [result]="formatEmployee(r)" [term]="t"></ngb-highlight>
+</ng-template>
+<ng-template #responsibleAttorney let-r="result" let-t="term">
+    <ngb-highlight [result]="formatEmployee(r)" [term]="t"></ngb-highlight>
+</ng-template>

@@ -1,0 +1,133 @@
+
+:host {
+    .navbar {
+        .ml-auto {
+            margin-left: auto;
+        }
+        .navbar-brand {     
+            margin-left: 15px;
+        }
+        .nav-item {
+            margin-left: 1rem;
+        }
+        .nav-link .img-profile {
+            height: 2rem;
+            width: 2rem;
+        }
+    }
+
+    .messages {
+        width: 300px;
+
+        .media {
+            border-bottom: 1px solid #ddd;
+            padding: 5px 10px;
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+
+        .media-body {
+            h5 {
+                font-size: 13px;
+                font-weight: 600;
+            }
+
+            .small {
+                margin: 0;
+            }
+
+            .last {
+                font-size: 12px;
+                margin: 0;
+            }
+        }
+    }
+    .topbar-divider {
+        width: 0;
+        border-right: 1px solid #e3e6f0;
+        height: calc(4.375rem - 2rem);
+        margin: auto 1rem;
+    }
+    .img-profile {
+        height: 1.8rem;
+        width: 1.8rem;
+    }
+    .user-title {
+        font-weight: 700;
+    }
+}
+
+body{
+    background-color: #FBFBFB;
+}
+
+.nav-header{
+    background-color: #773784;
+    padding: 11px 0;
+}
+
+.nav-header .navbar-brand{
+    color: #fff;
+   
+}
+.nav-header .navbar-brand h4{
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.nav-header .nav-link{
+    color: #fff;
+}
+.navbar.fixed-top{
+    z-index: 1000;
+}
+
+@media (max-width:992px){
+    .navbar-expand .navbar-toggler{
+        display: block !important;
+        position: fixed;
+    right: 0;
+    top: 11px;
+    border: 0; 
+    box-shadow: none !important;
+    }
+}
+@media (max-width:768px){
+    .nav-header{
+       flex-wrap: wrap !important;
+    }
+    .nav-header .navbar-collapse{
+        width: 100%;
+    }
+    .navbar-nav.ml-auto{
+        margin-left: 0 !important;
+    }
+    .profile-dropdown{
+        position: fixed;
+        top: 2px;
+        right: 60px;
+    }
+    .mobile-btn{
+        font-size: 12px;
+        text-align: center;
+        padding: 9px 5px;
+    }
+    
+    .profile-dropdown .dropdown-menu{
+        left: auto !important;
+        right: 0 !important;
+    }
+
+  
+}
+
+.dropdown-menu[data-bs-popper] {
+    right: 0px;
+}
+
+.profile-dropdown .dropdown-menu{
+    right: 10px !important;
+    left: auto !important;
+}

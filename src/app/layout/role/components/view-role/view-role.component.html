@@ -1,0 +1,63 @@
+<div [@routerTransition]>
+    <app-page-header [previousHeading]="'Roles and Permissions'" [previousLink]="'roles'" [heading]="'Role Details'"></app-page-header>
+    <div class="container-fluid mt-2" [@routerTransition]>
+        <div class="card">
+            <div class="card-header">
+                Role Details
+            </div>
+            <div class="card-body">
+                <ng-container *ngIf="isLoading">
+                    <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </ng-container>
+                <div *ngIf="!isLoading" class="tab-inn">
+                    <div class="table-responsive table-desi">
+                        <div class="form-group" style="margin: 10px 10px; ">
+                            <label class="bmd-label-floating">Name</label>
+                            <input [readOnly]="true" [(ngModel)]="roleName" type="text"
+                                class="form-control">
+                        </div>
+                    </div>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Module Items</th>
+                                <th>Rateminer</th>
+                                <th>Dealmapper</th>
+                                <th>Read</th>
+                                <th>Read-Write</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let item of permissionsStatus;
+                                let i= index;">
+                                <tr>
+                                    <td>{{item.name | titlecase }}</td>
+                                    <td>
+                                        <span *ngIf="item.rateMiner">Yes</span>
+                                        <span *ngIf="!item.rateMiner">No</span>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="item.dealMapper">Yes</span>
+                                        <span *ngIf="!item.dealMapper">No</span>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="item.read">Yes</span>
+                                        <span *ngIf="!item.read">No</span>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="item.write">Yes</span>
+                                        <span *ngIf="!item.write">No</span>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

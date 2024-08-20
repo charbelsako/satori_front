@@ -1,0 +1,152 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="getHeader()"></app-page-header>
+    <div class="container-fluid mt-2 position-relative" [@routerTransition]>
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-2 search-header">
+                    <div class="col-md-9 text-left mb-1 mb-md-0">
+                        <div class="form-group mb-1">
+                            <form>
+                                <input type="text" type="text" name="searchTerm" [(ngModel)]="_state.searchTerm"
+                                    (ngModelChange)="this.searchTermUpdate.next($event)" id="matterstaffs"
+                                    class="form-control" placeholder="Search here..." />
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-md-3" *ngIf="!isLoading && _state.totalResults > 0">
+                        <button type="button" (click)="downloadFileExcel()" class="btn btn-primary btn-block btn-download-button">Download</button>
+                    </div>
+                    <!-- <div class="col-md-2 text-center">
+                            <button type="button" routerLink="/matters/add-matter" class="btn btn-primary">Add Matter</button>
+                        </div> -->
+                </div>
+                <ng-container *ngIf="isLoading">
+                    <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </ng-container>
+                <div *ngIf="!isSearch;else table">
+                    <p class="text-center">No search found</p>
+                </div>
+                <ng-template #table>
+                    <div *ngIf="!isLoading">
+                        <div class="table-responsive scroll-position" >
+                            <table class="table table-striped scroll-position-div">
+                                <thead>
+                                    <tr>
+                                        <!-- <th scope="col">#</th> -->
+                                        <th>View</th>
+                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="clientGroupId"  (sort)="onSort($event)">Client Group# 
+                                        </th>
+                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="clientGroupName" (sort)="onSort($event)">Client Group 
+                                            Name 
+                                        </th>
+                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="clientId" (sort)="onSort($event)">Client# </th>
+                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="clientName" (sort)="onSort($event)">Client Name 
+                                        </th>
+                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="matterId" (sort)="onSort($event)">Matter# </th>
+                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="matterName" (sort)="onSort($event)">Matter Name 
+                                        </th>
+                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="principalAttorneyName" (sort)="onSort($event)">
+                                            Responsible Attorney </th>
+                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="payorType" (sort)="onSort($event)">Pricing Model 
+                                        </th>
+                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="feeArrangementType" (sort)="onSort($event)">
+                                            Fee Arrangement Type </th>
+                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="startDate" (sort)="onSort($event)">Agreement Start
+                                            Date </th>
+                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="expirationDate" (sort)="onSort($event)">Agreement
+                                            Expiration Date </th>
+                                        <th scope="col">Agreement Duration </th>
+                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="updatedAt" (sort)="onSort($event)">Last Modified
+                                            Date </th>
+                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="responsibleBillingManagerName"
+                                            (sort)="onSort($event)">Modified By </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngIf="pageLoading">
+                                        <td colspan="15" class="text-center">Loading...</td>
+                                    </tr>
+                                    <tr  *ngFor="let agreement of search; index as i">
+                                        <!-- <th scope="row">{{ ((_state.page-1) * _state.limit) + i +1 }}</th> -->
+                                        <td>
+                                            <div class="action-buttons"><button
+                                                    (click)="viewAgrement(agreement.id)"><img
+                                                        src="assets/images/search.svg" alt=""></button></div>
+                                        </td>
+                                        <td>{{agreement?.client.clientGroup}}</td>
+                                        <td>{{agreement?.clientGroupName}}</td>
+                                        <td><a routerLink="/matters/client-id/{{agreement.client.clientId}}"
+                                                role="link">{{agreement?.client.clientId}}</a></td>
+                                        <td><a routerLink="/matters/client-id/{{agreement.client.clientId}}"
+                                                role="link">{{agreement?.clientName}}</a></td>
+                                        <td><a routerLink="/matters/matter-id/{{agreement?.matterId}}"
+                                                role="link">{{agreement?.matterId}}</a></td>
+                                        <td><a routerLink="/matters/matter-id/{{agreement?.matterId}}"
+                                                role="link">{{agreement?.matterName}}</a></td>
+                                        <td><a routerLink="/employees/view-employee/{{agreement?.principalAttorneyId}}"
+                                                role="link">{{agreement?.principalAttorneyName}}</a>
+                                        </td>
+                                        <td>{{agreement?.payorType}}</td>
+                                        <td>{{agreement?.feeArrangementType}}</td>
+                                        <td>{{agreement?.startDate | date:'MM/dd/YYYY'}}</td>
+                                        <td>{{agreement?.expirationDate | date:'MM/dd/YYYY'}}</td>
+                                        <td>{{calcDate(agreement?.startDate, agreement?.expirationDate)}}</td>
+                                        <td>{{agreement?.updatedAt | date:'MM/dd/YYYY'}}</td>
+                                        <td><a class="link"
+                                                routerLink="/employees/view-employee/{{agreement?.principalAttorneyId}}"
+                                                role="link"
+                                                class="black-text-link">{{agreement?.responsibleBillingManagerName}}</a>
+                                        </td>
+
+                                        <!-- <td>
+                                                <label class="switch" *ngIf="agreement.isActive">
+                                                    <input type="checkbox" (click)="updateStatus(agreement.id, agreement.isActive)" checked>
+                                                    <span class="slider round"></span>
+                                                </label>
+                                                <label class="switch" *ngIf="!agreement.isActive">
+                                                    <input type="checkbox" (click)="updateStatus(agreement.id, agreement.isActive)">
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <div class="action-buttons"><button
+                                                    (click)="editUser(agreement.id)"><img
+                                                        src="assets/images/pencil.svg"
+                                                        alt=""></button></div>
+                                            </td>
+                                            <td>
+                                                <div class="action-buttons">
+                                                    <button (click)="deleteUser(agreement.id)"><img
+                                                            src="assets/images/icons8-trash-can.svg"
+                                                            alt=""></button></div>
+                                            </td> -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex justify-content-between p-2">
+                            <ngb-pagination [collectionSize]="_state.totalResults" [(page)]="_state.page"
+                                [pageSize]="_state.limit" [rotate]="true" [maxSize]="5" [boundaryLinks]="true"
+                                (pageChange)="refreshSearch()">
+                            </ngb-pagination>
+
+                            <select class="custom-select" style="width: auto" [(ngModel)]="_state.limit"
+                                (ngModelChange)="refreshSearch()" [ngModelOptions]="{standalone: true}">
+                                <option [ngValue]="10">10 items per page</option>
+                                <option [ngValue]="20">20 items per page</option>
+                                <option [ngValue]="30">30 items per page</option>
+                            </select>
+                        </div>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+
+        <app-agreements-filter-search (found)="handleResults($event)" [actionparam]="actionparam">
+        </app-agreements-filter-search>
+    </div>
+</div>

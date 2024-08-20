@@ -1,0 +1,73 @@
+<div [@routerTransition]>
+  <app-page-header [heading]="'Practice Groups'"></app-page-header>
+  <div class="container-fluid mt-2" [@routerTransition] #content>
+    <app-add-edit-practice-group *ngIf="isEditAccess" (newItemEvent)="reload()"></app-add-edit-practice-group>
+    <div class="card min-height-500 mt-3 card-2 bg-transparent">
+      <div class="card-body">
+        <div class="row mb-2 search-header">
+          <div class="col-md-12 text-left">
+            <div class="form-group mb-1">
+              <input type="text" type="text" name="searchTerm" [(ngModel)]="_state.searchTerm"
+                (ngModelChange)="this.searchTermUpdate.next($event)" class="form-control" placeholder="Search here...">
+            </div>
+          </div>
+          <!-- <div class="col-md-2 text-center">
+                    <button type="button" routerLink="/practice-groups/add-practice-group" class="btn btn-primary">Add PracticeGroup</button>
+                  </div> -->
+        </div>
+        <ng-container *ngIf="isLoading">
+          <div class="text-center">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </ng-container>
+        <div *ngIf="!isPracticeGroups;else table">
+          <p class="text-center">No Practice Group found</p>
+        </div>
+        <ng-template #table>
+          <div *ngIf="!isLoading">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <!-- <th width="60">#</th> -->
+                  <th scope="col" sortable="name" (sort)="onSort($event)"><span>Name</span></th>
+                  <th scope="col"><span>Area of Law</span></th>
+                  <th *ngIf="isEditAccess" scope="col" width="100">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let practiceGroup of practiceGroups; let i = index">
+                  <!-- <td>{{i+1}}</td> -->
+                  <td>{{practiceGroup?.name}}</td>
+                  <td>
+                    <div *ngFor="let areaOfLaw of practiceGroup.areaOfLawId; let ii = index">{{areaOfLaw.name}}-
+                      {{areaOfLaw.aol_code}}</div>
+                  </td>
+                  <td *ngIf="isEditAccess">
+                    <div class="action-buttons"><button (click)="editPracticeGroup(practiceGroup.id)"><img
+                          src="assets/images/pencil.svg" alt=""></button>
+                      <button (click)="deletePracticeGroup(practiceGroup.id)"><img
+                          src="assets/images/icons8-trash-can.svg" alt=""></button>
+                    </div>
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+            <!-- <div class="d-flex justify-content-between p-2">
+                      <ngb-pagination [collectionSize]="_state.totalResults" [(page)]="_state.page" [pageSize]="_state.limit" [rotate]="true" [maxSize]="5" [boundaryLinks]="true"
+                        (pageChange)="refresh()">
+                      </ngb-pagination>
+                      <select class="custom-select" style="width: auto" [(ngModel)]="_state.limit" (ngModelChange)="refresh()">
+                        <option [ngValue]="10">10 items per page</option>
+                        <option [ngValue]="20">20 items per page</option>
+                        <option [ngValue]="30">30 items per page</option>
+                      </select>
+                    </div> -->
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

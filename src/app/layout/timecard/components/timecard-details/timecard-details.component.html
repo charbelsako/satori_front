@@ -1,0 +1,155 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'View Timecard'" [previousHeading]="'Timecards'" [previousLink]="'timecards'"></app-page-header>
+    <div class="container-fluid mt-2" [@routerTransition]>
+        <div class="card">
+            <div class="card-body">
+                <div *ngIf="data" class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                      <tbody>
+                        <tr>
+                          <th>rownum</th>
+                          <td>{{ data?.rownum }}</td>
+                          <th>timecardID</th>
+                          <td>{{ data.timecardID }}</td>
+                          <th>timeIndex</th>
+                          <td>{{ data.timeIndex }}</td>
+                          <th>origTimeIndex</th>
+                          <td>{{ data.origTimeIndex }}</td>
+                        </tr>
+                        <tr>
+                          <th>office</th>
+                          <td>{{ data.office }}</td>
+                          <th>workDate</th>
+                          <td>{{ data.workDate }}</td>
+                          <th>postDate</th>
+                          <td>{{ data.postDate }}</td>
+                          <th>currency</th>
+                          <td>{{ data.currency }}</td>
+                        </tr>
+                        <tr>
+                          <th>currDate</th>
+                          <td>{{ data.currDate }}</td>
+                          <th>matter</th>
+                          <td>{{ data.matter }}</td>
+                          <th>billMatter</th>
+                          <td>{{ data.billMatter }}</td>
+                          <th>timekeeper</th>
+                          <td>{{ data.timekeeper }}</td>
+                        </tr>
+                        <tr>
+                          <th>workMattEffDate</th>
+                          <td>{{ data.workMattEffDate }}</td>
+                          <th>billMattEffDate</th>
+                          <td>{{ data.billMattEffDate }}</td>
+                          <th>tkprEffDate</th>
+                          <td>{{ data.tkprEffDate }}</td>
+                          <th>workHrs</th>
+                          <td>{{ data.workHrs }}</td>
+                        </tr>
+                        <tr>
+                          <th>workRate</th>
+                          <td>{{ data.workRate }}</td>
+                          <th>workAmt</th>
+                          <td>{{ data.workAmt }}</td>
+                          <th>origHrs</th>
+                          <td>{{ data.origHrs }}</td>
+                          <th>stdCurrency</th>
+                          <td>{{ data.stdCurrency }}</td>
+                        </tr>
+                        <tr>
+                          <th>stdRate</th>
+                          <td>{{ data.stdRate }}</td>
+                          <th>stdAmt</th>
+                          <td>{{ data.stdAmt }}</td>
+                          <th>language</th>
+                          <td>{{ data.language }}</td>
+                          <th>narrative</th>
+                          <td>{{ data.narrative }}</td>
+                        </tr>
+                        <tr>
+                          <th>narrative_UnformattedText</th>
+                          <td>{{ data.narrative_UnformattedText }}</td>
+                          <th>timeType</th>
+                          <td>{{ data.timeType }}</td>
+                          <th>transactionType</th>
+                          <td>{{ data.transactionType }}</td>
+                          <th>editTranType</th>
+                          <td>{{ data.editTranType }}</td>
+                        </tr>
+                        <tr>
+                          <th>profMaster</th>
+                          <td>{{ data.profMaster }}</td>
+                          <th>invMaster</th>
+                          <td>{{ data.invMaster }}</td>
+                          <th>workType</th>
+                          <td>{{ data.workType }}</td>
+                          <th>wIPRemoveDate</th>
+                          <td>{{ data.wIPRemoveDate }}</td>
+                        </tr>
+                        <tr>
+                          <th>refCurrency</th>
+                          <td>{{ data.refCurrency }}</td>
+                          <th>refRate</th>
+                          <td>{{ data.refRate }}</td>
+                          <th>refAmt</th>
+                          <td>{{ data.refAmt }}</td>
+                          <th>unitCurrRate</th>
+                          <td>{{ data.unitCurrRate }}</td>
+                        </tr>
+                        <tr>
+                          <th>firmCurrRate</th>
+                          <td>{{ data.firmCurrRate }}</td>
+                          <th>unitCurrRateStd</th>
+                          <td>{{ data.unitCurrRateStd }}</td>
+                          <th>firmCurrRateStd</th>
+                          <td>{{ data.firmCurrRateStd }}</td>
+                          <th>wIPHrs</th>
+                          <td>{{ data.wIPHrs }}</td>
+                        </tr>
+                        <tr>
+                          <th>wIPRate</th>
+                          <td>{{ data.wIPRate }}</td>
+                          <th>wIPAmt</th>
+                          <td>{{ data.wIPAmt }}</td>
+                          <th>isDisplay</th>
+                          <td>{{ data.isDisplay }}</td>
+                          <th>loadNumber</th>
+                          <td>{{ data.loadNumber }}</td>
+                        </tr>
+                        <tr>
+                          <th>loadSource</th>
+                          <td>{{ data.loadSource }}</td>
+                          <th>loadGroup</th>
+                          <td>{{ data.loadGroup }}</td>
+                          <th>rateCalcList</th>
+                          <td>{{ data.rateCalcList }}</td>
+                          <th>gLDate</th>
+                          <td>{{ data.gLDate }}</td>
+                        </tr>
+                        <tr>
+                          <th>spvTimekeeper</th>
+                          <td>{{ data.spvTimekeeper }}</td>
+                          <th>prevProfMaster</th>
+                          <td>{{ data.prevProfMaster }}</td>
+                          <th>archetypeCode</th>
+                          <td>{{ data.archetypeCode }}</td>
+                          <th>lastProcItemID</th>
+                          <td>{{ data.lastProcItemID }}</td>
+                        </tr>
+                        <tr>
+                          <th>origProcItemID</th>
+                          <td>{{ data.origProcItemID }}</td>
+                          <th>timeStamp</th>
+                          <td>{{ data.timeStamp }}</td>
+                          <th>createdAt</th>
+                          <td>{{ data.createdAt }}</td>
+                          <th>updatedAt</th>
+                          <td>{{ data.updatedAt }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,97 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Client Roster'" [previousHeading]="'Clients'" [previousLink]="'clients'"></app-page-header>
+    <div class="container-fluid mt-2" [@routerTransition]>
+        <div class="card">
+            <div class="card-body">
+                <ng-container *ngIf="isLoading">
+                    <div class="text-center">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </ng-container>
+                <div *ngIf="!isClients;else table">
+                    <p class="text-center">No clients found</p>
+                </div>
+                <ng-template #table>
+                    <div *ngIf="!isLoading">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Number</th>
+                                        <th>Name</th>
+                                        <th>Active</th>
+                                        <th>Class Year</th>
+                                        <th>Office</th>
+                                        <th>Office Name</th>
+                                        <th>Rank Code</th>
+                                        <th>Rank Name</th>
+                                        <th>Effective Date</th>
+                                        <th>Currency</th>
+                                        <th>Matter Number</th>
+                                        <th>Matter Name</th>
+                                        <th>Bill Rate</th>
+                                        <th>Standard Rate</th>
+                                        <th>Diff</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngIf="isPaginationLoading">
+                                    <tr>
+                                        <td colspan="6">
+                                            <div class="text-center">
+                                                <div class="spinner-border"
+                                                    role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tbody *ngIf="!isPaginationLoading">
+                                    <tr *ngFor="let client of clients; index as i">
+                                        <td>{{ client.number }}</td>
+                                        <td>{{ client.name }}</td>
+                                        <td>{{ client.active }}</td>
+                                        <td>{{ client.classYear }}</td>
+                                        <td>{{ client.office }}</td>
+                                        <td>{{ client.officeName }}</td>
+                                        <td>{{ client.rankCode }}</td>
+                                        <td>{{ client.rankName }}</td>
+                                        <td>{{ client.effectiveDate }}</td>
+                                        <td>{{ client.Currency }}</td>
+                                        <td>{{ client.matterNumber }}</td>
+                                        <td>{{ client.matterName }}</td>
+                                        <td>{{ client.billRate }}</td>
+                                        <td>{{ client.standardRate }}</td>
+                                        <td>{{ client.diff }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="d-flex justify-content-between p-2">
+                                <ngb-pagination
+                                    [collectionSize]="_state.totalResults"
+                                    [(page)]="_state.page"
+                                    [pageSize]="_state.limit" [rotate]="true"
+                                    [maxSize]="5" [boundaryLinks]="true"
+                                    (pageChange)="refreshMatters()">
+                                </ngb-pagination>
+
+                                <select class="custom-select"
+                                    style="width: auto"
+                                    [(ngModel)]="_state.limit"
+                                    (ngModelChange)="refreshMatters()"
+                                    [ngModelOptions]="{standalone: true}">
+                                    <option [ngValue]="10">10 items per page</option>
+                                    <option [ngValue]="20">20 items per page</option>
+                                    <option [ngValue]="30">30 items per page</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+
+            </div>
+        </div>
+    </div>
+</div>

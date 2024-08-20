@@ -1,0 +1,30 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "baseUrl": "src",
+        "importHelpers": true,
+        "outDir": "./dist/out-tsc",
+        "sourceMap": true,
+        "declaration": false,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "target": "es2020",
+        "typeRoots": ["node_modules/@types"],
+        "lib": ["es2018", "dom"],
+        "paths": {
+            "@app/*": [
+                "app/*"
+            ],
+            "@common/*": [
+                "modules/app-common/*"
+            ],
+            "@modules/*": [
+                "modules/*"
+            ],
+            "@testing/*": [
+                "testing/*"
+            ],
+        },
+    }
+}

@@ -1,0 +1,187 @@
+<!--Right Slide-->
+<div class="parent-slide" [ngClass]="openClass">
+    <form [formGroup]="filterForm" class="form-inline" autocomplete="off">
+        <div id="slider" class="slide-out">
+            <div class="position-relative">
+                <div class="menu-close">
+                    <button class="close-button" type="button" (click)="closeMenu()"><img
+                            src="assets/images/close-icon.svg" alt=""></button>
+                    <div class="slide_main_menu">
+                        <p>Please click filter button after selection</p>
+                    </div>
+                    <!--Frequency-->
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Billing Frequency</div>
+                        <div class="slide_body">
+                            <ul>
+                                <li><input type="radio" value="" formControlName="billingFrequency"
+                                        (change)="loadFilterDataFrequency()" />
+                                    All </li>
+                                <li *ngFor="let data of collectionOptions.billingFrequency; let i=index">
+                                    <input type="radio" [value]="data._id" formControlName="billingFrequency"
+                                        (change)="loadFilterDataFrequency()" />
+                                    {{data._id}} ({{data.count}})
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--Base Rate-->
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Base Rate</div>
+                        <div class="slide_body">
+                            <ul>
+                                <li><input type="checkbox" value="all" [checked]="calllbackFn('baseRate')"
+                                        (change)="toggleAllSelection($event.target.checked, 'baseRate')" />
+                                    All</li>
+                                <li *ngFor="let data of collectionOptions.baseRate; let i=index">
+                                    <label>
+                                        <input type="checkbox" [value]="data._id || -1"
+                                            [checked]="filterForm.controls['baseRate'].value.includes(data._id || -1)"
+                                            (change)="onCheckboxChange($event, 'baseRate')" />
+                                        {{data._id || "Other"}} ( {{data.count}})
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--billingCurrency-->
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Billing Currency</div>
+                        <div class="slide_body">
+                            <ul>
+                                <li><input type="checkbox" value="all" [checked]="calllbackFn('billingCurrency')"
+                                        (change)="toggleAllSelection($event.target.checked, 'billingCurrency')" />
+                                    All</li>
+                                <li *ngFor="let data of collectionOptions.billingCurrency; let i=index">
+                                    <label>
+                                        <input type="checkbox" [value]="data._id"
+                                            [checked]="filterForm.controls['billingCurrency'].value.includes(data._id)"
+                                            (change)="onCheckboxChange($event, 'billingCurrency')" />
+                                        {{data._id}} ( {{data.count}})
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--billingMethod-->
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Billing Method</div>
+                        <div class="slide_body">
+                            <ul>
+                                <li><input type="checkbox" value="all" [checked]="calllbackFn('billingMethod')"
+                                        (change)="toggleAllSelection($event.target.checked, 'billingMethod')" />
+                                    All</li>
+                                <li *ngFor="let data of collectionOptions.billingMethod; let i=index">
+                                    <label>
+                                        <input type="checkbox" [value]="data._id"
+                                            [checked]="filterForm.controls['billingMethod'].value.includes(data._id)"
+                                            (change)="onCheckboxChange($event, 'billingMethod')" />
+                                        {{data._id}} ( {{data.count}})
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--payorType-->
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Payor Type</div>
+                        <div class="slide_body">
+                            <ul>
+                                <li><input type="checkbox" value="all" [checked]="calllbackFn('payorType')"
+                                        (change)="toggleAllSelection($event.target.checked, 'payorType')" />
+                                    All</li>
+                                <li *ngFor="let data of collectionOptions.payorType; let i=index">
+                                    <label>
+                                        <input type="checkbox" [value]="data._id"
+                                            [checked]="filterForm.controls['payorType'].value.includes(data._id)"
+                                            (change)="onCheckboxChange($event, 'payorType')" />
+                                        {{data._id}} ( {{data.count}})
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--billingCurrency-->
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Billing Currency</div>
+                        <div class="slide_body">
+                            <ul>
+                                <li><input type="checkbox" value="all" [checked]="calllbackFn('billingCurrency')"
+                                        (change)="toggleAllSelection($event.target.checked, 'billingCurrency')" />
+                                    All</li>
+                                <li *ngFor="let data of collectionOptions.billingCurrency; let i=index">
+                                    <label>
+                                        <input type="checkbox" [value]="data._id"
+                                            [checked]="filterForm.controls['billingCurrency'].value.includes(data._id)"
+                                            (change)="onCheckboxChange($event, 'billingCurrency')" />
+                                        {{data._id}} ( {{data.count}})
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--Attachment Type-->
+                    <div class="slide_main_menu">
+                        <div class="slide_header">Attachment Type</div>
+                        <div class="slide_body">
+                            <ul>
+                                <li><input type="checkbox" value="all" [checked]="calllbackFn('attachmentType')"
+                                        (change)="toggleAllSelection($event.target.checked, 'attachmentType')" />
+                                    All</li>
+                                <li *ngFor="let data of collectionOptions.attachmentType; let i=index">
+                                    <label>
+                                        <input type="checkbox" [value]="data._id"
+                                            [checked]="filterForm.controls['attachmentType'].value.includes(data._id)"
+                                            (change)="onCheckboxChange($event, 'attachmentType')" />
+                                        {{data._id}} ( {{data.count}})
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--SIC CODE-->
+                    <div class="slide_main_menu">
+                        <div class="slide_header">SIC Code</div>
+                        <div class="slide_body">
+                            <ul>
+                                <li><input type="checkbox" value="all" [checked]="calllbackFn('sicCode')"
+                                        (change)="toggleAllSelectionSic($event.target.checked, 'sicCode')" />
+                                    All</li>
+                                <li *ngFor="let data of collectionOptions.sicCode; let i=index">
+                                    <label>
+                                        <input type="checkbox" [value]="data._id.clientSicId"
+                                            [checked]="filterForm.controls['sicCode'].value.includes(data._id.clientSicId)"
+                                            (change)="onCheckboxChange($event, 'sicCode')" />
+                                        {{data._id.clientSicName}} ( {{data.count}})
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="position-absolute loader-overlay" *ngIf="loader">
+                    <div class="loader">
+                        <div class="position-relative">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex position-relative">
+                <div class="filter-buttons">
+
+                    <button (click)="resetEvent()" class="btn btn-outline-secondary">Reset</button>
+                    <button (click)="filter()" class="btn btn-primary">Filter</button>
+                </div>
+
+            </div>
+        </div>
+    </form>
+    <div class="action-button">
+        <div class="menu-open">
+            <button (click)="openMenu()" class="btn btn-outline-secondary">Filter</button>
+        </div>
+    </div>
+</div>

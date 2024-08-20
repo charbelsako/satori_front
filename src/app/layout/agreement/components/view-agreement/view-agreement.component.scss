@@ -1,0 +1,127 @@
+form .form-group {
+  text-align: left;
+}
+
+
+.form-group {
+    margin-bottom: 8px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-left: 8px;
+  margin-bottom: 16px;
+
+}
+.header .heading{
+  font-size: 20px;
+  font-weight: 600;
+  padding: 5px;
+  margin-bottom: 0px;
+  color: #773784;
+}
+
+.header .edit-icon {
+  height: 20px;
+  width: auto;
+  margin: 5px;
+  cursor: pointer;
+}
+
+label {
+    margin: 2px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+h4 {
+    font-weight: 500;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgb(83, 82, 82);
+    opacity: 1; /* Firefox */
+  }
+  
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: rgb(83, 82, 82);
+  }
+  
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color: rgb(83, 82, 82);
+  }
+
+  span.input-group-text {
+    padding: 0.7rem 1rem;
+}
+
+.display-flex {
+  display: flex;
+}
+
+.display-flex .btn{
+    height: 3rem;
+    position: relative;
+    top: 20px;
+}
+
+.review-item{
+  font-size: 16px;
+  font-weight: 400;
+  label {
+    font-weight: 500 !important;
+  }
+}
+.modal-body {
+  height: 400px;
+  overflow: auto;
+}
+
+.flex-container {
+  display: flex;
+}
+
+.flex-container > div {
+  background-color: #f6f6f6;
+  margin: 10px;
+  padding: 10px;
+  font-size: 12px;
+  border-radius: 10px 
+}
+.cross-icon{
+  text-align: right;
+  cursor: pointer;
+}
+.field_name{
+  font-weight: 600;
+  margin-bottom: 3px !important;
+  font-size: 14px;
+}
+
+.field-data label{
+  font-size: 14px !important;
+}
+
+.form-group{
+  margin-bottom: 4px !important;
+}
+
+.trow {
+  display: inline-block;
+}
+.trow > div {
+  display: inline-block;
+}
+.m5{
+  margin: 5px;
+}
+
+.cursor{
+  cursor: pointer;
+}
