@@ -23,7 +23,7 @@
                           "src/styles/app.scss",
                           "node_modules/ngx-toastr/toastr.css"
                         ],
-                        "scripts": ["node_modules/chart.js/dist/Chart.js"],
+                        "scripts": ["node_modules/chart.js/dist/chart.js"],
                         "allowedCommonJsDependencies": ["chart.js"],
                         "aot": false,
                         "vendorChunk": true,
@@ -84,7 +84,7 @@
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "src/tsconfig.spec.json",
                         "karmaConfig": "src/karma.conf.js",
-                        "scripts": ["node_modules/chart.js/dist/Chart.js"],
+                        "scripts": ["node_modules/chart.js/dist/chart.js"],
                         "styles": [
                           "node_modules/ngx-toastr/toastr.css",
                           "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
