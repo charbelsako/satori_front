@@ -98,7 +98,7 @@ export class MatterComponent implements OnInit {
       win.close()
     });
   }
-  
+
   openWindowMatter(href) {
     const win = window.open(href,'_blank',
     `toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=550px,height=350px`);
@@ -250,7 +250,7 @@ export class MatterComponent implements OnInit {
       this.isMatterContentLoading = false;
     })
   }
-  
+
   openMatterLevelClientData(mattercontent: any, cliendId:any) {
     this.timecardService.getTimecardClientLevelRate(cliendId).subscribe(res=>{
       this.clientLevelExceptionData = res.timecards.results;
