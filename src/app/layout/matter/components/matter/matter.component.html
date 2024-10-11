@@ -46,10 +46,10 @@
                                         <th scope="col" [oldColumn] = "_state.sortColumn" sortable="postDate" (sort)="onSort($event)">Last Time Entry</th>
                                         <th scope="col" [oldColumn] = "_state.sortColumn" sortable="billTkprName" (sort)="onSort($event)">Billing Attorney <span></span></th>
                                         <th scope="col" [oldColumn] = "_state.sortColumn" sortable="rspTkprName" (sort)="onSort($event)">Responsible Attorney <span></span></th>
-                                        <th scope="col">Client Rate Set</th>
-                                        <th scope="col">Matter Rate Set</th>
-                                        <th scope="col">Client Level Rates</th>
-                                        <th scope="col">Matter Level Rates</th>
+                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="clientRateSet" (sort)="onSort($event)">Client Rate Set</th>
+                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="matterRateSet" (sort)="onSort($event)">Matter Rate Set</th>
+                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="clientLevelRate" (sort)="onSort($event)">Client Level Rates</th>
+                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="matterLevelRates" (sort)="onSort($event)">Matter Level Rates</th>
                                     </tr>
                                 </thead>
                                 <tbody *ngIf="isPaginationLoading">
@@ -66,9 +66,9 @@
                                 <tbody *ngIf="!isPaginationLoading">
                                     <tr *ngFor="let matter of matters; index as i">
                                         <!-- <th scope="row">{{ i + 1 }}</th> -->
-                                        <td>{{matter?.client?.clientGroup}}</td>
+                                        <td>{{matter?.clientGroupInfo?.groupId}}</td>
                                         <td>
-                                            {{ matter.client?.clientGroupDetails?.name || matter.client.name }}
+                                            {{ matter.clientGroupInfo?.name || matter.client.name }}
                                         </td>
                                         <td><a routerLink="/matters/client-id/{{matter?.clientId}}"
                                                 role="link">{{matter?.client?.clientNumber}}</a></td>
