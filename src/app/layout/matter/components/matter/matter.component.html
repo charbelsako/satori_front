@@ -46,10 +46,10 @@
                                         <th scope="col" [oldColumn] = "_state.sortColumn" sortable="postDate" (sort)="onSort($event)">Last Time Entry</th>
                                         <th scope="col" [oldColumn] = "_state.sortColumn" sortable="billTkprName" (sort)="onSort($event)">Billing Attorney <span></span></th>
                                         <th scope="col" [oldColumn] = "_state.sortColumn" sortable="rspTkprName" (sort)="onSort($event)">Responsible Attorney <span></span></th>
-                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="clientRateSet" (sort)="onSort($event)">Client Rate Set</th>
-                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="matterRateSet" (sort)="onSort($event)">Matter Rate Set</th>
-                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="clientLevelRate" (sort)="onSort($event)">Client Level Rates</th>
-                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="matterLevelRates" (sort)="onSort($event)">Matter Level Rates</th>
+                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="clientRateDescription" (sort)="onSort($event)">Client Rate Set</th>
+                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="matterRateDescription" (sort)="onSort($event)">Matter Rate Set</th>
+                                        <th scope="col">Client Level Rates</th>
+                                        <th scope="col">Matter Level Rates</th>
                                     </tr>
                                 </thead>
                                 <tbody *ngIf="isPaginationLoading">
@@ -87,10 +87,10 @@
                                         <td>{{matter?.billTkprName}}</td>
                                         <td>{{matter?.rspTkprName}}</td>
                                         <td class="pointer">
-                                            <a (click)="openClientData(clientcontent, matter)">{{matter?.clientExceptionRate?.rateExcDescription | titlecase}}</a>
+                                            <a (click)="openClientData(clientcontent, matter)">{{matter?.clientRateDetails?.description | titlecase}}</a>
                                         </td>
                                         <td class="pointer">
-                                            <a (click)="openMatterData(mattercontent, matter)">{{matter?.matterExceptionRate?.rateExcDescription | titlecase}}</a>
+                                            <a (click)="openMatterData(mattercontent, matter)">{{matter?.matterRateDetails?.description | titlecase}}</a>
                                         </td>
                                         <td class="pointer" (click)="openMatterLevelClientData(clientLevelContent, matter.clientId)">
                                             <a>See Rates</a>
