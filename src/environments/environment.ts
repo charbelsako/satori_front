@@ -6,8 +6,8 @@ export const environment = {
     production: false,
     APP_SECRET_KEY: "123456789123456789",
     // @TODO: for development only
-    backendUrl:'http://localhost:5000/api/v1',
-    socket_url:'http://localhost:5000',
+    socket_url:'http://localhost:5001',
+    backendUrl:'http://localhost:5001/api/v1',
     // backendUrl:'http://192.236.178.57:3000/api/v1',
     // socket_url:'http://192.236.178.57:3000',
 };
