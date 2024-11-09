@@ -48,7 +48,7 @@
                 </ng-container>
                 <form *ngIf="!isLoading" [formGroup]="addEditForm" class="form-inline" autocomplete="off">
                     <div class="row mb-2">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="name">*Client Group</label>
                                 <input type="text" [ngbTypeahead]="searchClientGroup" [editable]="false"
@@ -69,7 +69,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="name">*Client</label>
                                 <input type="text" formControlName="client" [ngbTypeahead]="search" [editable]="false"
@@ -89,7 +89,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="name">*Client SIC Category</label>
                                 <input type="text" formControlName="clientSic" [ngbTypeahead]="searchSIC"
@@ -110,7 +110,7 @@
                         </div>
 
 
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group" *ngIf="!isMatterRecord">
                                 <label for="name">*Matter</label>
                                 <input type="text" formControlName="matter" [ngbTypeahead]="searchMatterRecords"
@@ -131,8 +131,8 @@
                         </div>
 
 
-                        <div class="col-md-6">
-                            <div class="form-group" *ngIf="isMatterRecord && !editForm">
+                        <div class="col-md-6" *ngIf="isMatterRecord && !editForm">
+                            <div class="form-group">
                                 <label for="name">*Matter ID</label>
                                 <input type="text" formControlName="matterId" class="form-control form-control-lg"
                                     pattern="[0-9]+">
@@ -150,9 +150,8 @@
                         </div>
 
 
-                        <div class="col-md-6">
-
-                            <div class="form-group" *ngIf="isMatterRecord">
+                        <div class="col-md-3" *ngIf="isMatterRecord">
+                            <div class="form-group">
                                 <label for="name">*Matter Name</label>
                                 <input type="text" formControlName="matterName" class="form-control">
                                 <div *ngIf="addEditForm.controls['matterName'].errors &&
@@ -168,7 +167,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="name">*Responsible Partner</label>
                                 <input type="text" formControlName="responsibleAttorney"
@@ -191,7 +190,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="name">*Billing Manager</label>
                                 <input type="text" formControlName="billingAttorney" class="form-control"
@@ -213,12 +212,7 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-                    </div>
-                    <div class="row mb-2">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                             <label for="name">*Practice Group</label>
                             <input type="text" formControlName="practiceGroup" class="form-control"
                                 [ngbTypeahead]="searchPracticeGroup"
@@ -239,7 +233,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                             <label for="name">*Area Of Law</label>
                             <input type="text" formControlName="areaOfLaw" class="form-control"
                                 [ngbTypeahead]="searchAreaOfLaw" (focus)="focusAreaOfLaw$.next($event.target.value)"
@@ -260,7 +254,7 @@
                         </div>
                     </div>
                     <div class="row mb-2">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                             <label for="name">*Agreement Start Date <span>(DD-MM-YYYY)</span></label>
                             <input type="date" class="form-control" formControlName="agreementStartDate"
                                 id="floatingInput" max="{{addEditForm.value.expirationDate | date: 'YYY-MM-dd'}}">
@@ -277,7 +271,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                             <label for="name">*Agreement Expiration Date <span>(DD-MM-YYYY)</span></label>
                             <input type="date" class="form-control" formControlName="expirationDate" id="floatingInput"
                                 min="{{addEditForm.value.agreementStartDate | date: 'YYY-MM-dd'}}">
@@ -292,9 +286,7 @@
                                 </span>
                             </div>
                         </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-2">
                             <label for="name">*Reminder Timing</label>
                             <select class="form-select form-control
                                 form-control-lg" formControlName="reminderTimingDay" id="floatingSelect">
@@ -323,7 +315,7 @@
 
                     <div class="row mb-2">
                         <h4>Fee Details</h4>
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-2">
                             <label for="name">*Fee Arrangement Type</label>
                             <select (change)="feeArrangementType($event, '')" class="form-select form-control
                                 form-control-lg" formControlName="feeArrangementType" id="floatingSelect">
@@ -348,7 +340,7 @@
                         <div *ngIf="isFeeArrangmentHourlyBilled ||
                             isFeeArrangmentFeeCollar ||
                             isFeeArrangmentCappedFee" class="form-group
-                            col-sm-6">
+                            col-sm-2">
                             <label for="name">*Base Rate Type</label>
                             <select class="form-select form-control
                                 form-control-lg" formControlName="baseRateType" id="floatingSelect">
@@ -371,16 +363,16 @@
                             </div>
                         </div>
                         <div *ngIf="isFeeArrangmentFeeCollar" class="form-group
-                            col-sm-6">
+                            col-sm-3">
                             <label for="name">*Target Fee</label>
-                            <div class="input-group">
+                            <div class="input-group input-group-sm">
                                 <div class="input-group-append">
                                     <span class="input-group-text">$</span>
                                 </div>
                                 <input type="text"
                                     onkeypress="return ((event.charCode >= 48 && event.charCode <= 57) || event.charCode==46 || event.charCode == 8 || event.charCode == 0)"
                                     maxlength="7" min="0" formControlName="targetFee"
-                                    class="form-control form-control-lg">
+                                    class="form-control">
                             </div>
                             <div *ngIf="addEditForm.controls['targetFee'].errors
                                 && (submitted ||
@@ -395,9 +387,9 @@
                             </div>
                         </div>
                         <div *ngIf="isFeeArrangmentFeeCollar" class="form-group
-                            col-sm-6">
+                            col-sm-4">
                             <label for="name">*Collar percentage (in %)</label>
-                            <div class="input-group">
+                            <div class="input-group input-group-sm">
                                 <div class="input-group-append">
                                     <span class="input-group-text">%</span>
                                 </div>
@@ -444,9 +436,9 @@
                         <div *ngIf="isFeeArrangmentHourlyBilled ||
                             isFeeArrangmentFeeCollar ||
                             isFeeArrangmentCappedFee" class="form-group
-                            col-sm-6">
+                            col-sm-4">
                             <label for="name">*Discount (in %)</label>
-                            <div class="input-group">
+                            <div class="input-group input-group-sm">
                                 <div class="input-group-append">
                                     <span class="input-group-text">%</span>
                                 </div>
@@ -470,7 +462,7 @@
                         <div *ngIf="isFeeArrangmentHourlyBilled ||
                             isFeeArrangmentFeeCollar ||
                             isFeeArrangmentCappedFee" class="form-group
-                            col-sm-6">
+                            col-sm-5">
                             <label for="name" class="mb-2">*Other Discount Detail</label><br />
                             <div class="form-check form-check-inline">
                                 <input (change)="discountType($event)" class="form-check-input" type="radio"
@@ -523,7 +515,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div *ngIf="isFeeArrangmentHourlyBilled" class="form-group col-sm-6">
+                        <div *ngIf="isFeeArrangmentHourlyBilled" class="form-group col-sm-3">
                             <label for="name">Rate Card Detail</label>
                             <input type="text" class="form-control
                                 form-control-lg" formControlName="rateCardDetails">
@@ -539,7 +531,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div *ngIf="isFeeArrangmentHourlyBilled" class="form-group col-sm-6">
+                        <div *ngIf="isFeeArrangmentHourlyBilled" class="form-group col-sm-3">
                             <label for="name">Capped Rate Detail</label>
                             <input type="text" formControlName="cappedRateDetail" class="form-control
                                 form-control-lg">
@@ -555,7 +547,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div *ngIf="isFeeArrangmentFixedFee" class="form-group col-sm-6">
+                        <div *ngIf="isFeeArrangmentFixedFee" class="form-group col-sm-2">
                             <label for="name">*Fixed Fee Type</label>
                             <select class="form-select form-control
                                 form-control-lg" formControlName="fixedFeeType" id="floatingSelect">
@@ -578,10 +570,10 @@
                                 </span>
                             </div>
                         </div>
-                      
-                        <div *ngIf="isFeeArrangmentFixedFee" class="form-group col-sm-6">
+
+                        <div *ngIf="isFeeArrangmentFixedFee" class="form-group col-sm-3">
                             <label for="name">Fixed Fee Detail</label>
-                            <input type="text" formControlName="fixedFeeDetails" class="form-control form-control-lg">
+                            <input type="text" formControlName="fixedFeeDetails" class="form-control">
                             <div *ngIf="addEditForm.controls['fixedFeeDetails'].errors
                                 && (submitted ||
                                 addEditForm.controls['fixedFeeDetails'].dirty
@@ -594,9 +586,9 @@
                                 </span>
                             </div>
                         </div>
-                        <div *ngIf="isFeeArrangmentFixedFee" class="form-group col-sm-6">
+                        <div *ngIf="isFeeArrangmentFixedFee" class="form-group col-sm-2">
                             <label for="name">*Fee Type Value</label>
-                            <div class="input-group">
+                            <div class="input-group input-group-sm">
                                 <div class="input-group-append">
                                     <span class="input-group-text">$</span>
                                 </div>
@@ -634,7 +626,7 @@
                     </div>
                 </div> -->
                         <div *ngIf="isFeeArrangmentFeeCollar" class="form-group
-                            col-sm-6">
+                            col-sm-3">
                             <label for="name">Fee Collar Detail</label>
                             <input type="text" formControlName="feeCollarDetail" class="form-control form-control-lg">
                             <div *ngIf="addEditForm.controls['feeCollarDetail'].errors
@@ -881,8 +873,8 @@
 
                     <div class="row mb-2">
                         <h4>Billing Details</h4>
-                        <div class="form-group col-md-6">
-                            <label for="name">*Billing Frequency</label>
+                        <div class="form-group col-md-2">
+                            <label for="name" class="mb-2">*Billing Frequency</label>
                             <select (click)="billingFrequency($event, '')"
                                 class="form-select form-control form-control-lg" formControlName="billingFrequency"
                                 id="floatingSelect">
@@ -893,8 +885,8 @@
                                     {{billingFrequency.name}}</option>
                             </select>
                         </div>
-                        <div *ngIf="isBillingFreOther" class="form-group col-md-6">
-                            <label for="name">*Billing Frequency Other</label>
+                        <div *ngIf="isBillingFreOther" class="form-group col-md-3">
+                            <label for="name" class="mb-2">*Billing Frequency Other</label>
                             <input class="form-control" type="text" placeholder="Billing Frequency Detail"
                                 formControlName="billingFrequencyOther" ([ngModel])="billingFrequencyOther"
                                 id="flexRadioDefault67">
@@ -910,7 +902,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-2">
                             <label for="name" class="mb-2">*Billing Method</label><br />
                             <select class="form-select form-control
                                 form-control-lg" formControlName="billingMethod" id="floatingSelect"
@@ -935,8 +927,8 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="name">*Billing Currency</label>
+                        <div class="form-group col-md-2">
+                            <label for="name" class="mb-2">*Billing Currency</label>
                             <select class="form-select form-control
                                 form-control-lg" formControlName="billingCurrency" id="floatingSelect">
                                 <option value="" selected disabled> Select
@@ -963,7 +955,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-2">
                             <label for="name" class="mb-2">*Payor Type</label><br />
                             <select class="form-select form-control
                                 form-control-lg" formControlName="payorType" id="floatingSelect"

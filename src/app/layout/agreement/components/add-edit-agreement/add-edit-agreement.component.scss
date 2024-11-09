@@ -89,3 +89,13 @@ a {
 .form-group {
   margin-bottom: 10px !important;
 }
+
+.input-group-sm,
+.input-group-sm .input-group-text {
+  height: calc(1.5em + 0.75rem + 0px);
+  /* Match Bootstrap small input height */
+  // padding: 0.25rem 0.5rem;
+  /* Adjust if necessary */
+  font-size: 0.875rem;
+  /* Match Bootstrap small text size */
+}
