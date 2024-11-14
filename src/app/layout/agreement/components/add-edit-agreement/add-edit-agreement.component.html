@@ -375,7 +375,7 @@
           <div class="row mb-2">
             <div class="form-group col-md-3">
               <label for="name"
-                >*Agreement Start Date <span>(DD-MM-YYYY)</span></label
+                >*Start Date <span>(D-M-Y)</span></label
               >
               <input
                 type="date"
@@ -407,7 +407,7 @@
             </div>
             <div class="form-group col-md-3">
               <label for="name"
-                >*Agreement Expiration Date <span>(DD-MM-YYYY)</span></label
+                >*Expiration Date <span>(D-M-Y)</span></label
               >
               <input
                 type="date"
@@ -437,7 +437,7 @@
                 </span>
               </div>
             </div>
-            <div class="form-group col-sm-2">
+            <div class="form-group col-sm-3">
               <label for="name">*Reminder Timing</label>
               <select
                 class="form-select form-control form-control-lg"
@@ -631,7 +631,7 @@
                   onkeypress="return ((event.charCode >= 48 && event.charCode <= 57) || event.charCode==46 || event.charCode == 8 || event.charCode == 0)"
                   maxlength="7"
                   formControlName="feeCapAmount"
-                  class="form-control form-control-lg"
+                  class="form-control"
                 />
               </div>
               <div
@@ -1403,7 +1403,8 @@
           <div class="row mb-2">
             <h4>Billing Details</h4>
             <div class="form-group col-md-2">
-              <label for="name" class="mb-2">*Billing Frequency</label>
+              <label for="name" class="mb-2 d-sm-none">*Billing Frequency</label>
+              <label for="name" class="mb-2 d-none d-sm-block">*Billing Freq.</label>
               <select
                 (click)="billingFrequency($event, '')"
                 class="form-select form-control form-control-lg"

@@ -99,3 +99,9 @@ a {
   font-size: 0.875rem;
   /* Match Bootstrap small text size */
 }
+
+.form-group > input, .form-group > select, .form-check > input {
+  border-color: #1a1a1a7d;
+  border-width: 1px;
+}
+
