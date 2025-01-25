@@ -83,7 +83,7 @@ export class BaseRateComponent implements OnInit {
 }
 
 editBaseRate(id: string) {
-    this.router.navigate(['/data-mangement/base-rates/edit-base-rate/' + id]);
+    this.router.navigate(['/data-management/base-rates/edit-base-rate/' + id]);
 }
 
 deleteBaseRate(id: string) {

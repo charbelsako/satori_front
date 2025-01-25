@@ -51,7 +51,7 @@ export class AddEditBillingcurrencyComponent implements OnInit {
       this.isLoading = false;
     }, (error) => {
       this.isLoading = false;
-      this.router.navigate(['/data-mangement/billingcurrencies']);
+      this.router.navigate(['/data-management/billingcurrencies']);
     });
   }
 
@@ -61,7 +61,7 @@ export class AddEditBillingcurrencyComponent implements OnInit {
         this.addEditForm.reset();
         //this.toastr.success(response.title + ' added!', 'Success');
         this.newItemEvent.emit()
-        //this.router.navigate(['/data-mangement/billingcurrencies']);
+        //this.router.navigate(['/data-management/billingcurrencies']);
       }
     });
   }
@@ -75,7 +75,7 @@ export class AddEditBillingcurrencyComponent implements OnInit {
       if (response) {
         this.addEditForm.reset();
         // this.toastr.success(response.title + ' Updated!', 'Success');
-        this.router.navigate(['/data-mangement/billingcurrencies']);
+        this.router.navigate(['/data-management/billingcurrencies']);
       }
     });
   }

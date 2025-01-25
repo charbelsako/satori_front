@@ -84,7 +84,7 @@ export class PracticeGroupComponent implements OnInit {
 }
 
 editPracticeGroup(id: string) {
-    this.router.navigate(['/data-mangement/practice-groups/edit-practice-group/' + id]);
+    this.router.navigate(['/data-management/practice-groups/edit-practice-group/' + id]);
 }
 
 deletePracticeGroup(id: string) {

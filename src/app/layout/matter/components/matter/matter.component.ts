@@ -228,6 +228,7 @@ export class MatterComponent implements OnInit {
 
   openClientData(clientcontent: any, matter:any) {
     this.clientExceptionData['matter'] = matter
+    // @TODO: create new function get time cards by client
     this.timecardService.getTimeCardsByMatter(matter.matterId).subscribe(res=>{
       this.isClientContentLoading = true;
       this.clientExceptionData['timecards'] = res.result.results;

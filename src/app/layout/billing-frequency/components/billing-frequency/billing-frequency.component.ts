@@ -82,7 +82,7 @@ reload() {
     this.getBillingFrequencies(this._state);
   }
 editBillingFrequency(id: string) {
-    this.router.navigate(['/data-mangement/billing-frequencies/edit-billing-frequency/' + id]);
+    this.router.navigate(['/data-management/billing-frequencies/edit-billing-frequency/' + id]);
 }
 
 deleteBillingFrequency(id: string) {

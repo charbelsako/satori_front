@@ -26,24 +26,24 @@
                                     </span>
                                 </div>
                             </div>
-    
+
                         </div>
                         <div class="col-md-6">
-                          
+
                         </div>
-                    
+
                     </div>
                     <div class="form-group mb-2 py-2 ">
                         <button type="button" *ngIf="editForm" (click)="onUpdate()" class="btn btn-info">Update
                             Fee Agreement Type</button>
                         <button type="button" *ngIf="!editForm" (click)="onSubmit()" class="btn btn-info">Add
                             Fee Agreement Type</button>
-                        <button type="button" routerLink="/data-mangement/hourly-billings" class="btn btn-outline-secondary">Cancel</button>
+                        <button type="button" routerLink="/data-management/hourly-billings" class="btn btn-outline-secondary">Cancel</button>
                     </div>
                 </form>
             </div>
         </div>
-    </div>  
+    </div>
 </div>
 <div class="card"  *ngIf="!editForm">
     <div class="card-header">
@@ -73,9 +73,9 @@
 
                 </div>
                 <div class="col-md-6">
-                  
+
                 </div>
-            
+
             </div>
             <div class="form-group mb-2 py-2">
                 <button type="button" *ngIf="editForm" (click)="onUpdate()" class="btn btn-info">Update

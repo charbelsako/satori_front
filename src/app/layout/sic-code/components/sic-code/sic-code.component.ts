@@ -82,7 +82,7 @@ reload() {
     this.getSICCodes(this._state);
   }
 editSICCode(id: string) {
-    this.router.navigate(['/data-mangement/sic-codes/edit-sic-code/' + id]);
+    this.router.navigate(['/data-management/sic-codes/edit-sic-code/' + id]);
 }
 
 deleteSICCode(id: string) {

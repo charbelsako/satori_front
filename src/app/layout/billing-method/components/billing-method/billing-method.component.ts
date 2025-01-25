@@ -82,7 +82,7 @@ reload() {
     this.getBillingMethods(this._state);
   }
 editBillingMethod(id: string) {
-    this.router.navigate(['/data-mangement/billing-methods/edit-billing-method/' + id]);
+    this.router.navigate(['/data-management/billing-methods/edit-billing-method/' + id]);
 }
 
 deleteBillingMethod(id: string) {

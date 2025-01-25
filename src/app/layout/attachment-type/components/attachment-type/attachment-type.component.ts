@@ -82,7 +82,7 @@ reload() {
     this.getAttachmentTypes(this._state);
   }
 editAttachmentType(id: string) {
-    this.router.navigate(['/data-mangement/attachment-types/edit-attachment-type/' + id]);
+    this.router.navigate(['/data-management/attachment-types/edit-attachment-type/' + id]);
 }
 
 deleteAttachmentType(id: string) {

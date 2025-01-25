@@ -70,7 +70,7 @@ export class AddEditPracticeGroupComponent implements OnInit {
       this.getAreaOfLaw()
     }, (error) => {
       this.isLoading = false;
-      this.router.navigate(['/data-mangement/practice-groups']);
+      this.router.navigate(['/data-management/practice-groups']);
     });
   }
 
@@ -80,7 +80,7 @@ export class AddEditPracticeGroupComponent implements OnInit {
         this.addEditForm.reset();
         //this.toastr.success(response.title + ' added!', 'Success');
         this.newItemEvent.emit()
-        //this.router.navigate(['/data-mangement/practice-groups']);
+        //this.router.navigate(['/data-management/practice-groups']);
       }
     });
   }
@@ -94,7 +94,7 @@ export class AddEditPracticeGroupComponent implements OnInit {
       if (response) {
         this.addEditForm.reset();
         // this.toastr.success(response.title + ' Updated!', 'Success');
-        this.router.navigate(['/data-mangement/practice-groups']);
+        this.router.navigate(['/data-management/practice-groups']);
       }
     });
   }

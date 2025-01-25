@@ -82,7 +82,7 @@ reload() {
     this.getPayorTypes(this._state);
   }
 editPayorType(id: string) {
-    this.router.navigate(['/data-mangement/payor-types/edit-payor-type/' + id]);
+    this.router.navigate(['/data-management/payor-types/edit-payor-type/' + id]);
 }
 
 deletePayorType(id: string) {

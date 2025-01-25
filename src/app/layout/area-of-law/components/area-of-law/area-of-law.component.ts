@@ -84,7 +84,7 @@ export class AreaOfLawComponent implements OnInit {
 }
 
 editAreaOfLaw(id: string) {
-    this.router.navigate(['/data-mangement/area-of-laws/edit-area-of-law/' + id]);
+    this.router.navigate(['/data-management/area-of-laws/edit-area-of-law/' + id]);
 }
 
 deleteAreaOfLaw(id: string) {

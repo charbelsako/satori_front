@@ -62,7 +62,7 @@ export class AddEditSICCodeComponent implements OnInit {
       this.isLoading = false;
     }, (error) => {
       this.isLoading = false;
-      this.router.navigate(['/data-mangement/sic-codes']);
+      this.router.navigate(['/data-management/sic-codes']);
     });
   }
 
@@ -73,7 +73,7 @@ export class AddEditSICCodeComponent implements OnInit {
           this.addEditForm.reset();
           //this.newItemEvent.emit();
           // this.toastr.success(response.title + ' added!', 'Success');
-          this.router.navigate(['/data-mangement/sic-codes']);
+          this.router.navigate(['/data-management/sic-codes']);
         }
       });
     } else {
@@ -90,7 +90,7 @@ export class AddEditSICCodeComponent implements OnInit {
         if (response) {
           this.addEditForm.reset();
           // this.toastr.success(response.title + ' Updated!', 'Success');
-          this.router.navigate(['/data-mangement/sic-codes']);
+          this.router.navigate(['/data-management/sic-codes']);
         }
       });
     } else {

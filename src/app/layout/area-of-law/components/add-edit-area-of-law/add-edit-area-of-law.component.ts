@@ -48,7 +48,7 @@ export class AddEditAreaOfLawComponent implements OnInit {
       this.isLoading = false;
     }, (error) => {
       this.isLoading = false;
-      this.router.navigate(['/data-mangement/area-of-law']);
+      this.router.navigate(['/data-management/area-of-law']);
     });
   }
 
@@ -58,7 +58,7 @@ export class AddEditAreaOfLawComponent implements OnInit {
         this.addEditForm.reset();
         //this.toastr.success(response.title + ' added!', 'Success');
         this.newItemEvent.emit()
-        //this.router.navigate(['/data-mangement/area-of-law']);
+        //this.router.navigate(['/data-management/area-of-law']);
       }
     });
   }
@@ -72,7 +72,7 @@ export class AddEditAreaOfLawComponent implements OnInit {
       if (response) {
         this.addEditForm.reset();
         // this.toastr.success(response.title + ' Updated!', 'Success');
-        this.router.navigate(['/data-mangement/area-of-laws']);
+        this.router.navigate(['/data-management/area-of-laws']);
       }
     });
   }

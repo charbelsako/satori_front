@@ -54,7 +54,7 @@ export class AddEditPayorTypeComponent implements OnInit {
       this.isLoading = false;
     }, (error) => {
       this.isLoading = false;
-      this.router.navigate(['/data-mangement/payor-types']);
+      this.router.navigate(['/data-management/payor-types']);
     });
   }
 
@@ -64,7 +64,7 @@ export class AddEditPayorTypeComponent implements OnInit {
         this.addEditForm.reset();
         this.newItemEvent.emit();
         // this.toastr.success(response.title + ' added!', 'Success');
-        //this.router.navigate(['/data-mangement/payor-types']);
+        //this.router.navigate(['/data-management/payor-types']);
       }
     });
   }
@@ -77,7 +77,7 @@ export class AddEditPayorTypeComponent implements OnInit {
       if (response) {
         this.addEditForm.reset();
         // this.toastr.success(response.title + ' Updated!', 'Success');
-        this.router.navigate(['/data-mangement/payor-types']);
+        this.router.navigate(['/data-management/payor-types']);
       }
     });
   }

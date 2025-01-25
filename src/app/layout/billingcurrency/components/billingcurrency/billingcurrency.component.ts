@@ -84,7 +84,7 @@ export class BillingcurrencyComponent implements OnInit {
 }
 
 editBillingcurrency(id: string) {
-    this.router.navigate(['/data-mangement/billingcurrencies/edit-billingcurrency/' + id]);
+    this.router.navigate(['/data-management/billingcurrencies/edit-billingcurrency/' + id]);
 }
 
 deleteBillingcurrency(id: string) {

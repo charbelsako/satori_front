@@ -83,7 +83,7 @@ export class HourlyBillingComponent implements OnInit {
 }
 
 editHourlyBilling(id: string) {
-    this.router.navigate(['/data-mangement/hourly-billings/edit-hourly-billing/' + id]);
+    this.router.navigate(['/data-management/hourly-billings/edit-hourly-billing/' + id]);
 }
 
 deleteHourlyBilling(id: string) {
