@@ -1,5 +1,5 @@
 <nav [ngClass]="{ sidebarPushRight: isActive, collapsed: collapsed }" class="sidebar mt-2">
- 
+
     <div class="list-group">
         <a href="#" class="list-item-group user-side">
             <div class="sidebar-user">
@@ -23,41 +23,39 @@
         </ng-container>
         <div *ngIf="!isLoading">
             <ng-container *ngFor="let item of sideNavitems">
-                <ng-container *ngIf="item.key !== 'data-mangement'">
+                <ng-container *ngIf="item.key !== 'data-management'">
                     <a *ngIf="checkAccess(item.key)" [routerLinkActive]="['router-link-active']" class="list-group-item"
                         [ngClass]="{'active': ((router.url === item.link) || (!['/dashboard', '/clients'].includes(item.link) && router.url.includes(item.link)))}"
                         routerLink="{{item.link}}">
-                        <!-- <i class="fa fa-{{item.icon}}"></i>  -->
                         <img src="assets/images/{{item.icon}}" class="side-icon" alt="icon" />&nbsp;
                         <span>{{checkProfileNavName(item)}}</span>
                     </a>
                 </ng-container>
-                <section class="accordion" *ngIf="item.key === 'data-mangement' && checkAccess(item.key)">
+                <section class="accordion" *ngIf="item.key === 'data-management' && checkAccess(item.key)">
                     <input type="checkbox" name="collapse" id="handle1"
-                        [checked]="router.url.startsWith('/data-mangement')">
-                    <h2 class="handle" [ngClass]="{'active': router.url.startsWith('/data-mangement')}">
-                        <label for="handle1" [ngClass]="{'active': router.url === '/data-mangement'}"> <img
+                        [checked]="router.url.startsWith('/data-management')">
+                    <h2 class="handle" [ngClass]="{'active': router.url.startsWith('/data-management')}">
+                        <label for="handle1" [ngClass]="{'active': router.url === '/data-management'}"> <img
                                 src="assets/images/data-management.svg" class="side-icon" alt="icon" />&nbsp; Data Management</label>
                     </h2>
                     <div class="content">
                         <div class="collapse-links">
-                            <a routerLink="/data-mangement/billingcurrencies" role="link">Billing Currency</a>
-                            <a routerLink="/data-mangement/area-of-laws" role="link">Area Of Law</a>
-                            <a routerLink="/data-mangement/practice-groups" role="link">Practice Group</a>
-                            <a routerLink="/data-mangement/hourly-billings" role="link">Fee Agreement Type</a>
-                            <a routerLink="/data-mangement/billing-frequencies" role="link">Billing Frequencies</a>
-                            <a routerLink="/data-mangement/base-rates" role="link">Base Rate Type</a>
-                            <a routerLink="/data-mangement/billing-methods" role="link">Billing Methods</a>
-                            <a routerLink="/data-mangement/payor-types" role="link">Payor Types</a>
-                            <a routerLink="/data-mangement/attachment-types" role="link">Attachment Types</a> 
-                            <a routerLink="/data-mangement/sic-codes" role="link">SIC Code</a>       
+                            <a routerLink="/data-management/billingcurrencies" role="link">Billing Currency</a>
+                            <a routerLink="/data-management/area-of-laws" role="link">Area Of Law</a>
+                            <a routerLink="/data-management/practice-groups" role="link">Practice Group</a>
+                            <a routerLink="/data-management/hourly-billings" role="link">Fee Agreement Type</a>
+                            <a routerLink="/data-management/billing-frequencies" role="link">Billing Frequencies</a>
+                            <a routerLink="/data-management/base-rates" role="link">Base Rate Type</a>
+                            <a routerLink="/data-management/billing-methods" role="link">Billing Methods</a>
+                            <a routerLink="/data-management/payor-types" role="link">Payor Types</a>
+                            <a routerLink="/data-management/attachment-types" role="link">Attachment Types</a>
+                            <a routerLink="/data-management/sic-codes" role="link">SIC Code</a>
                         </div>
-    
                     </div>
                 </section>
             </ng-container>
         </div>
-  
+
         <div class="header-fields">
             <a (click)="rltAndLtr()" class="list-group-item">
                 <span><i class="fa fa-arrows-h"></i>&nbsp; RTL/LTR</span>

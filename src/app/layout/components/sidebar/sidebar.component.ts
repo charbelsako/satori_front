@@ -62,7 +62,7 @@ export class SidebarComponent implements OnInit {
                 this.sideItemControls = response.permission;
                 this.jwtService.setUserPermissions(this.sideItemControls);
             }
-            
+
         });
         this.roleService.getWebModules().subscribe(res => {
             this.jwtService.savePermissions(res);
@@ -73,10 +73,11 @@ export class SidebarComponent implements OnInit {
 
      filterObjectsWithRateMinerTrue(inputArray, profile) {
         if(profile == 'rateMiner'){
+            console.log(inputArray);
             const newArray = inputArray.filter(obj => obj.rateMiner === true);
+            console.log(newArray);
             return newArray;
-        }
-        else if(profile == 'dealMapper'){
+        } else if (profile == 'dealMapper'){
             const newArray = inputArray.filter(obj => obj.dealMapper === true);
             return newArray;
         }
@@ -86,7 +87,7 @@ export class SidebarComponent implements OnInit {
         if(this.isSuperAdmin){
             return true;
         }
-        
+
         const access = this.sideItemControls?.find((obj) => obj.key === key);
         if(access){
             return access.read;

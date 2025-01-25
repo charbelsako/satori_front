@@ -67,7 +67,7 @@ export class AddEditRoleComponent implements OnInit {
     });
       this.isLoading = false;
       // console.log(this.webModules);
-      console.log(this.permissionsStatus);
+      console.log('permission status', this.permissionsStatus);
     }
 
   getRole(roleId) {
@@ -119,37 +119,23 @@ export class AddEditRoleComponent implements OnInit {
   updatePermissionSet(index: number, permission: string, value: boolean){
     const item = this.permissionsStatus[index];
     item[permission] = value;
-
     if (permission === 'write' && value) {
       item.read = true;
+      item[this.user.profile] = true
     }
     if (permission === 'read' && !value) {
       item.write = false;
+      item[this.user.profile] = false
     }
   }
 
   updateProfilePermissionSet(index: number, permission: string, value: boolean){
-    const item = this.permissionsStatus[index];
-    item[permission] = value;
-
+    this.permissionsStatus[index][permission] = value;
     if (permission === 'rateMiner') {
-      if(value){
-        item.rateMiner = true;
-        this.updatePermissionSet(index, 'read', true);
-      }else{
-        item.rateMiner = false;
-        this.updatePermissionSet(index, 'read', false);
-      }
+      this.updatePermissionSet(index, 'read', value);
     }
     if (permission === 'dealMapper') {
-      if(value){
-        item.dealMapper = true;
-        this.updatePermissionSet(index, 'read', true);
-      }else{
-        item.dealMapper = false;
-        this.updatePermissionSet(index, 'read', false);
-
-      }
+      this.updatePermissionSet(index, 'read', value);
     }
   }
 
