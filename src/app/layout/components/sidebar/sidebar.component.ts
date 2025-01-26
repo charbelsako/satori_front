@@ -53,7 +53,6 @@ export class SidebarComponent implements OnInit {
     getRolePermission(roleId) {
         this.isLoading = true;
         this.roleService.getRoleById(roleId).subscribe(response => {
-            console.log("response", response);
             this.isSuperAdmin = response.isSuperAdmin;
             if (!this.isSuperAdmin){
                 if(this.userProfile === 'rateMiner' || this.userProfile === 'dealMapper') {
@@ -73,9 +72,7 @@ export class SidebarComponent implements OnInit {
 
      filterObjectsWithRateMinerTrue(inputArray, profile) {
         if(profile == 'rateMiner'){
-            console.log(inputArray);
             const newArray = inputArray.filter(obj => obj.rateMiner === true);
-            console.log(newArray);
             return newArray;
         } else if (profile == 'dealMapper'){
             const newArray = inputArray.filter(obj => obj.dealMapper === true);
@@ -137,15 +134,6 @@ export class SidebarComponent implements OnInit {
         this.authService.setLoggedInStatus(false);
         this.router.navigate(['auth/login']);
     }
-
-    checkProfileNavName(item){
-        if(item.key === "matters" && this.userProfile === 'rateMiner'){
-            return "Search Records";
-        }else{
-            return item.name;
-        }
-    }
-
 }
 
 

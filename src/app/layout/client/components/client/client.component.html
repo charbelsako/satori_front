@@ -38,8 +38,7 @@
                                             <!-- <th scope="col">#</th> -->
                                             <th scope="col" [oldColumn] = "_state.sortColumn" sortable="clientGroup" (sort)="onSort($event)">Client Group <span></span></th>
                                             <th scope="col" [oldColumn] = "_state.sortColumn" sortable="name" (sort)="onSort($event)">Group Name <span></span></th>
-                                            <th scope="col" [oldColumn] = "_state.sortColumn" sortable="clientNumber" (sort)="onSort($event)">Client Code <span></span></th>
-                                            <th scope="col" [oldColumn] = "_state.sortColumn" sortable="name" (sort)="onSort($event)">Client Name <span></span></th>
+                                            <th scope="col" [oldColumn] = "_state.sortColumn" sortable="name" (sort)="onSort($event)">Client <span></span></th>
                                             <th scope="col" [oldColumn] = "_state.sortColumn" sortable="rspTkprName" (sort)="onSort($event)">Client Responsible <span></span></th>
                                             <th scope="col" [oldColumn] = "_state.sortColumn" sortable="status" (sort)="onSort($event)">Status <span></span></th>
                                             <th scope="col" [oldColumn] = "_state.sortColumn" sortable="openDate" (sort)="onSort($event)">Open Date <span></span></th>
@@ -71,37 +70,16 @@
                                             <td>
                                                 {{ client.clientGroupDetails?.name || client.name }}
                                             </td>
-                                            <td><a routerLink="/matters/client-id/{{client?.clientId}}" role="link">{{client?.clientNumber}}</a></td>
-                                            <td><a routerLink="/matters/client-id/{{client?.clientId}}" role="link">{{client?.name}}</a></td>
+                                            <td>
+                                                <a routerLink="/matters/client-id/{{client?.clientId}}" role="link">
+                                                    {{client?.name}} ({{client?.clientNumber}})
+                                                </a>
+                                            </td>
                                             <td>{{client?.rspTkprName}}</td>
                                             <td>{{client?.status}}</td>
                                             <td>{{client?.openDate | date: 'mediumDate'}}</td>
                                             <td>{{client?.closeDate | date: 'mediumDate'}}</td>
                                             <td>{{client?.lastInvoiceDate | date: 'mediumDate'}}</td>
-                                           
-                                            <!-- <td>
-                                                <label class="switch" *ngIf="client.isActive">
-                                                    <input type="checkbox" (click)="updateStatus(client.id, client.isActive)" checked>
-                                                    <span class="slider round"></span>
-                                                </label>
-                                                <label class="switch" *ngIf="!client.isActive">
-                                                    <input type="checkbox" (click)="updateStatus(client.id, client.isActive)">
-                                                    <span class="slider round"></span>
-                                                </label>
-                                            </td>
-                                            <td>
-                                                <div class="action-buttons"><button
-                                                    (click)="editUser(client.id)"><img
-                                                        src="assets/images/pencil.svg"
-                                                        alt=""></button></div>
-                                            </td>
-                                            <td>
-                                                <div class="action-buttons">
-                                                    <button (click)="deleteUser(client.id)"><img
-                                                            src="assets/images/icons8-trash-can.svg"
-                                                            alt=""></button></div>
-                                            </td> -->
-                                    
                                         </tr>
                                     </tbody>
                                 </table>
@@ -109,7 +87,7 @@
                                     <ngb-pagination [collectionSize]="_state.totalResults" [(page)]="_state.page" [pageSize]="_state.limit" [rotate]="true" [maxSize]="5" [boundaryLinks]="true"
                                         (pageChange)="refreshClients()">
                                     </ngb-pagination>
-                            
+
                                     <select class="custom-select" style="width: auto" [(ngModel)]="_state.limit" (ngModelChange)="refreshClients()" [ngModelOptions]="{standalone: true}">
                                         <option [ngValue]="10">10 items per page</option>
                                         <option [ngValue]="20">20 items per page</option>
@@ -122,8 +100,7 @@
                 </form>
             </div>
         </div>
-                
-      
-    </div>  
+
+
+    </div>
 </div>
-  

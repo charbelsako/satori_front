@@ -28,7 +28,7 @@
                         [ngClass]="{'active': ((router.url === item.link) || (!['/dashboard', '/clients'].includes(item.link) && router.url.includes(item.link)))}"
                         routerLink="{{item.link}}">
                         <img src="assets/images/{{item.icon}}" class="side-icon" alt="icon" />&nbsp;
-                        <span>{{checkProfileNavName(item)}}</span>
+                        <span>{{item.name}}</span>
                     </a>
                 </ng-container>
                 <section class="accordion" *ngIf="item.key === 'data-management' && checkAccess(item.key)">

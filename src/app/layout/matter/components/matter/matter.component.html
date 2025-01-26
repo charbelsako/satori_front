@@ -35,10 +35,8 @@
                                     <tr>
                                         <th scope="col" [oldColumn] = "_state.sortColumn" sortable="clientId" (sort)="onSort($event)">Client Group <span></span></th>
                                         <th scope="col" [oldColumn] = "_state.sortColumn" sortable="name" (sort)="onSort($event)">Group name <span></span></th>
-                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="clientNumber" (sort)="onSort($event)">Client Code <span></span></th>
-                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="name" (sort)="onSort($event)">Client Name <span></span></th>
-                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="name" (sort)="onSort($event)">Matter Name <span></span></th>
-                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="matterNumber" (sort)="onSort($event)">Client Matter <span></span></th>
+                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="client.name" (sort)="onSort($event)">Client <span></span></th>
+                                        <th scope="col" [oldColumn] = "_state.sortColumn" sortable="name" (sort)="onSort($event)">Matter <span></span></th>
                                         <th scope="col" [oldColumn] = "_state.sortColumn" sortable="status" (sort)="onSort($event)">Status <span></span></th>
                                         <th scope="col" [oldColumn] = "_state.sortColumn" sortable="openDate" (sort)="onSort($event)">Open Date <span></span></th>
                                         <th scope="col" [oldColumn] = "_state.sortColumn" sortable="closeDate" (sort)="onSort($event)">Close Date <span></span></th>
@@ -70,15 +68,16 @@
                                         <td>
                                             {{ matter.clientGroupInfo?.name || matter.client.name }}
                                         </td>
-                                        <td><a routerLink="/matters/client-id/{{matter?.clientId}}"
-                                                role="link">{{matter?.client?.clientNumber}}</a></td>
-                                        <td><a routerLink="/matters/client-id/{{matter?.clientId}}"
-                                                role="link">{{matter?.client?.name}}</a>
+                                        <td>
+                                            <a routerLink="/matters/client-id/{{matter?.clientId}}" role="link">
+                                                {{matter?.client?.name}} ({{matter?.client?.clientNumber}})
+                                            </a>
                                         </td>
-                                        <td><a routerLink="/matters/matter-id/{{matter?.matterId}}"
-                                                role="link">{{matter?.name}}</a></td>
-                                        <td><a routerLink="/matters/matter-id/{{matter?.matterId}}"
-                                                role="link">{{matter?.matterNumber}}</a></td>
+                                        <td>
+                                            <a routerLink="/matters/matter-id/{{matter?.matterId}}" role="link">
+                                                {{matter?.name}} ({{matter?.matterNumber}})
+                                            </a>
+                                        </td>
                                         <td>{{matter?.status}}</td>
                                         <td>{{matter?.openDate | date: 'MM/dd/YYYY': 'UTC'}}</td>
                                         <td>{{matter?.closeDate | date: 'MM/dd/YYYY': 'UTC'}}</td>
